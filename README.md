@@ -6,9 +6,9 @@ AnacondaGO adds autocompletion, inting and IDE features for Golang to your Subli
 
 AnacondaGO has been developed and tested in OS X and for now, it doesn't work at all. The current status in the different platforms is:
 
-    * **GNU/Linux:** untested
-    * **OS X:** garbage
-    * **Windows:** untested
+   * **GNU/Linux:** untested
+   * **OS X:** garbage
+   * **Windows:** untested
 
 ## Dependencies
 
