@@ -1,3 +1,29 @@
+# Python binaries
+*.py[cod]
+
+# Python Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+
+# installer logs
+pip-log.txt
+
+# Unit test
+.coverage
+.tox
+nosetests.xml
+_trial_temp
+
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
 *.o
 *.a
@@ -21,3 +47,7 @@ _testmain.go
 
 *.exe
 *.test
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
