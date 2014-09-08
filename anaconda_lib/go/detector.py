@@ -80,7 +80,7 @@ class GolangDetector:
         """
 
         shell = os.environ.get('COMSPEC', 'cmd')
-        self._spawn_processes(shell)
+        self._spawn_processes(shell, '/C')
         if self.GOROOT is None or self.GOPATH is None:
             return False
 
@@ -92,20 +92,25 @@ class GolangDetector:
         """
 
         shell = os.environ.get('SHELL', 'sh')
-        self._spawn_processes(shell)
+        self._spawn_processes(shell, '-l', '-c')
         if self.GOROOT is None or self.GOPATH is None:
             return False
 
         self._normalize_cgo()
         return True
 
-    def _spawn_processes(self, shell):
+    def _spawn_processes(self, *args):
         """Spawn a shell process and ask for go environment variables
         """
 
         for var in ['GOROOT', 'GOPATH', 'CGO_ENABLED']:
-            args = [shell, '/C', 'go', 'env', var]
-            proc = create_subprocess(*args, stdout=subprocess.PIPE)
+            targs = args + ['go', 'env', var]
+            try:
+                proc = create_subprocess(*targs, stdout=subprocess.PIPE)
+            except:
+                print('AnacondaGO: go binary is not in your PATH')
+                return
+
             output, _ = proc.communicate()
             setattr(self, var, output)
 
