@@ -11,6 +11,7 @@ from ..anaconda_plugin import create_subprocess
 
 
 class GolangDetector:
+
     """Detect the local golang installation (if any)
     """
 
@@ -43,13 +44,20 @@ class GolangDetector:
                 ''.format(self.GOROOT, self.GOPATH, self.CGO_ENABLED)
             )
 
+        return (self.GOROOT, self.GOPATH, self.CGO_ENABLED)
+
     @property
     def go_binary(self):
         """Return back the go binary location if Go is detected
         """
 
-        if is_golang_available():
+        if self._detected:
             return os.path.join(self.GOROOT, 'bin', 'go')
+
+    @property
+    def go_version(self):
+        """Return back the version of the go compiler/runtime
+        """
 
     def _detect_in_environment(self):
         """Detect Go parameters in the inheritted shell environemnt vars
@@ -112,7 +120,8 @@ class GolangDetector:
                 return
 
             output, _ = proc.communicate()
-            setattr(self, var, output)
+            if output != '':
+                setattr(self, var, output)
 
     def _normalize_cgo(self):
         """Set CGO_ENABLED to False if is not set
@@ -120,12 +129,3 @@ class GolangDetector:
 
         if self.CGO_ENABLED is None:
             self.CGO_ENABLED = False
-
-
-init = GolangDetector()
-
-
-def is_golang_available():
-    """Determines if golang is available or not
-    """
-    return init._detected
