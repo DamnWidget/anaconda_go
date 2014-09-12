@@ -7,7 +7,7 @@
 
 from .plugin_version import anaconda_required_version, ver
 
-from .anaconda_lib.golang import detector
+from .anaconda_lib import go
 from .anaconda_lib.anaconda_plugin import anaconda_version
 
 if anaconda_required_version > anaconda_version:
@@ -23,4 +23,4 @@ def plugin_loaded():
     """Sublime Text 3 calls this function automatically after load the plugin
     """
 
-    detector.init()
+    go.init(ver)
