@@ -49,6 +49,7 @@ class anaGonda:
             log('binary version {version} not found....'.format(version))
             self._remove_old_versions()
             self._compile(binary_file)
+            self._install_binary(binary_file)
 
     def _remove_old_versions(self):
         """Seek and remove old anaGonda versions
@@ -95,6 +96,14 @@ class anaGonda:
             return False
 
         return True
+
+    def _install_binary(self, binary_file):
+        """Install the binary file on User/anaGonda/anaGonda-version.bin
+        """
+
+        log = self._log
+        os.rename(binary_file, os.path.join(self.home, binary_file))
+        log('binary file installed on {}'.format(self.home))
 
     def _log(self, msg):
         """Convenience log method
