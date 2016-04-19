@@ -1,3 +1,7 @@
+# NOTICE!
+
+This project is discontinued, please, use [GoSublime](https://github.com/DisposaBoy/GoSublime) from DisposaBoy, it is really great and it will cover all your needs.
+
 # AnacondaGO
 
 AnacondaGO adds autocompletion, inting and IDE features for Golang to your Sublime Text 3 using anaconda's asynchronous engine so it shouldn't freeze your Sublime Text ever.
