@@ -51,3 +51,9 @@ _testmain.go
 # Sublime Text
 *.sublime-project
 *.sublime-workspace
+
+# anaGonda binaries and intermediate files
+bin/*
+lib/anaGonda-*.so
+anagonda/src/anagonda.h
+anagonda/src/anagonda_config.go
