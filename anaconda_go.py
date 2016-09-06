@@ -22,7 +22,7 @@ if anaconda_required_version > anaconda_version:
         )
     )
 
-CFFI_PRESENT = False
+ANAGONDA_PRESENT = False
 
 
 def plugin_loaded() -> None:
@@ -38,8 +38,8 @@ def _on_success(data: typing.Dict) -> None:
     """Called when prepare call is successful
     """
 
-    global CFFI_PRESENT
-    CFFI_PRESENT = True
+    global ANAGONDA_PRESENT
+    ANAGONDA_PRESENT = True
 
 
 def _on_failure(data: typing.Dict) -> None:
