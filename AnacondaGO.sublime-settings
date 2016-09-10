@@ -1,3 +1,88 @@
 {
+	// Set this as true if you don't want to see warnings about Go detecting
+	"go_detector_silent": false,
 
+	// Set this if you want to force your GOPATH only (it is normally
+	// indeferd using your configured Go binary with go env)
+	"anaconda_go_GOPATH": "/home/damnwidget/.VenGO/borrame",
+
+	// Set this if you want to force your GOROOT only (it is normally
+	// indeferd using your configured Go binary with go env)
+	"anaconda_go_GOROOT": "/home/damnwidget/.VenGO/borrame/lib",
+
+	// Autoformat files on save
+	"anaconda_go_autoformat_on_save": true,
+
+	// List of avalable linters, some of them are disabled by default
+	// To enable/disable just set it to true or false respectively
+	"anaconda_go_linters": [
+		{ "anaconda_go_aligncheck": true },
+		{ "anaconda_go_deadcode": true },
+		{ "anaconda_go_dupl": true },
+		{ "anaconda_go_errcheck": true },
+		{ "anaconda_go_gas": true },
+		{ "anaconda_go_goconst": true },
+		{ "anaconda_go_gocyclo": true },
+		{ "anaconda_go_golint": true },
+		{ "anaconda_go_gosimple": true },
+		{ "anaconda_go_gotype": true },
+		{ "anaconda_go_ineffassign": true },
+		{ "anaconda_go_interfacer": true },
+		{ "anaconda_go_staticcheck": true },
+		{ "anaconda_go_structcheck": true },
+		{ "anaconda_go_unconvert": true },
+		{ "anaconda_go_varcheck": true },
+		{ "anaconda_go_vet": true },
+		{ "anaconda_go_vetshadow": true },
+		{ "anaconda_go_test": false },
+		{ "anaconda_go_lll": false },
+		{ "anaconda_go_testify": false },
+		{ "anaconda_go_unused": false }
+	],
+
+	// If anaconda_go_lll is enabled set the maximum line length otherwise ignored
+	"anaconda_go_max_line_length": 120,
+
+	// Set the threshold for gocyclo error reporting
+	"anaconda_go_gocyclo_threshold": 10,
+
+	// Set the minimum confidence to pass to golint
+	"anaconda_go_golint_min_confidence": 0.80,
+
+	// Min occurrences to pass to goconst (find strings that could be replaced by a const)
+	"anaconda_go_goconst_min_occurrences": 3,
+
+	// Set the minimum constant length
+	"anaconda_go_min_const_length": 3,
+
+	// Set the lines number threshold to mark code as duplicated by dupl
+	"anaconda_go_dupl_threshold": 50,
+
+	// If this is set to true, include test files in linters that supports it
+	"anaconda_go_lint_test": false,
+
+	// By default, anaconda_go uses a custom version of Godef in order to
+	// find code defintiions and fallback to Guru in case that Godef doesnt
+	// retrieve any result. Godef is usually faster than Guru but Guru is
+	// more reliable than Godef, the user can define when she wants to use
+	// Godef setting the following setting option:
+	//
+	// Posible values:
+	// 	- always: Godef is not used at all
+	//  - fallback: Guru is used when Godef can't return any result (default)
+	//  - never: Does not use Guru at all, rely always in Godef
+	"anaconda_go_guru_usage": "fallback",
+
+	// Set the following to true if you want to parse Go comments when
+	// discovering defined symbols in your code
+	"anaconda_go_motion_parse_comments": false,
+
+	// Advanced Usage
+
+	// If you are getting messages for something that you can not avoid for whatever
+	// reason but you don't want to disable the related linter, you can add a regex
+	// into the list below and any error that match it will be suppresed from the
+	// lints output
+	"anaconda_go_exclude_regexps": []
 }
+
