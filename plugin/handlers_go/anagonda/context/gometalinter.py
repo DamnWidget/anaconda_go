@@ -31,7 +31,7 @@ class GometaLinter(AnaGondaContext):
         super(GometaLinter, self).__init__(env_ctx)
 
     def __enter__(self):
-        """Check binary existenc and perform command
+        """Check binary existence and perform command
         """
 
         if self._bin_found is None:
@@ -52,7 +52,9 @@ class GometaLinter(AnaGondaContext):
         """Run gometalinter and return back a JSON object with it's results
         """
 
-        args = shlex.split(' '.join([self.binary] + self.options))
+        args = shlex.split(
+            '{0} {1}'.format(self.binary, self.options), posix=os.name != 'nt'
+        )
         gometalinter = spawn(args, stdout=PIPE, stderr=PIPE, env=self.env)
         out, err = gometalinter.communicate()
         if err is not None and len(err) > 0:
@@ -76,3 +78,10 @@ class GometaLinter(AnaGondaContext):
             if sys.version_info >= (3,):
                 err = err.decode('utf8')
             raise GometaLinterError(err)
+
+    @property
+    def binary(self):
+        """Return back the binary path
+        """
+
+        return os.path.join(self.env['GOPATH'], 'bin', 'gometalinter.v1')

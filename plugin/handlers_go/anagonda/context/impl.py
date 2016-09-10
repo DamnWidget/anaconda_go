@@ -64,4 +64,4 @@ class Impl(AnaGondaContext):
         """Return back the binary path
         """
 
-        return os.path.join(os.environ['GOPATH'], 'bin', 'impl')
+        return os.path.join(self.env['GOPATH'], 'bin', 'impl')

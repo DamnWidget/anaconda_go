@@ -67,11 +67,13 @@ class AutoComplete(AnaGondaContext):
             raise AutoCompleteError(error)
 
         if len(completions) > 0:
-            return completions[1]
+            completions = completions[1]
+
+        return completions
 
     @property
     def binary(self):
         """Return back the binary path
         """
 
-        return os.path.join(os.environ['GOPATH'], 'bin', 'gocode')
+        return os.path.join(self.env['GOPATH'], 'bin', 'gocode')

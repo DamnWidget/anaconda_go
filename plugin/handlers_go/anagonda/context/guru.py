@@ -71,4 +71,4 @@ class Guru(AnaGondaContext):
         """Return back the binary path
         """
 
-        return os.path.join(os.environ['GOPATH'], 'bin', 'guru')
+        return os.path.join(self.env['GOPATH'], 'bin', 'guru')

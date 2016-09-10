@@ -79,7 +79,7 @@ class Motion(AnaGondaContext):
         """If parse comments is active add it to the command
         """
 
-        return {True: '-pase-comments'}.get(self._parse_comments, '')
+        return {True: '-parse-comments'}.get(self._parse_comments, '')
 
     def motion(self):
         """Run the motion command and return back json object with the results
@@ -87,7 +87,7 @@ class Motion(AnaGondaContext):
 
         args = shlex.split('{0} {1} {2} {3} -mode {4} {5}{6}'.format(
             self.binary, self.scope, self.path,
-            self.offset, self.mode, self.include, self.parse_comments
+            self.offset, self.mode, self.include or '', self.parse_comments
         ), posix=os.name != 'nt')
         motion = spawn(args, stdout=PIPE, stderr=PIPE, env=self.env)
         out, err = motion.communicate()
@@ -106,4 +106,4 @@ class Motion(AnaGondaContext):
         """Return back the binary path
         """
 
-        return os.path.join(os.environ['GOPATH'], 'bin', 'motion')
+        return os.path.join(self.env['GOPATH'], 'bin', 'motion')

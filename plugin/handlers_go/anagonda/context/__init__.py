@@ -8,6 +8,7 @@ from .godef import GoDef
 from .motion import Motion
 from .registry import Registry
 from .autocomplete import AutoComplete
+from .gometalinter import GometaLinter
 
 # register contexts
 Registry.register(Impl)
@@ -15,3 +16,4 @@ Registry.register(Guru)
 Registry.register(GoDef)
 Registry.register(Motion)
 Registry.register(AutoComplete)
+Registry.register(GometaLinter)
