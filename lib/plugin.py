@@ -9,7 +9,9 @@ try:
     from anaconda.anaconda_lib.worker import Worker
     from anaconda.anaconda_lib.decorators import timeit
     from anaconda.anaconda_lib.callback import Callback
+    from anaconda.anaconda_lib.jediusages import JediUsages
     from anaconda.version import version as anaconda_version
+    from anaconda.anaconda_lib.helpers import get_window_view
     from anaconda.anaconda_lib.progress_bar import ProgressBar
     from anaconda.anaconda_lib.enum import Enum, IntEnum, unique
     from anaconda.anaconda_lib import helpers as anaconda_helpers
@@ -22,7 +24,9 @@ except ImportError:
         from Anaconda.anaconda_lib.worker import Worker
         from Anaconda.anaconda_lib.decorators import timeit
         from Anaconda.anaconda_lib.callback import Callback
+        from Anaconda.anaconda_lib.jediusages import JediUsages
         from Anaconda.version import version as anaconda_version
+        from Anaconda.anaconda_lib.helpers import get_window_view
         from Anaconda.anaconda_lib.progress_bar import ProgressBar
         from Anaconda.anaconda_lib.enum import Enum, IntEnum, unique
         from Anaconda.anaconda_lib import helpers as anaconda_helpers
@@ -44,5 +48,6 @@ if ANACONDA_PLUGIN_AVAILABLE:
     __all__ += [
         'Worker', 'Callback', 'ProgressBar', 'anaconda_sublime', 'is_code',
         'anaconda_version', 'linting', 'anaconda_helpers', 'timeit',
-        'create_subprocess', 'Enum', 'IntEnum', 'unique', 'typing'
+        'create_subprocess', 'Enum', 'IntEnum', 'unique', 'typing',
+        'get_window_view', 'JediUsages'
     ]
