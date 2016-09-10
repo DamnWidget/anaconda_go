@@ -9,6 +9,7 @@ from subprocess import PIPE
 
 from anaconda_go.lib.plugin import typing as tp
 from anaconda_go.lib.plugin import create_subprocess
+from anaconda_go.lib.helpers import get_settings, active_view
 
 
 class GolangDetector:
@@ -22,26 +23,28 @@ class GolangDetector:
 
     def __call__(self):
         start = time.time()
-        if self._detect_in_environment():
+        if self._detect_in_configuration():
+            self._detected = True
+        elif self._detect_in_environment():
             self._detected = True
 
         if not self._detected and self._detect_in_shell():
             self._detected = True
 
         if self._detected:
-            print('AnacondaGO: finished detecting environment in {}s'.format(
+            print('anaconda_go: finished detecting environment in {}s'.format(
                 time.time() - start
             ))
         else:
             sublime.error_message(
-                'AnacondaGO has been unable to determine the following '
+                'anaconda_go has been unable to determine the following '
                 'required environment variables:\n'
                 '\tGOROOT {}\n\tGOPATH {}\n\tCGO_ENABLED {}\n\n'
-                'AnacondaGO can\'t work without those variables, that means '
+                'anaconda_go can\'t work without those variables, that means '
                 'that the plugin is not going to work out of the box and you '
                 'will provide the correct values for these variables in any '
-                'configuration level (project settings or AnacondaGO settings)'
-                '\n\n(set the option `go_detector_silent` as `true` if you '
+                'configuration level (project settings or anaconda_go settings'
+                ')\n\n(set the option `go_detector_silent` as `true` if you '
                 'do not want to see this warning again)'
                 ''.format(self.GOROOT, self.GOPATH, self.CGO_ENABLED)
             )
@@ -72,6 +75,22 @@ class GolangDetector:
                 pass
 
         return ""
+
+    def _detect_in_configuration(self) -> bool:
+        """Detect and validate Go parameters in configuration
+        """
+
+        view = active_view()
+
+        goroot = get_settings(view, 'anaconda_go_GOROOT', '')
+        gopath = get_settings(view, 'anaconda_go_GOPATH', '')
+        if goroot and gopath:
+            if os.path.exists(os.path.join(goroot, 'bin', 'go')):
+                self.GOROOT = goroot
+                self.GOPATH = gopath
+                return True
+
+        return False
 
     def _detect_in_environment(self) -> bool:
         """Detect Go parameters in the inheritted shell environemnt vars
@@ -127,7 +146,7 @@ class GolangDetector:
             try:
                 proc = create_subprocess(targs, stdout=PIPE, stderr=PIPE)
             except Exception as err:
-                print('AnacondaGO: go binary is not in your PATH:', err)
+                print('anaconda_go: go binary is not in your PATH:', err)
                 return
 
             output, _ = proc.communicate()
@@ -135,7 +154,7 @@ class GolangDetector:
                 if var == 'CGO_ENABLED':
                     self.CGO_ENABLED = self._normalize_cgo(output)
                 else:
-                    setattr(self, var, output)
+                    setattr(self, var, output.decode('utf8').strip())
 
     def _normalize_cgo(self, cgo: tp.Union[str, None]) -> bool:
         """Set CGO_ENABLED to False if is not set
