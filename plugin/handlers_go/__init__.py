@@ -2,6 +2,6 @@
 # Copyright (C) 2016 - Oscar Campos <oscar.campos@member.fsf.org>
 # This program is Free Software see LICENSE file for details
 
-from .cffi_hadler import CFFIHandler
+from .anagonda_handler import AnagondaHandler
 
-__all__ = ['CFFIHandler']
+__all__ = ['AnagondaHandler']
