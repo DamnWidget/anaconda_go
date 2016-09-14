@@ -53,13 +53,13 @@ class AnagondaHandler(anaconda_handler.AnacondaHandler):
             offset, 'enclosing', None, parse_comments
         )
 
-    def get_file_funcs(self, file_path, offset, parse_comments, go_env):
+    def get_file_funcs(self, file_path, parse_comments, go_env):
         """Call motion to get the functions declared in the file
         """
 
         return self._proccess(
             'motion', go_env, file_path, None,
-            offset, 'decls', 'func', parse_comments
+            None, 'decls', 'func', parse_comments
         )
 
     def get_file_structs(self, file_path, offset, parse_comments, go_env):
@@ -68,7 +68,7 @@ class AnagondaHandler(anaconda_handler.AnacondaHandler):
 
         return self._proccess(
             'motion', go_env, file_path, None,
-            offset, 'decls', 'type', parse_comments
+            None, 'decls', 'type', parse_comments
         )
 
     def get_package_funcs(self, dir_path, parse_comments, go_env):
@@ -112,7 +112,7 @@ class AnagondaHandler(anaconda_handler.AnacondaHandler):
         """
 
         return self._proccess(
-            'lint', MetaLinter.lint_fast_only(settings), go_env
+            'lint', go_env, MetaLinter.lint_fast_only(settings)
         )
 
     def slow_lint(self, settings, go_env):
@@ -120,21 +120,23 @@ class AnagondaHandler(anaconda_handler.AnacondaHandler):
         """
 
         return self._proccess(
-            'lint', MetaLinter.lint_slow_only(settings), go_env
+            'lint', go_env, MetaLinter.lint_slow_only(settings)
         )
 
     def impl(self, receiver, iface, go_env):
         """Call Impl with the given receiver and interface
         """
 
-        return self._process('impl', go_env, receiver, iface)
+        return self._proccess('impl', go_env, receiver, iface)
 
     def _proccess(self, method_name, go_env, *args, **kwargs):
         """Process the anaGonda command and return  back a valid response
         """
 
+        print(method_name, go_env)
         try:
-            anagonda = anaGonda(**go_env)
+            anagonda = anaGonda(
+                go_env['GOROOT'], go_env['GOPATH'], go_env['CGO_ENABLED'])
             method = getattr(anagonda, method_name, self._errback)
             self.callback({
                 'success': True,
@@ -145,7 +147,7 @@ class AnagondaHandler(anaconda_handler.AnacondaHandler):
         except Exception as error:
             self.callback({
                 'success': False,
-                'error': error,
+                'error': str(error),
                 'uid': self.uid,
                 'vid': self.vid
             })

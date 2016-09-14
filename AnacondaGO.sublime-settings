@@ -3,15 +3,18 @@
 	"go_detector_silent": false,
 
 	// Set this if you want to force your GOPATH only (it is normally
-	// indeferd using your configured Go binary with go env)
-	"anaconda_go_GOPATH": "/home/damnwidget/.VenGO/borrame",
+	// infered using your configured Go binary with go env)
+	"anaconda_go_GOPATH": "/home/damnwidget/.VenGO/go1.7.1",
 
 	// Set this if you want to force your GOROOT only (it is normally
-	// indeferd using your configured Go binary with go env)
-	"anaconda_go_GOROOT": "/home/damnwidget/.VenGO/borrame/lib",
+	// infered using your configured Go binary with go env)
+	"anaconda_go_GOROOT": "/home/damnwidget/.VenGO/go1.7.1/lib",
 
 	// Autoformat files on save
 	"anaconda_go_autoformat_on_save": true,
+
+	// Set this to false to completely disable Golang linting
+	"anaconda_go_linting": true,
 
 	// List of avalable linters, some of them are disabled by default
 	// To enable/disable just set it to true or false respectively
@@ -68,10 +71,10 @@
 	// Godef setting the following setting option:
 	//
 	// Posible values:
-	// 	- always: Godef is not used at all
-	//  - fallback: Guru is used when Godef can't return any result (default)
+	// 	- always: Godef is not used at all (default)
+	//  - fallback: Guru is used when Godef can't return any result
 	//  - never: Does not use Guru at all, rely always in Godef
-	"anaconda_go_guru_usage": "fallback",
+	"anaconda_go_guru_usage": "always",
 
 	// Set the following to true if you want to parse Go comments when
 	// discovering defined symbols in your code
