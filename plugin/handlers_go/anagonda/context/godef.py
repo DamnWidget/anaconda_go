@@ -70,11 +70,13 @@ class GoDef(AnaGondaContext):
 
             return json.loads(out)
 
-        return json.loads(out)
+        data = json.loads(out)
+        data['tool'] = 'godef'
+        return data
 
     @property
     def binary(self):
         """Return back the binary path
         """
 
-        return os.path.join(os.environ['GOPATH'], 'bin', 'gocode')
+        return os.path.join(self.env['GOPATH'], 'bin', 'gocode')

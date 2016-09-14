@@ -54,7 +54,7 @@ class AutoComplete(AnaGondaContext):
         )
         out, err = gocode.communicate(self.code)
         if err is not None and len(err) > 0:
-            if sys.version_info >= (3):
+            if sys.version_info >= (3,):
                 err = err.decode('utf8')
             raise AutoCompleteError(err)
 

@@ -72,7 +72,10 @@ class Motion(AnaGondaContext):
         """Return the offset always that -file scope is in use
         """
 
-        return {'-file': self._offset, '-dir': ''}.get(self.scope)
+        offset = {'-file': self._offset, '-dir': ''}.get(self.scope)
+        if offset is not None and offset != '':
+            offset = '-offset {0}'.format(offset)
+        return offset
 
     @property
     def parse_comments(self):

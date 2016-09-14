@@ -2,8 +2,10 @@
 # Copyright (C) 2013 - 2016 - Oscar Campos <oscar.campos@member.fsf.org>
 # This program is Free Software see LICENSE file for details
 
+import inspect
 from collections import namedtuple
 
+from .code import Explorer
 from .context import Registry
 from .context.error import AnaGondaError
 
@@ -40,30 +42,36 @@ class anaGonda(object):
 
         guru_usage = settings.get('anaconda_go_guru_usage', 'fallback')
         if guru_usage == 'always':
-            return self._run_guru(code, path, settings)
+            return self._run_guru(code, 'definition', path, settings)
 
         definitions = []
         try:
             expr = settings.get('expr', '')
-            ext = settings.get('extended', False)
-            definitions = Registry('godef', code, path, expr, ext, self._env)
+            ext = False
+            definitions = Registry(
+                'godef', 'simple', code, path, expr, ext, self._env)
         except AnaGondaError as e:
             if guru_usage == 'fallback':
-                return self._run_guru(code, path, settings)
+                return self._run_guru(code, 'definition', path, settings)
         else:
             if len(definitions) == 0 and guru_usage == 'fallback':
-                return self._run_guru(code, path, settings)
+                return self._run_guru(code, 'definition', path, settings)
 
-        return definitions
+        return Explorer(definitions).definition
 
     def motion(self, fp, dp, offset, mode, include, parse_comments):
         """Run Motion and return back a dictionary with results
         """
 
-        return Registry(
+        explorer = Explorer(Registry(
             'motion', fp, dp, offset, mode,
-            inlcude, parse_comments, self._env
-        )
+            include, parse_comments, self._env
+        ))
+        jumpers = ['next_func', 'prev_func', 'enclosing']
+        if inspect.stack()[1][3] in jumpers:
+            return explorer.to_jump()
+
+        return explorer.to_explore()
 
     def lint(self, options):
         """Run gometalinter with the given options
@@ -77,11 +85,10 @@ class anaGonda(object):
 
         return Registry('impl', receiver, iface, self._env)
 
-    def _run_guru(self, code, path, settings):
+    def _run_guru(self, mode, code, path, settings):
         """Run the Guru context
         """
 
         offset = settings.get('offset', 0)
         buf = settings.get('modified_buffer')
-        return Regisrty('guru', code, path, offset, buf, self._env)
-
+        return Registry('guru', mode, code, path, offset, buf, self._env)

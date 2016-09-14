@@ -56,12 +56,12 @@ class MetaLinter(object):
             if linter_flags[linter]['enabled']:
                 opts.append(linter_flags[linter]['opt'])
 
-        if options.get('anaconda_go_lint_test', False):
+        if options.get('lint_test', False):
             opts.append('--tests')
 
         opts.append('--json')
 
-        exclude = options.get('anaconda_go_exclude_regexps', [])
+        exclude = options.get('exclude_regexps', [])
         if len(exclude) > 0:
             opts.append('--exclude={0}'.format('|'.join(exclude)))
 
@@ -76,32 +76,32 @@ class MetaLinter(object):
             'lll': {
                 'enabled': False,
                 'opt': '--line-length={0}'.format(
-                    options.get('anaconda_go_max_line_length', 120)
+                    options.get('max_line_length', 120)
                 )
             },
             'gocycle': {
                 'enabled': False,
                 'opt': '--cyclo-over={0}'.format(
-                    options.get('anaconda_go_gocyclo_threshold', 10)
+                    options.get('gocyclo_threshold', 10)
                 )
             },
             'golint': {
                 'enabled': False,
                 'opt': '--min-confidence={0}'.format(
-                    options.get('anaconda_go_golint_min_confidence', 0.80)
+                    options.get('golint_min_confidence', 0.80)
                 )
             },
             'goconst': {
                 'enabled': False,
                 'opt': '--min-occurrences={0} --min-const-length={1}'.format(
-                    options.get('anaconda_go_goconst_min_occurrences', 3),
-                    options.get('anaconda_go_min_const_length', 3)
+                    options.get('goconst_min_occurrences', 3),
+                    options.get('min_const_length', 3)
                 )
             },
             'dupl': {
                 'enabled': False,
                 'opt': '--dupl-threshold={0}'.format(
-                    options.get('anaconda_go_dupl_threshold', 50)
+                    options.get('dupl_threshold', 50)
                 )
             }
         }

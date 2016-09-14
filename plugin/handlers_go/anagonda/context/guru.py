@@ -27,7 +27,8 @@ class Guru(AnaGondaContext):
 
     _bin_found = False
 
-    def __init__(self, code, path, offset, modified_buffer, env_ctx):
+    def __init__(self, mode, code, path, offset, modified_buffer, env_ctx):
+        self.mode = mode
         self.path = path
         self.offset = offset
         self.code = code.encode() if sys.version_info >= (3,) else code
@@ -48,8 +49,8 @@ class Guru(AnaGondaContext):
         """Use Guru to look for the definition of the word under the cursor
         """
 
-        args = shlex.split('{0} -json -modified describe {1}:#{2}'.format(
-            self.binary, self.path, self.offset),
+        args = shlex.split('{0} -json -modified {1} {2}:#{3}'.format(
+            self.binary, self.mode, self.path, self.offset),
             posix=os.name != 'nt'
         )
         guru = spawn(
@@ -64,7 +65,9 @@ class Guru(AnaGondaContext):
         if sys.version_info >= (3,):
             out = out.decode('utf8')
 
-        return json.loads(out)
+        data = json.loads(out)
+        data['tool'] = 'guru'
+        return data
 
     @property
     def binary(self):
