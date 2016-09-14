@@ -4,17 +4,17 @@
 
 from functools import partial
 
+from anaconda_go.lib import go
+from anaconda_go.lib.plugin import typing
+from anaconda_go.lib.helpers import get_settings
+from anaconda_go.lib.plugin import Worker, Callback, JediUsages, is_code
+
 import sublime
 import sublime_plugin
 
-from anaconda_go.lib import go
-from anaconda_go.lib.plugin import typing
-from anaconda_go.lib.helpers import get_symbol
-from anaconda_go.lib.plugin import Worker, Callback, JediUsages, is_code
 
-
-class AnacondaGoGoto(sublime_plugin.WindowCommand):
-    """Execute godef/guru or both and goto any returnd definition
+class AnacondaGoPrevFunc(sublime_plugin.WindowCommand):
+    """Get the previous function defined in the file and go to its header
     """
 
     def run(self) -> None:
@@ -22,23 +22,19 @@ class AnacondaGoGoto(sublime_plugin.WindowCommand):
             view = self.window.active_view()
             row, col = view.rowcol(view.sel()[0].begin())
             offset = view.text_point(row, col)
-
-            code = view.substr(sublime.Region(0, view.size()))
             data = {
                 'vid': view.id(),
-                'code': code,
-                'path': view.file_name(),
-                'settings': {
-                    'offset': offset,
-                    'expr': get_symbol(code, row, col),
-                    'modified_buffer': self._modified_buffer(view, code),
-                },
+                'file_path': view.file_name(),
+                'offset': offset,
+                'parse_comments': get_settings(
+                    view, 'anaconda_go_motion_parse_comments', False
+                ),
                 'go_env': {
                     'GOROOT': go.GOROOT,
                     'GOPATH': go.GOPATH,
                     'CGO_ENABLED': go.CGO_ENABLED
                 },
-                'method': 'goto',
+                'method': 'prev_func',
                 'handler': 'anaGonda'
             }
             Worker().execute(
@@ -49,8 +45,9 @@ class AnacondaGoGoto(sublime_plugin.WindowCommand):
                 ),
                 **data
             )
-        except:
-            pass
+        except Exception as err:
+            print('anaconda_go: prev function error')
+            print(err)
 
     def is_enabled(self) -> bool:
         """Determine if this command is enabled or not
@@ -68,17 +65,11 @@ class AnacondaGoGoto(sublime_plugin.WindowCommand):
         """Fired on failures from the callback
         """
 
-        print('anaconda_go: goto error')
+        print('anaconda_go: prev function error')
         print(data['error'])
 
-    def _on_timeout(self, data: typing.Dict) -> None:
+    def _on_timeout(self, _):
         """Fired when the callback times out
         """
 
-        print('Golang goto definition timed out')
-
-    def _modified_buffer(self, view: sublime.View, code: str) -> str:
-        """Guru needs this to use unsaved buffers instead of files
-        """
-
-        return '\n'.join([view.file_name(), len(code), code])
+        print('Golang prev function timed out')
