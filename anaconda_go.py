@@ -8,11 +8,10 @@
 import os
 import sublime
 
-from anaconda_go.lib.plugin import typing
 from anaconda_go.plugin_version import anaconda_required_version, ver
 
 from anaconda_go.lib import go
-from anaconda_go.lib.async_proc import AsyncProc
+from Default.exec import ExecCommand
 from anaconda_go.lib.plugin import anaconda_version
 
 if anaconda_required_version > anaconda_version:
@@ -23,8 +22,8 @@ if anaconda_required_version > anaconda_version:
         )
     )
 else:
-    from anaconda_go.commands import importer
-    importer()
+    from anaconda_go.commands import *
+    from anaconda_go.listeners import *
 
 
 def plugin_loaded() -> None:
@@ -34,30 +33,8 @@ def plugin_loaded() -> None:
     go.init(ver)
     if go.AVAILABLE is True:
         _install_go_tools()
-
-
-def _on_success(proc: AsyncProc) -> None:
-    """Called when prepare call is successful
-    """
-
-    go.ANAGONDA_PRESENT = True
-    proc.broadcast('Finished in {}s'.format(proc.elapsed))
-
-
-def _on_failure(data: typing.Dict) -> None:
-    """Called when prepare call fails
-    """
-
-    sublime.error_message(data['error'])
-
-
-def _on_rtfailure(proc: AsyncProc):
-    """Called when prepare call times out
-    """
-
-    proc.broadcast('Finished with errors: {} in {}s'.format(
-        proc.error, proc.elapsed)
-    )
+        if os.path.exists(os.path.join(go.GOPATH, 'bin', 'gometalinter.v1')):
+            go.ANAGONDA_PRESENT = True
 
 
 def _install_go_tools():
@@ -80,13 +57,11 @@ def _install_go_tools():
     panel.settings().set('wrap_width', 160)
     env = os.environ.copy()
     env.update({'GOPATH': go.GOPATH, 'GOROOT': go.GOROOT})
-    sublime.active_window().run_command(
-        'exec', {
-            'shell_cmd': '{} get -x -u {}'.format(
-                go._detector.go_binary, ' '.join(_go_dependencies)
-            ),
-            'file_regex': r'[ ]*File \"(...*?)\", line ([0-9]*)',
-            'env': env
-
-        }
+    exe = ExecCommand(sublime.active_window())
+    exe.run(
+        shell_cmd='{} get -x -u {}'.format(
+            go._detector.go_binary, ' '.join(_go_dependencies)
+        ),
+        file_regex=r'[ ]*File \"(...*?)\", line ([0-9]*)',
+        env=env
     )
