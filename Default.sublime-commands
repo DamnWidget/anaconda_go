@@ -1,0 +1,14 @@
+[
+	{
+		"caption": "AnacondaGO: Goto Definition",
+		"command": "anaconda_go_goto"
+	},
+	{
+		"caption": "AnacondaGO: Goto Next Function",
+		"command": "anaconda_go_next_func"
+	},
+	{
+		"caption": "AnacondaGO: Goto Prev Function",
+		"command": "anaconda_go_prev_func"
+	}
+]
