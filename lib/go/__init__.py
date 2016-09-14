@@ -8,6 +8,7 @@ AVAILABLE = False
 GOROOT = None  # type: str
 GOPATH = None  # type: str
 CGO_ENABLED = False  # type: bool
+ANAGONDA_PRESENT = False
 
 _detector = GolangDetector()
 

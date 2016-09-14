@@ -5,8 +5,8 @@
 ANACONDA_PLUGIN_AVAILABLE = False
 
 try:
-    from anaconda.listeners import linting
     from anaconda.anaconda_lib.worker import Worker
+    from anaconda.listeners import linting, completion
     from anaconda.anaconda_lib.decorators import timeit
     from anaconda.anaconda_lib.callback import Callback
     from anaconda.anaconda_lib.jediusages import JediUsages
@@ -20,8 +20,8 @@ try:
     from anaconda.anaconda_lib import typing
 except ImportError:
     try:
-        from Anaconda.listeners import linting
         from Anaconda.anaconda_lib.worker import Worker
+        from Anaconda.listeners import linting, completion
         from Anaconda.anaconda_lib.decorators import timeit
         from Anaconda.anaconda_lib.callback import Callback
         from Anaconda.anaconda_lib.jediusages import JediUsages
@@ -49,5 +49,5 @@ if ANACONDA_PLUGIN_AVAILABLE:
         'Worker', 'Callback', 'ProgressBar', 'anaconda_sublime', 'is_code',
         'anaconda_version', 'linting', 'anaconda_helpers', 'timeit',
         'create_subprocess', 'Enum', 'IntEnum', 'unique', 'typing',
-        'get_window_view', 'JediUsages'
+        'get_window_view', 'JediUsages', 'completion'
     ]
