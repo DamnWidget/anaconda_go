@@ -4,11 +4,11 @@
 
 	// Set this if you want to force your GOPATH only (it is normally
 	// infered using your configured Go binary with go env)
-	"anaconda_go_GOPATH": "/home/damnwidget/.VenGO/go1.7.1",
+	"anaconda_go_GOPATH": "/home/damnwidget/.VenGO/borrame",
 
 	// Set this if you want to force your GOROOT only (it is normally
 	// infered using your configured Go binary with go env)
-	"anaconda_go_GOROOT": "/home/damnwidget/.VenGO/go1.7.1/lib",
+	"anaconda_go_GOROOT": "/home/damnwidget/.VenGO/borrame/lib",
 
 	// Autoformat files on save
 	"anaconda_go_autoformat_on_save": true,
@@ -42,6 +42,9 @@
 		{ "anaconda_go_testify": false },
 		{ "anaconda_go_unused": false }
 	],
+
+	// Set this option to run fast linters only
+	"anaconda_go_fast_linters_only": false,
 
 	// If anaconda_go_lll is enabled set the maximum line length otherwise ignored
 	"anaconda_go_max_line_length": 120,
