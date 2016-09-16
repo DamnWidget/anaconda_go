@@ -1,5 +1,9 @@
 [
 	{
+		"caption": "AnacondaGO: Implement Interface",
+		"command": "anaconda_go_impl"
+	},
+	{
 		"caption": "AnacondaGO: Goto Definition",
 		"command": "anaconda_go_goto"
 	},
@@ -10,5 +14,33 @@
 	{
 		"caption": "AnacondaGO: Goto Prev Function",
 		"command": "anaconda_go_prev_func"
+	},
+	{
+		"caption": "AnacondaGO: Goto Current Function Header",
+		"command": "anaconda_go_enc_func"
+	},
+	{
+		"caption": "AnacondaGO: Browse File Functions",
+		"command": "anaconda_go_explore_file_funcs"
+	},
+	{
+		"caption": "AnacondaGO: Browse File Structs",
+		"command": "anaconda_go_explore_file_structs"
+	},
+	{
+		"caption": "AnacondaGO: Browse File Symbols",
+		"command": "anaconda_go_explore_file_decls"
+	},
+	{
+		"caption": "AnacondaGO: Browse Package Functions",
+		"command": "anaconda_go_explore_package_funcs"
+	},
+	{
+		"caption": "AnacondaGO: Browse Package Structs",
+		"command": "anaconda_go_explore_package_structs"
+	},
+	{
+		"caption": "AnacondaGO: Browse Package Symbols",
+		"command": "anaconda_go_explore_package_decls"
 	}
 ]
