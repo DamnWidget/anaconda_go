@@ -2,6 +2,7 @@
 # Copyright (C) 2016 - Oscar Campos <oscar.campos@member.fsf.org>
 # This program is Free Software see LICENSE file for details
 
+import traceback
 from functools import partial
 
 import sublime
@@ -9,7 +10,7 @@ import sublime_plugin
 
 from anaconda_go.lib import go
 from anaconda_go.lib.plugin import typing
-from anaconda_go.lib.helpers import get_symbol
+from anaconda_go.lib.helpers import get_symbol, get_settings
 from anaconda_go.lib.plugin import Worker, Callback, JediUsages, is_code
 
 
@@ -20,6 +21,7 @@ class AnacondaGoGoto(sublime_plugin.WindowCommand):
     def run(self) -> None:
         try:
             view = self.window.active_view()
+            self.view = view
             row, col = view.rowcol(view.sel()[0].begin())
             offset = view.text_point(row, col)
 
@@ -32,6 +34,9 @@ class AnacondaGoGoto(sublime_plugin.WindowCommand):
                     'offset': offset,
                     'expr': get_symbol(code, row, col),
                     'modified_buffer': self._modified_buffer(view, code),
+                    'guru_usage': get_settings(
+                        view, 'anaconda_go_guru_usage', 'always'
+                    )
                 },
                 'go_env': {
                     'GOROOT': go.GOROOT,
@@ -49,8 +54,9 @@ class AnacondaGoGoto(sublime_plugin.WindowCommand):
                 ),
                 **data
             )
-        except:
-            pass
+        except Exception as err:
+            print('anaconda_go: goto error')
+            print(traceback.print_exc())
 
     def is_enabled(self) -> bool:
         """Determine if this command is enabled or not
@@ -62,7 +68,7 @@ class AnacondaGoGoto(sublime_plugin.WindowCommand):
         if not go.ANAGONDA_PRESENT:
             return False
 
-        return is_code(self.view, lang='go')
+        return is_code(self.window.active_view(), lang='go')
 
     def _on_failure(self, data: typing.Dict) -> None:
         """Fired on failures from the callback
@@ -81,4 +87,6 @@ class AnacondaGoGoto(sublime_plugin.WindowCommand):
         """Guru needs this to use unsaved buffers instead of files
         """
 
-        return '\n'.join([view.file_name(), len(code), code])
+        return '\n'.join([
+            view.file_name(), str(len(code.encode('utf8'))), code
+        ])

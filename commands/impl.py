@@ -10,7 +10,6 @@ import sublime_plugin
 
 from anaconda_go.lib import go
 from anaconda_go.lib.plugin import typing
-from anaconda_go.lib.helpers import get_window_view
 from anaconda_go.lib.plugin import Worker, Callback, is_code
 
 
@@ -18,52 +17,51 @@ class AnacondaGoImpl(sublime_plugin.TextCommand):
     """Execute Impl command and insert the returned implemntation
     """
 
-    def __init__(self, edit: sublime.Edit):
-        super(AnacondaGoImpl, self).__init__(edit)
-        self.impl = None
+    impl = None
 
     def run(self, edit: sublime.Edit) -> None:
 
-        receiver, iface = None, None
+        if self.impl is not None:
+            self.view.insert(edit, self.view.sel()[0].begin(), self.impl)
+            self.impl = None
+            return
 
-        def receiver_done(data):
-            global receiver
-            receiver = data
+        sublime.active_window().show_input_panel(
+            "Struct Name:", "Receiver",
+            partial(self._receiver_done, edit), None, None
+        )
 
-        def iface_done(data):
-            global iface
-            iface = data
+    def _receiver_done(self, edit: sublime.Edit, receiver: str) -> None:
+
+        if receiver is None or receiver == '':
+            return
+
+        sublime.active_window().show_input_panel(
+            "Interface to Implement:", "",
+            partial(self._exec, edit, receiver), None, None
+        )
+
+    def _exec(self, edit: sublime.Edit, receiver: str, iface: str) -> None:
+
+        if iface is None or iface == '':
+            return
 
         try:
-            sublime.active_window().show_input_panel(
-                "Struct Name:", "Receiver", receiver_done, None, None
-            )
-            if receiver is None:
-                return
-
-            sublime.active_window().show_input_panel(
-                "Interface to Implement:", "", iface_done, None, None
-            )
-            if iface is None:
-                return
-
             data = {
                 'vid': self.view.id(),
-                'settings': {
-                    'receiver': receiver,
-                    'iface': iface
-                },
+                'receiver': receiver,
+                'iface': iface,
                 'go_env': {
                     'GOROOT': go.GOROOT,
                     'GOPATH': go.GOPATH,
                     'CGO_ENABLED': go.CGO_ENABLED
                 },
                 'method': 'impl',
-                'handler': 'anaGonda',
+                'handler': 'anaGonda'
             }
             Worker().execute(
                 Callback(
-                    on_success=partial(self.update_buffer, edit),
+                    on_success=self.update_buffer,
                     on_failure=self.on_failure,
                     on_timeout=self.on_timeout
                 ),
@@ -94,10 +92,9 @@ class AnacondaGoImpl(sublime_plugin.TextCommand):
 
         print('anaconda_go: impl timed out')
 
-    def update_buffer(self, data, edit):
+    def update_buffer(self, data):
         """Update the buffer with the interface implementation
         """
 
-        view = get_window_view(self.data['vid'])
-        view.insert(edit, self.view.sel()[0].begin(), data['result'])
-        self.data = None
+        self.impl = data['result']
+        sublime.set_timeout(self.view.run_command('anaconda_go_impl', 0))

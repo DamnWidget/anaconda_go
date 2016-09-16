@@ -20,6 +20,7 @@ class AnacondaGoNextFunc(sublime_plugin.WindowCommand):
     def run(self) -> None:
         try:
             view = self.window.active_view()
+            self.view = view
             row, col = view.rowcol(view.sel()[0].begin())
             offset = view.text_point(row, col)
             data = {
@@ -59,9 +60,8 @@ class AnacondaGoNextFunc(sublime_plugin.WindowCommand):
         if not go.ANAGONDA_PRESENT:
             return False
 
-        i = is_code(self.view, lang='go')
-        print(i)
-        return i
+        view = self.window.active_view()
+        return is_code(view, lang='go')
 
     def _on_failure(self, data: typing.Dict) -> None:
         """Fired on failures from the callback

@@ -8,9 +8,18 @@ from anaconda_go.commands.goto import AnacondaGoGoto
 from anaconda_go.commands.enclosing import AnacondaGoEncFunc
 from anaconda_go.commands.prev_func import AnacondaGoPrevFunc
 from anaconda_go.commands.next_func import AnacondaGoNextFunc
+from anaconda_go.commands.explore import AnacondaGoExploreFileFuncs
+from anaconda_go.commands.explore import AnacondaGoExploreFileDecls
+from anaconda_go.commands.explore import AnacondaGoExploreFileStructs
+from anaconda_go.commands.explore import AnacondaGoExplorePackageFuncs
+from anaconda_go.commands.explore import AnacondaGoExplorePackageDecls
+from anaconda_go.commands.explore import AnacondaGoExplorePackageStructs
 
 
 __all__ = [
     'AnacondaGoImpl', 'AnacondaGoGoto', 'AnacondaGoEncFunc',
-    'AnacondaGoNextFunc', 'AnacondaGoPrevFunc'
+    'AnacondaGoNextFunc', 'AnacondaGoPrevFunc', 'AnacondaGoExploreFileDecls',
+    'AnacondaGoExploreFileFuncs', 'AnacondaGoExploreFileStructs',
+    'AnacondaGoExplorePackageDecls', 'AnacondaGoExplorePackageFuncs',
+    'AnacondaGoExplorePackageStructs'
 ]

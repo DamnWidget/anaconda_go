@@ -2,11 +2,13 @@
 # Copyright (C) 2013 - 2016 - Oscar Campos <oscar.campos@member.fsf.org>
 # This program is Free Software see LICENSE file for details
 
+import os
+
 from anaconda_go.lib import go
 from anaconda_go.lib.plugin import typing
-from anaconda_go.lib.helpers import get_settings
 from anaconda_go.lib.panels import ExplorerPanel
 from anaconda_go.lib.plugin import Worker, Callback, is_code
+from anaconda_go.lib.helpers import get_settings, active_view
 
 import sublime
 import sublime_plugin
@@ -19,6 +21,7 @@ class AnacondaGoExploreBase(sublime_plugin.WindowCommand):
     def run(self) -> None:
         try:
             view = self.window.active_view()
+            self.view = view
             data = {
                 'vid': view.id(),
                 'file_path': view.file_name(),
@@ -55,7 +58,7 @@ class AnacondaGoExploreBase(sublime_plugin.WindowCommand):
         if not go.ANAGONDA_PRESENT:
             return False
 
-        return is_code(self.view, lang='go')
+        return is_code(active_view(), lang='go')
 
     def _on_failure(self, data: typing.Dict) -> None:
         """Fired on failures from the callback
@@ -92,3 +95,138 @@ class AnacondaGoExploreFileDecls(AnacondaGoExploreBase):
     """
 
     method = 'get_file_decls'
+
+
+class AnacondaGoExplorePackageFuncs(AnacondaGoExploreBase):
+    """Get package funcs
+    """
+
+    method = 'get_package_funcs'
+
+    def run(self) -> None:
+        try:
+            view = self.window.active_view()
+            self.view = view
+            data = {
+                'vid': view.id(),
+                'dir_path': os.path.dirname(view.file_name()),
+                'parse_comments': get_settings(
+                    view, 'anaconda_go_motion_parse_comments', False
+                ),
+                'go_env': {
+                    'GOROOT': go.GOROOT,
+                    'GOPATH': go.GOPATH,
+                    'CGO_ENABLED': go.CGO_ENABLED
+                },
+                'method': self.method,
+                'handler': 'anaGonda'
+            }
+            Worker().execute(
+                Callback(
+                    on_success=ExplorerPanel(view).run,
+                    on_failure=self._on_failure,
+                    on_timeout=self._on_timeout
+                ),
+                **data
+            )
+        except Exception as err:
+            print('anaconda_go: {}'.format(self.method.replace('_', ' ')))
+            print(err)
+
+
+class AnacondaGoExplorePackageStructs(AnacondaGoExploreBase):
+    """Get package funcs
+    """
+
+    method = 'get_package_structs'
+
+    def run(self) -> None:
+        try:
+            view = self.window.active_view()
+            self.view = view
+            data = {
+                'vid': view.id(),
+                'dir_path': os.path.dirname(view.file_name()),
+                'parse_comments': get_settings(
+                    view, 'anaconda_go_motion_parse_comments', False
+                ),
+                'go_env': {
+                    'GOROOT': go.GOROOT,
+                    'GOPATH': go.GOPATH,
+                    'CGO_ENABLED': go.CGO_ENABLED
+                },
+                'method': self.method,
+                'handler': 'anaGonda'
+            }
+            Worker().execute(
+                Callback(
+                    on_success=ExplorerPanel(view).run,
+                    on_failure=self._on_failure,
+                    on_timeout=self._on_timeout
+                ),
+                **data
+            )
+        except Exception as err:
+            print('anaconda_go: {}'.format(self.method.replace('_', ' ')))
+            print(err)
+
+
+class AnacondaGoExplorePackageDecls(AnacondaGoExploreBase):
+    """Get the package declarations
+    """
+
+    method = 'get_package_decls'
+
+    def run(self) -> None:
+        try:
+            view = self.window.active_view()
+            self.view = view
+            scope = get_settings(view, 'anaconda_go_guru_scope')
+            data = {
+                'vid': view.id(),
+                'scope': scope if scope is not None else self.scope(view),
+                'code': view.substr(sublime.Region(0, view.size())),
+                'path': view.file_name(),
+                'buf': self.modified_buffer(view),
+                'go_env': {
+                    'GOROOT': go.GOROOT,
+                    'GOPATH': go.GOPATH,
+                    'CGO_ENABLED': go.CGO_ENABLED
+                },
+                'method': 'get_package_decls',
+                'handler': 'anaGonda'
+            }
+            Worker().execute(
+                Callback(
+                    on_success=ExplorerPanel(view).run,
+                    on_failure=self._on_failure,
+                    on_timeout=self._on_timeout
+                ),
+                **data
+            )
+        except Exception as err:
+            print('anaconda_go: {}'.format(self.method.replace('_', ' ')))
+            print(err)
+
+    def scope(self, view):
+        """Try to automatically determine the Guru scope
+        """
+
+        if go.GOPATH in view.file_name():
+            try:
+                return os.path.dirname(
+                    view.file_name().partition(
+                        os.path.join(go.GOPATH, 'src'))[2])[1:]
+            except:
+                pass
+
+        return ''
+
+    def modified_buffer(self, view: sublime.View) -> str:
+        """Guru needs this to use unsaved buffers instead of files
+        """
+
+        code = view.substr(sublime.Region(0, view.size()))
+        return '\n'.join([
+            view.file_name(), str(len(code.encode('utf8'))), code
+        ])
