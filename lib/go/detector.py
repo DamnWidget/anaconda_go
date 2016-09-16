@@ -88,6 +88,7 @@ class GolangDetector:
             if os.path.exists(os.path.join(goroot, 'bin', 'go')):
                 self.GOROOT = goroot
                 self.GOPATH = gopath
+                self.CGO_ENABLED = "1"
                 return True
 
         return False
@@ -156,10 +157,10 @@ class GolangDetector:
                 else:
                     setattr(self, var, output.decode('utf8').strip())
 
-    def _normalize_cgo(self, cgo: tp.Union[str, None]) -> bool:
-        """Set CGO_ENABLED to False if is not set
+    def _normalize_cgo(self, cgo: tp.Union[str, None]) -> str:
+        """Set CGO_ENABLED to "0" if is not set
         """
 
         if cgo is None:
-            return False
-        return bool(int(cgo))
+            return "0"
+        return cgo

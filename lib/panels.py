@@ -2,6 +2,7 @@
 # Copyright (C) 2013 - 2016 - Oscar Campos <oscar.campos@member.fsf.org>
 # This program is Free Software see LICENSE file for details
 
+import os
 from functools import partial
 
 from anaconda_go.lib.plugin import typing
@@ -47,9 +48,15 @@ class ExplorerPanel:
             location = 'file: {} line: {} column: {}'.format(
                 option['filename'], option['line'], option['col']
             )
+            ident = option['ident']
+            if option.get('show_filename', False):
+                ident = '{} ({})'.format(
+                    option['ident'], os.path.basename(option['filename'])
+                )
             quick_panel_options.append(
-                [option['ident'], option['full'], location]
+                [ident, option['full'], location]
             )
+
         self.point = self.view.sel()[0]
         self.view.window().show_quick_panel(
             quick_panel_options, self._on_select,
@@ -72,7 +79,7 @@ class ExplorerPanel:
             return
 
         opt = self._options[index]
-        if opt['keywork'] == 'package':
+        if opt['keyword'] == 'package':
             # TODO: This could happen when we explore data from GuRu
             raise RuntimeError('TODO: Package browsing not implemented yet')
 

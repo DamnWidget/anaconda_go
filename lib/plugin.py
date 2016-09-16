@@ -17,6 +17,7 @@ try:
     from anaconda.anaconda_lib import helpers as anaconda_helpers
     from anaconda.anaconda_lib.helpers import is_code, create_subprocess
     from anaconda.anaconda_lib.linting import sublime as anaconda_sublime
+    from anaconda.anaconda_lib.helpers import get_settings as aget_settings
     from anaconda.anaconda_lib import typing
 except ImportError:
     try:
@@ -32,6 +33,7 @@ except ImportError:
         from Anaconda.anaconda_lib import helpers as anaconda_helpers
         from Anaconda.anaconda_lib.helpers import is_code, create_subprocess
         from Anaconda.anaconda_lib.linting import sublime as anaconda_sublime
+        from Anaconda.anaconda_lib.helpers import get_settings as aget_settings  # noqa
         from anaconda.anaconda_lib import typing
     except ImportError as error:
         print(str(error))
@@ -49,5 +51,5 @@ if ANACONDA_PLUGIN_AVAILABLE:
         'Worker', 'Callback', 'ProgressBar', 'anaconda_sublime', 'is_code',
         'anaconda_version', 'linting', 'anaconda_helpers', 'timeit',
         'create_subprocess', 'Enum', 'IntEnum', 'unique', 'typing',
-        'get_window_view', 'JediUsages', 'completion'
+        'get_window_view', 'JediUsages', 'completion', 'aget_settings'
     ]

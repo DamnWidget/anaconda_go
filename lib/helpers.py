@@ -2,6 +2,8 @@
 # Copyright (C) 2016 - Oscar Campos <oscar.campos@member.fsf.org>
 # This program is Free Software see LICENSE file for details
 
+import os
+
 try:
     import sublime
 except ImportError:
@@ -18,7 +20,17 @@ def get_settings(view, name, default=None):
     if view is None:
         return None
 
-    plugin_settings = sublime.load_settings('AnacondaGO.sublime-settings')
+    plugin_settings = sublime.load_settings('Anaconda_GO.sublime-settings')
+    if name == 'anaconda_go_linters':
+        local = view.settings().get(name)
+        if local is not None:
+            local_linters = [list(l.keys())[0] for l in local]
+            for linter in plugin_settings.get(name, []):
+                for linter_name in linter:
+                    if linter_name not in local_linters:
+                        local.append(linter)
+            return local
+
     return view.settings().get(name, plugin_settings.get(name, default))
 
 
@@ -52,6 +64,17 @@ def get_symbol(src, linenum, offset):
                 break
 
     return line[start:end]
+
+
+def get_working_directory(view):
+    """Return back the project file directory if any or current file one
+    """
+
+    pfilename = sublime.active_window().project_file_name()
+    if pfilename is not None:
+        return os.path.dirname(pfilename)
+
+    return os.path.dirname(view.file_name())
 
 
 # reuse anaconda helper functions
