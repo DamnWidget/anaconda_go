@@ -32,7 +32,7 @@ class GoDef(AnaGondaContext):
         self.path = path
         self.extended = extended
         self.code = code.encode() if sys.version_info >= (3,) else code
-        super(GoDef, self).__init__(_go_get, env_ctx)
+        super(GoDef, self).__init__(env_ctx, _go_get)
 
     def __enter__(self):
         """Check binary existence and perform the command
@@ -68,8 +68,6 @@ class GoDef(AnaGondaContext):
             if out == '{}':
                 return {'src': 'builtin', 'line': 0, 'col': 0}
 
-            return json.loads(out)
-
         data = json.loads(out)
         data['tool'] = 'godef'
         return data
@@ -79,4 +77,4 @@ class GoDef(AnaGondaContext):
         """Return back the binary path
         """
 
-        return os.path.join(self.env['GOPATH'], 'bin', 'gocode')
+        return os.path.join(self.env['GOPATH'], 'bin', 'godef')

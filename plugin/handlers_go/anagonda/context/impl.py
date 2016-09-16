@@ -27,7 +27,7 @@ class Impl(AnaGondaContext):
     def __init__(self, receiver, iface, env_ctx):
         self.receiver = receiver
         self.iface = iface
-        super(Impl, self).__init__(_go_get, env_ctx)
+        super(Impl, self).__init__(env_ctx, _go_get)
 
     def __enter__(self):
         """Check binary existence and perform command
@@ -48,7 +48,7 @@ class Impl(AnaGondaContext):
             posix=os.name != 'nt'
         )
         impl = spawn(args, stdout=PIPE, stderr=PIPE, env=self.env)
-        out, err = impl.communicate(self.modified_buffer)
+        out, err = impl.communicate()
         if err is not None and len(err) > 0:
             if sys.version_info >= (3,):
                 err = err.decode('utf8')

@@ -29,13 +29,12 @@ class Explorer(object):
         """Normalize to JediUsages format
         """
 
-        return [
-            (e['filename'], e['line'], e['col'])
-            for e in self._definitions['decls']
-        ]
+        f = self._definitions['func']['func']
+        return [(f['filename'], f['line'], f['col'])]
 
     def to_explore(self):
         """Normalize motion output for explorer mode
         """
 
+        print(self._definitions)
         return self._definitions['decls']

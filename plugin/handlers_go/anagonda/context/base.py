@@ -19,6 +19,7 @@ class AnaGondaContext(object):
     def __init__(self, env_ctx, go_get_url):
         self.__go_get_url = go_get_url
         self.__env = env_ctx
+        self._bin_found = None
 
     def __enter__(self):
         """Check binary existence or run go get
@@ -31,6 +32,8 @@ class AnaGondaContext(object):
                 except AnaGondaError:
                     self._bin_found = False
                     raise
+            else:
+                self._bin_found = True
 
     def __exit__(self, *ext):
         """Do nothing
@@ -52,13 +55,11 @@ class AnaGondaContext(object):
         """
 
         env = {}
-        curenv = os.enviton.copy()
+        curenv = os.environ.copy()
         for key in curenv:
             env[str(key)] = str(curenv[key])
 
-        env['GOPATH'] = self.__env.gopath
-        env['GOROOT'] = self.__env.goroot
-        env['CGO_ENABLED'] = self.__env.cgo_enabled
+        env.update(self.__env)
         return env
 
     def go_get(self):
@@ -73,4 +74,4 @@ class AnaGondaContext(object):
             if sys.version_info >= (3, 0):
                 err = err.decode('utf8')
             raise GoGetError(err)
-        self._bin__found = True
+        self._bin_found = True

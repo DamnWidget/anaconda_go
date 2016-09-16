@@ -30,9 +30,9 @@ class Motion(AnaGondaContext):
         self.dir_path = dp
         self._offset = offset
         self.mode = mode
-        self.include = include
+        self._include = include
         self._parse_comments = pc
-        super(Motion, self).__init__(_go_get, env_ctx)
+        super(Motion, self).__init__(env_ctx, _go_get)
 
     def __enter__(self):
         """Check binary existence and perform command
@@ -74,8 +74,8 @@ class Motion(AnaGondaContext):
 
         offset = {'-file': self._offset, '-dir': ''}.get(self.scope)
         if offset is not None and offset != '':
-            offset = '-offset {0}'.format(offset)
-        return offset
+            offset = '-offset {0}'.format(offset+1)
+        return offset if offset is not None else ''
 
     @property
     def parse_comments(self):
@@ -84,13 +84,22 @@ class Motion(AnaGondaContext):
 
         return {True: '-parse-comments'}.get(self._parse_comments, '')
 
+    @property
+    def include(self):
+        """If include is set return the whole syntax
+        """
+
+        return '-include {0}'.format(self._include) \
+               if self._include is not None else ''
+
     def motion(self):
         """Run the motion command and return back json object with the results
         """
 
-        args = shlex.split('{0} {1} {2} {3} -mode {4} {5}{6}'.format(
+        args = shlex.split('{0} {1} {2} {3} -mode {4} {5}{6}{7}'.format(
             self.binary, self.scope, self.path,
-            self.offset, self.mode, self.include or '', self.parse_comments
+            self.offset, self.mode, self.include, self.parse_comments,
+            ' -shift 1' if self.mode == 'prev' else ''
         ), posix=os.name != 'nt')
         motion = spawn(args, stdout=PIPE, stderr=PIPE, env=self.env)
         out, err = motion.communicate()

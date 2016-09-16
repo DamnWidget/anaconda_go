@@ -30,7 +30,7 @@ class AutoComplete(AnaGondaContext):
         self.path = path
         self.offset = offset
         self.code = code.encode() if sys.version_info >= (3,) else code
-        super(AutoComplete, self).__init__(_go_get, env_ctx)
+        super(AutoComplete, self).__init__(env_ctx, _go_get)
 
     def __enter__(self):
         """Check binary existence and perform the command
@@ -47,8 +47,9 @@ class AutoComplete(AnaGondaContext):
         """
 
         args = shlex.split('{0} -f json autocomplete {1} {2}'.format(
-            self.binary, self.path, self.offset), posix=os.name != 'nt'
+            self.binary, self.path, self.offset+2), posix=os.name != 'nt'
         )
+        print(' '.join(args))
         gocode = spawn(
             args, stdin=PIPE, stdout=PIPE, stderr=PIPE, env=self.env
         )
@@ -66,10 +67,29 @@ class AutoComplete(AnaGondaContext):
         except Exception as error:
             raise AutoCompleteError(error)
 
+        comps = []
+        lguide = self._calculate_lguide(completions[1])
         if len(completions) > 0:
-            completions = completions[1]
+            for elem in completions[1]:
+                comps.append((
+                    '{0}{1} {2} {3}'.format(
+                        elem['name'], ' ' * (lguide - len(elem['name'])),
+                        elem['class'], elem['type']
+                    ), elem['name']
+                ))
 
-        return completions
+        return comps
+
+    def _calculate_lguide(self, comps):
+        """Calculate the max string for completions and return it back
+        """
+
+        lguide = 0
+        for elem in comps:
+            comp_string = elem['name']
+            lguide = max(lguide, len(comp_string))
+
+        return lguide
 
     @property
     def binary(self):

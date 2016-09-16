@@ -27,13 +27,16 @@ class Guru(AnaGondaContext):
 
     _bin_found = False
 
-    def __init__(self, mode, code, path, offset, modified_buffer, env_ctx):
+    def __init__(self, sc, mode, code, path, offset, modified_buffer, env_ctx):
+        self.scope = sc
         self.mode = mode
         self.path = path
         self.offset = offset
         self.code = code.encode() if sys.version_info >= (3,) else code
         self.modified_buffer = modified_buffer
-        super(Guru, self).__init__(_go_get, env_ctx)
+        if sys.version_info >= (3,):
+            self.modified_buffer = modified_buffer.encode('utf8')
+        super(Guru, self).__init__(env_ctx, _go_get)
 
     def __enter__(self):
         """Check binary existence and perform command
@@ -49,10 +52,16 @@ class Guru(AnaGondaContext):
         """Use Guru to look for the definition of the word under the cursor
         """
 
-        args = shlex.split('{0} -json -modified {1} {2}:#{3}'.format(
-            self.binary, self.mode, self.path, self.offset),
+        scope = ''
+        if self.scope is not None and self.scope != '':
+            scope = ' -scope {0}'.format(self.scope)
+
+        args = shlex.split('{0}{1} -json -modified {2} {3}:#{4}'.format(
+            self.binary, scope,
+            self.mode, self.path, self.offset),
             posix=os.name != 'nt'
         )
+        print(' '.join(args))
         guru = spawn(
             args, stdin=PIPE, stdout=PIPE, stderr=PIPE, env=self.env
         )

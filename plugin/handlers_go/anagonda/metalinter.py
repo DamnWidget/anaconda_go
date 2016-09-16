@@ -23,6 +23,7 @@ class MetaLinter(object):
         opts = ['--disable-all']
         for linter in options['linters']:
             linter_name, enabled = linter.popitem()
+            linter_name = linter_name.replace('anaconda_go_', '')
             if linter_name not in MetaLinter._slow_linters and enabled:
                 opts.append('--enable={0}'.format(linter_name))
                 if linter_name in linter_flags:
@@ -40,10 +41,31 @@ class MetaLinter(object):
         linter_flags = MetaLinter._build_linter_flags(options)
         opts = ['--disable-all']
         for linter in options['linters']:
-            linter_name, enabled = linter.popitems()
+            linter_name, enabled = linter.popitem()
+            linter_name = linter_name.replace('anaconda_go_', '')
             if linter_name in MetaLinter._slow_linters and enabled:
                 opts.append('--enable={0}'.format(linter_name))
-                linter_flags[linter_name]['enabled'] = True
+                if linter_name in linter_flags:
+                    linter_flags[linter_name]['enabled'] = True
+
+        return MetaLinter._lint_defaults(opts, linter_flags, options)
+
+    @staticmethod
+    def lint_all(options):
+        """
+        Process options to create a gometalinter
+        options string to run all linters
+        """
+
+        linter_flags = MetaLinter._build_linter_flags(options)
+        opts = ['--disable-all']
+        for linter in options['linters']:
+            linter_name, enabled = linter.popitem()
+            linter_name = linter_name.replace('anaconda_go_', '')
+            if enabled:
+                opts.append('--enable={0}'.format(linter_name))
+                if linter_name in linter_flags:
+                    linter_flags[linter_name]['enabled'] = True
 
         return MetaLinter._lint_defaults(opts, linter_flags, options)
 
@@ -65,6 +87,8 @@ class MetaLinter(object):
         if len(exclude) > 0:
             opts.append('--exclude={0}'.format('|'.join(exclude)))
 
+        opts.append(options.get('path', ''))
+
         return ' '.join(opts)
 
     @staticmethod
@@ -79,7 +103,7 @@ class MetaLinter(object):
                     options.get('max_line_length', 120)
                 )
             },
-            'gocycle': {
+            'gocyclo': {
                 'enabled': False,
                 'opt': '--cyclo-over={0}'.format(
                     options.get('gocyclo_threshold', 10)
