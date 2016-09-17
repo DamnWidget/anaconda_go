@@ -42,5 +42,9 @@
 	{
 		"caption": "AnacondaGO: Browse Package Symbols",
 		"command": "anaconda_go_explore_package_decls"
+	},
+	{
+		"caption": "AnacondaGO: Auto Format File",
+		"command": "anaconda_go_format"
 	}
 ]

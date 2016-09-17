@@ -5,6 +5,7 @@
 # Add any new command import in here
 from anaconda_go.commands.impl import AnacondaGoImpl
 from anaconda_go.commands.goto import AnacondaGoGoto
+from anaconda_go.commands.format import AnacondaGoFormat
 from anaconda_go.commands.enclosing import AnacondaGoEncFunc
 from anaconda_go.commands.prev_func import AnacondaGoPrevFunc
 from anaconda_go.commands.next_func import AnacondaGoNextFunc
@@ -21,5 +22,5 @@ __all__ = [
     'AnacondaGoNextFunc', 'AnacondaGoPrevFunc', 'AnacondaGoExploreFileDecls',
     'AnacondaGoExploreFileFuncs', 'AnacondaGoExploreFileStructs',
     'AnacondaGoExplorePackageDecls', 'AnacondaGoExplorePackageFuncs',
-    'AnacondaGoExplorePackageStructs'
+    'AnacondaGoExplorePackageStructs', 'AnacondaGoFormat'
 ]

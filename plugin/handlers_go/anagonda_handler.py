@@ -10,6 +10,7 @@ from .commands.lint import Lint
 from .commands.impl import Impl
 from .commands.next_func import NextFunc
 from .commands.prev_func import PrevFunc
+from .commands.goimports import Goimports
 from .commands.autocomplete import Gocode
 from .commands.file_funcs import FileFuncs
 from .commands.file_structs import FileStructs
@@ -154,3 +155,9 @@ class AnagondaHandler(anaconda_handler.AnacondaHandler):
         """
 
         Impl(self.callback, self.uid, self.vid, receiver, iface, go_env)
+
+    def goimports(self, code, go_env):
+        """Call goimports with the given code
+        """
+
+        Goimports(self.callback, self.uid, self.vid, code, go_env)
