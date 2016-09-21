@@ -13,12 +13,13 @@ class Gocode(Command):
     """Run GoCode
     """
 
-    def __init__(self, callback, uid, vid, code, path, offset, go_env):
+    def __init__(self, callback, uid, vid, code, path, offset, param, go_env):
         self.vid = vid
         self.path = path
         self.code = code
         self.path = path
         self.offset = offset
+        self.add_params = param
         self.go_env = go_env
         super(Gocode, self).__init__(callback, uid)
 
@@ -28,7 +29,8 @@ class Gocode(Command):
 
         try:
             with AutoComplete(
-                    self.code, self.path, self.offset, self.go_env) as comps:
+                    self.code, self.path,
+                    self.offset, self.add_params, self.go_env) as comps:
                 self.callback({
                     'success': True,
                     'completions': comps,

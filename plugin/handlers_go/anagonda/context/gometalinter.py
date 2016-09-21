@@ -91,7 +91,11 @@ class GometaLinter(AnaGondaContext):
 
         errors = []
         for error in metaerrors:
-            if self.filepath not in error.get('path', ''):
+            last_path = os.path.join(
+                os.path.basename(os.path.dirname(self.filepath)),
+                os.path.basename(self.filepath)
+            )
+            if last_path not in error.get('path', ''):
                 continue
 
             error_type = error.get('severity', 'X').capitalize()[0]

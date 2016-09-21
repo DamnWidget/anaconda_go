@@ -2,10 +2,10 @@
 # Copyright (C) 2016 - Oscar Campos <oscar.campos@member.fsf.org>
 # This program is Free Software see LICENSE file for details
 
+import os
 from functools import partial
 
 from anaconda_go.lib import go
-from anaconda_go.lib.helpers import get_working_directory
 from anaconda_go.lib.helpers import get_settings, active_view
 from anaconda_go.lib.plugin import anaconda_sublime, Worker, Callback
 
@@ -155,5 +155,5 @@ def _get_settings(view):
             view, 'anaconda_go_min_const_length', 3),
         'dupl_threshold': get_settings(
             view, 'anaconda_go_dupl_threshold', 50),
-        'path': get_working_directory(view)
+        'path': os.path.dirname(view.file_name())
     }
