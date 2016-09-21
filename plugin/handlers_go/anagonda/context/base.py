@@ -30,6 +30,8 @@ class AnaGondaContext(object):
                 try:
                     self.go_get()
                 except AnaGondaError:
+                    import traceback
+                    print(traceback.print_exc())
                     self._bin_found = False
                     raise
             else:
@@ -44,10 +46,10 @@ class AnaGondaContext(object):
         """Return the Go binary for this GOROOT
         """
 
-        if self.__env.goroot == "":
+        if self.__env['GOROOT'] == "":
             return "go"  # pray for it being in the PATH
 
-        return os.path.join(self.__env.goroot, 'bin', 'go')
+        return os.path.join(self.__env['GOROOT'], 'bin', 'go')
 
     @property
     def env(self):
