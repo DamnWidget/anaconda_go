@@ -23,8 +23,9 @@ class Goimports(AnaGondaContext):
     """Context to run Goimports tool into anaconda_go
     """
 
-    def __init__(self, code, env_ctx):
+    def __init__(self, code, path, env_ctx):
         self.code = code if sys.version_info < (3,) else code.encode('utf8')
+        self.path = path
         super(Goimports, self).__init__(env_ctx, _go_get)
 
     def __enter__(self):
@@ -41,8 +42,9 @@ class Goimports(AnaGondaContext):
         """Run the goimports command and return back a string with the code
         """
 
+        args = [self.binary, self.path]
         goimports = spawn(
-            ['goimports'], stdout=PIPE, stderr=PIPE, stdin=PIPE, env=self.env)
+            args, stdout=PIPE, stderr=PIPE, stdin=PIPE, env=self.env)
         out, err = goimports.communicate(self.code)
         if err is not None and len(err) > 0:
             if sys.version_info >= (3,):

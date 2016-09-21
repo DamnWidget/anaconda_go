@@ -2,7 +2,6 @@
 # Copyright (C) 2013 - 2016 - Oscar Campos <oscar.campos@member.fsf.org>
 # This program is Free Software see LICENSE file for details
 
-import os
 import logging
 import traceback
 
@@ -32,6 +31,7 @@ class AnacondaGoFormat(sublime_plugin.TextCommand):
             data = {
                 'vid': self.view.id(),
                 'code': self.code,
+                'path': self.view.file_name(),
                 'go_env': {
                     'GOROOT': go.GOROOT,
                     'GOPATH': go.GOPATH,
@@ -87,7 +87,7 @@ class AnacondaGoFormat(sublime_plugin.TextCommand):
         """
 
         self.view.set_read_only(False)
-        print('anaconda_go format error: {}}'.format(data['error']))
+        print('anaconda_go format error: {}'.format(data['error']))
 
     def on_timeout(self):
         """Called when callback times out
