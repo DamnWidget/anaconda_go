@@ -28,7 +28,10 @@ class PackageSymbols(Command):
         """
 
         try:
-            offset = self.code.find('package ') + len('package ') + 1
+            offset = getattr(self, 'offset', None)
+            if offset is None:
+                offset = self.code.find('package ') + len('package ') + 1
+
             with guru.Guru(
                 self.scope, 'describe', self.code, self.path,
                     offset, self.buf, self.go_env) as desc:
@@ -93,5 +96,56 @@ class PackageSymbols(Command):
                         new_elem['type'] = method['name']
                         methods.append(new_elem)
                     symbols += sorted(methods, key=lambda x: x['pos'])
+
+        return symbols
+
+
+class PackageSymbolsCursor(PackageSymbols):
+    """Run guru to get detailed information about the symbol under cursor
+    """
+
+    def __init__(self, cb, uid, vid, scope, code, path, buf, off, go_env):
+        self.offset = off
+        super(PackageSymbolsCursor, self).__init__(
+            cb, uid, vid, scope, code, path, buf, go_env
+        )
+
+    def _sort(self, desc):
+        """Sort the output by File -> Vars -> Type -> Funcs
+        """
+
+        if desc.get('package') is not None:
+            return super(PackageSymbolsCursor, self)._sort(desc)
+
+        symbols = []
+        aggregated_data = defaultdict(lambda: [])
+        detail_field = desc.get('detail')
+        if detail_field is None:
+            return symbols
+
+        details = desc.get(detail_field)
+        if details is None:
+            return symbols
+
+        if detail_field == 'type':
+            filename = details.get('namepos', desc['pos']).split(':')[0]
+            details['pos'] = details.get('namepos', desc['pos'])
+            details['name'] = desc['desc']
+            details['kind'] = details['type']
+            aggregated_data[filename].append(details)
+            for elem in details.get('methods', []):
+                filename = elem['pos'].split(':')[0]
+                elem['type'] = elem['name']
+                elem['kind'] = elem['type']
+                aggregated_data[filename].append(elem)
+        else:
+            filename = details['objpos'].split(':')[0]
+            details['pos'] = details['objpos']
+            details['name'] = details['type']
+            details['kind'] = details['type']
+            aggregated_data[filename].append(details)
+
+        for filename, elems in aggregated_data.items():
+            symbols += sorted(elems, key=lambda x: x['pos'])
 
         return symbols

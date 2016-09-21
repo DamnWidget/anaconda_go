@@ -8,6 +8,7 @@ from functools import partial
 from anaconda_go.lib.plugin import typing
 
 import sublime
+from Default.exec import ExecCommand
 
 
 class ExplorerPanel:
@@ -29,6 +30,63 @@ class ExplorerPanel:
             return self._unable_to_find()
 
         self._show_options(results)
+
+    def doc(self, data: typing.Dict =None) -> None:
+        """Create a doc panel with the data coming from the tools
+        """
+
+        if data is not None and not data['success']:
+            return self._unable_to_find()
+
+        result = data['result']
+        if len(result) == 0:
+            return self._unable_to_find()
+        data = result
+
+        doc = ['']
+        _type = data.get('detail')
+        if _type is None:
+            return self._unable_to_find()
+
+        detail = data.get(_type)
+        if detail is None:
+            return self._unable_to_find()
+
+        description = detail.get('type')
+        if description is None:
+            return self._unable_to_find()
+
+        doc.append(description)
+        doc.append('=' * 79)
+        p = {'type': detail.get('namepos')}.get(_type, detail.get('objpos'))
+        if p is not None:
+            path, line, col = p.split(':')
+            doc.append(p)
+
+        namedef = detail.get('namedef')
+        if namedef is not None:
+            namedef = namedef.replace(
+                '; ', '\n\t').replace('{', ' {\n\t').replace('}', '\n}')
+            namedef = namedef.replace('struct {', 'struct {} {{'.format(
+                description
+            ), 1)
+            doc.append(namedef)
+
+        methods = detail.get('methods', [])
+        if len(methods) > 0:
+            doc.append('\nMethods ')
+            for method in methods:
+                doc.append('{}\n    {}\n'.format(
+                    method['pos'], method['name'])
+                )
+
+        exe = ExecCommand(sublime.active_window())
+        exe.run(
+            shell_cmd='echo "{}\n\n"'.format('\n'.join(doc)),
+            file_regex=r'(...*?):([0-9]*):([0-9]*)',
+            quiet=True,
+        )
+        exe.hide_phantoms()
 
     def _unable_to_find(self):
         """Just show a message in the status bar

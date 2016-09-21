@@ -230,3 +230,53 @@ class AnacondaGoExplorePackageDecls(AnacondaGoExploreBase):
         return '\n'.join([
             view.file_name(), str(len(code.encode('utf8'))), code
         ])
+
+
+class AnacondaGoExploreSymbolUnderCursor(AnacondaGoExplorePackageDecls):
+    """Analyze and browse the symbol under cursor
+    """
+
+    method = 'analyze_symbol'
+
+    def run(self, operation='analyze') -> None:
+        self.operation = operation
+        try:
+            view = self.window.active_view()
+            self.view = view
+            scope = get_settings(view, 'anaconda_go_guru_scope')
+            data = {
+                'vid': self.view.id(),
+                'scope': scope if scope is not None else self.scope(view),
+                'code': view.substr(sublime.Region(0, view.size())),
+                'offset': view.text_point(*view.rowcol(view.sel()[0].begin())),
+                'path': view.file_name(),
+                'buf': self.modified_buffer(view),
+                'mode': self.operation,
+                'go_env': {
+                    'GOROOT': go.GOROOT,
+                    'GOPATH': go.GOPATH,
+                    'CGO_ENABLED': go.CGO_ENABLED
+                },
+                'method': 'analyze_symbol',
+                'handler': 'anaGonda'
+            }
+            Worker().execute(
+                Callback(
+                    on_success=self.on_success,
+                    on_failure=self._on_failure,
+                    on_timeout=self._on_timeout
+                ),
+                **data
+            )
+        except Exception as err:
+            print('anaconda_go: {}'.format(self.method.replace('_', '')))
+            print(err)
+
+    def on_success(self, data):
+        """Called when the callback returns with a value from the JsonServer
+        """
+
+        if self.operation == 'analyze':
+            ExplorerPanel(self.view).doc(data)
+        else:
+            ExplorerPanel(self.view).run(data)

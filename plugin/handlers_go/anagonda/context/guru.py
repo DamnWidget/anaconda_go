@@ -61,7 +61,6 @@ class Guru(AnaGondaContext):
             self.mode, self.path, self.offset),
             posix=os.name != 'nt'
         )
-        print(' '.join(args))
         guru = spawn(
             args, stdin=PIPE, stdout=PIPE, stderr=PIPE, env=self.env
         )
