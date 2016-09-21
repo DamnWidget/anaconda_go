@@ -45,6 +45,8 @@ class GoCompletionEventListener(completion.AnacondaCompletionEventListener):
             'path': view.file_name(),
             'code': code,
             'offset': view.text_point(row, col),
+            'add_params': get_settings(
+                view, 'anaconda_go_add_completion_params', True),
             'go_env': {
                 'GOROOT': go.GOROOT,
                 'GOPATH': go.GOPATH,
