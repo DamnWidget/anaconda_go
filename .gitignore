@@ -60,3 +60,6 @@ anaGonda-*.dll
 plugin/handlers_go/anagonda/lib/ana*onda.h
 plugin/handlers_go/anagonda/src/ana*onda.h
 plugin/handlers_go/anagonda/src/anagonda_config.go
+
+# vim files
+*~
