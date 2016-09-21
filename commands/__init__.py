@@ -3,6 +3,7 @@
 # This program is Free Software see LICENSE file for details
 
 # Add any new command import in here
+from anaconda_go.commands.doc import AnacondaGoDoc
 from anaconda_go.commands.impl import AnacondaGoImpl
 from anaconda_go.commands.goto import AnacondaGoGoto
 from anaconda_go.commands.format import AnacondaGoFormat
@@ -15,6 +16,7 @@ from anaconda_go.commands.explore import AnacondaGoExploreFileStructs
 from anaconda_go.commands.explore import AnacondaGoExplorePackageFuncs
 from anaconda_go.commands.explore import AnacondaGoExplorePackageDecls
 from anaconda_go.commands.explore import AnacondaGoExplorePackageStructs
+from anaconda_go.commands.explore import AnacondaGoExploreSymbolUnderCursor
 
 
 __all__ = [
@@ -22,5 +24,6 @@ __all__ = [
     'AnacondaGoNextFunc', 'AnacondaGoPrevFunc', 'AnacondaGoExploreFileDecls',
     'AnacondaGoExploreFileFuncs', 'AnacondaGoExploreFileStructs',
     'AnacondaGoExplorePackageDecls', 'AnacondaGoExplorePackageFuncs',
-    'AnacondaGoExplorePackageStructs', 'AnacondaGoFormat'
+    'AnacondaGoExplorePackageStructs', 'AnacondaGoFormat',
+    'AnacondaGoExploreSymbolUnderCursor', 'AnacondaGoDoc'
 ]

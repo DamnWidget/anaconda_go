@@ -5,9 +5,11 @@
 from lib import anaconda_handler
 
 from .anagonda.metalinter import MetaLinter
+from .commands.doc import Doc
 from .commands.goto import Goto
 from .commands.lint import Lint
 from .commands.impl import Impl
+from .commands.gogetdoc import GoGetDoc
 from .commands.next_func import NextFunc
 from .commands.prev_func import PrevFunc
 from .commands.goimports import Goimports
@@ -17,8 +19,9 @@ from .commands.file_structs import FileStructs
 from .commands.file_symbols import FileSymbols
 from .commands.package_funcs import PackageFuncs
 from .commands.enclosing_func import EnclosingFunc
+from .commands.analyze_symbol import AnalyzeSymbol
 from .commands.package_structs import PackageStructs
-from .commands.package_symbols import PackageSymbols
+from .commands.package_symbols import PackageSymbols, PackageSymbolsCursor
 
 
 class AnagondaHandler(anaconda_handler.AnacondaHandler):
@@ -27,13 +30,13 @@ class AnagondaHandler(anaconda_handler.AnacondaHandler):
 
     __handler_type__ = 'anaGonda'
 
-    def autocomplete(self, code, path, offset, go_env):
+    def autocomplete(self, code, path, offset, add_params, go_env):
         """Call autocompletion registry context and return a result
         """
 
         Gocode(
             self.callback, self.uid, self.vid,
-            code, path, offset, go_env
+            code, path, offset, add_params, go_env
         )
 
     def goto(self, code, path, settings, go_env):
@@ -156,8 +159,33 @@ class AnagondaHandler(anaconda_handler.AnacondaHandler):
 
         Impl(self.callback, self.uid, self.vid, receiver, iface, go_env)
 
-    def goimports(self, code, go_env):
+    def goimports(self, code, path, go_env):
         """Call goimports with the given code
         """
 
-        Goimports(self.callback, self.uid, self.vid, code, go_env)
+        Goimports(self.callback, self.uid, self.vid, code, path, go_env)
+
+    def analyze_symbol(self, scope, code, offset, path, buf, mode, go_env):
+        """Analyze the symbol under the cursor
+        """
+
+        if mode == 'browse':
+            PackageSymbolsCursor(
+                self.callback, self.uid, self.vid,
+                scope, code, path, buf, offset, go_env
+            )
+        else:
+            AnalyzeSymbol(
+                self.callback, self.uid, self.vid,
+                scope, code, offset, path, buf, go_env
+            )
+
+    def doc(self, path, expr, private, force, offset, buf, go_env):
+        """Get documentation of the symbol under the cursor
+        """
+
+        if go_env.pop('GO_VERSION') >= [1, 6] and not force:
+            GoGetDoc(
+                self.callback, self.uid, self.vid, path, offset, buf, go_env)
+        else:
+            Doc(self.callback, self.uid, self.vid, path, expr, private, go_env)

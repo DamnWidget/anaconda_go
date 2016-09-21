@@ -1,5 +1,9 @@
 [
 	{
+		"caption": "AnacondaGO: Show Documentation",
+		"command": "anaconda_go_doc"
+	},
+	{
 		"caption": "AnacondaGO: Implement Interface",
 		"command": "anaconda_go_impl"
 	},
@@ -46,5 +50,13 @@
 	{
 		"caption": "AnacondaGO: Auto Format File",
 		"command": "anaconda_go_format"
+	},
+	{
+		"caption": "AnacondaGO: Analyze Symbol",
+		"command": "anaconda_go_explore_symbol_under_cursor", "args": {"operation": "analyze"}
+	},
+	{
+		"caption": "AnacondaGO: Browse Symbol",
+		"command": "anaconda_go_explore_symbol_under_cursor", "args": {"operation": "browse"}
 	}
 ]

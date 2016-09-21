@@ -10,9 +10,6 @@
 	// infered using your configured Go binary with go env)
 	"anaconda_go_GOROOT": "/home/damnwidget/.VenGO/borrame/lib",
 
-	// Autoformat files on save
-	"anaconda_go_autoformat_on_save": true,
-
 	// Set this to false to completely disable Golang linting
 	"anaconda_go_linting": true,
 
@@ -89,6 +86,16 @@
 	// reason but you don't want to disable the related linter, you can add a regex
 	// into the list below and any error that match it will be suppresed from the
 	// lints output
-	"anaconda_go_exclude_regexps": []
+	"anaconda_go_exclude_regexps": [],
+
+	// Auto format file on save
+	"anaconda_go_auto_format": true,
+
+	// Set this to true if you want to force go doc to return private methods documentation
+	// Note: go doc is used if the go version is lower than 1.6 only if not forced
+	"anaconda_go_doc_private_symbols": true,
+
+	// Set this to force anaconda_go to always use go doc to retrieve documentation
+	"anaconda_go_force_go_doc_usage": false
 }
 

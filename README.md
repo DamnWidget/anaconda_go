@@ -9,7 +9,7 @@
 
 [![Pledgie][pledgie-donate-image]][pledgie-donate-link]
 
-AnacondaGO adds autocompletion, inting and IDE features for Golang to your Sublime Text 3 using anaconda's asynchronous engine so it shouldn't freeze your Sublime Text ever.
+AnacondaGO adds autocompletion, linting and IDE features for Golang to your Sublime Text 3 using anaconda's asynchronous engine so it shouldn't freeze your Sublime Text ever.
 
 **Note**: AnacondaGO does not include any key binding by itself as we think that package key bindings are intrusive, anyway, we provide some key binding suggestions in this same README file.
 
@@ -26,6 +26,8 @@ This project is under heavy development, please, report any issue that you found
 * Try to be as descriptive and verbose as you can
 * Give us instructions about how to reproduce the problem
 * Add as many information about your environment as you can
+
+AnacondaGO **is not** a fork of GoSublime and it **does not** pretends to be a GoSublime in-replacement or implement the same features that GoSublime already implements. This is a brand new Golang package for Sublime Text 3 that uses it's own approach and vision.
 
 ## Supported Platforms
 
@@ -44,9 +46,6 @@ AnacondaGO has been developed and tested in GNU/Linux with excellent results. Th
 
 AnacondaGO will try to install all it's dependencies on start, it tries to infer your Go configuration from the system but is probably that you have to
 define the `anaconda_go_GOROOT` and the `anaconda_go_GOPATH` in case that AnacondaGO is not able to infer your Go settings from the system.
-
-AnacondaGO **is not** a fork of GoSublime and it does not pretends to be a GoSublime in-replacement or implement the same features that GoSublime already
-implements. This is a brand new Golang package for Sublime Text 3 that uses it's own approach and vision.
 
 **Note**: AnacondaGO doesn't use the embedded ST3 python interpreter, for more information about
 anaconda and the `python_interpreter` take a look at the [anaconda's official documentation](http://damnwidget.github.io/anaconda/anaconda_settings/)
@@ -89,7 +88,8 @@ Some of the features are still under development:
 - [x] Symbol under the cursor analysis and navigation
 - [x] Helper to implement Interfaces
 - [x] Auto formating/import on file save
-- [ ] Show documentation for the symbol under the cursor
+- [x] Show documentation for the symbol under the cursor
+- [ ] Open Package Documentation
 - [ ] Tooltip floating functions signatures
 - [ ] Function call and stack analysis
 - [ ] Channels analysis
@@ -335,7 +335,7 @@ Our suggested key binding for this feature is:
 
 ### Symbol under the cursor analysis and navigation
 
-AnacondaGO is able to analyze whatever (non ambiguous) symbol under the current cursor position and return back panel with information or a browsing panel.
+AnacondaGO is able to analyze whatever (non ambiguous) symbol under the current cursor position and present a panel with information or a browsing panel.
 
 #### Usage
 

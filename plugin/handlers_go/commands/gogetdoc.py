@@ -6,31 +6,32 @@
 import logging
 import traceback
 
-from ..anagonda.context import goimports
+from ..anagonda.context import gogetdoc
 from commands.base import Command
 
 
-class Goimports(Command):
-    """Run goimports
+class GoGetDoc(Command):
+    """Run go doc for the given expr
     """
 
-    def __init__(self, callback, uid, vid, code, path, go_env):
+    def __init__(self, callback, uid, vid, path, offset, buf, go_env):
         self.vid = vid
-        self.code = code
         self.path = path
+        self.offset = offset
+        self.buf = buf
         self.go_env = go_env
-        super(Goimports, self).__init__(callback, uid)
+        super(GoGetDoc, self).__init__(callback, uid)
 
     def run(self):
         """Run the command
         """
 
         try:
-            with goimports.Goimports(
-                    self.code, self.path, self.go_env) as text:
+            with gogetdoc.GoGetDoc(
+                    self.path, self.offset, self.buf, self.go_env) as docs:
                 self.callback({
                     'success': True,
-                    'result': text,
+                    'result': docs,
                     'uid': self.uid,
                     'vid': self.vid
                 })
