@@ -77,7 +77,8 @@ class AnacondaGoDoc(sublime_plugin.WindowCommand):
         if not go.ANAGONDA_PRESENT:
             return False
 
-        return is_code(self.window.active_view(), lang='go')
+        view = self.window.active_view()
+        return is_code(view, lang='go', ignore_comments=True)
 
     def modified_buffer(self, view: sublime.View) -> str:
         """Guru needs this to use unsaved buffers instead of files
