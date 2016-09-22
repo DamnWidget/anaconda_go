@@ -35,6 +35,9 @@ def plugin_loaded() -> None:
         _install_go_tools()
         if os.path.exists(os.path.join(go.GOPATH, 'bin', 'gometalinter.v1')):
             go.ANAGONDA_PRESENT = True
+            window = sublime.active_window()
+            sublime.set_timeout_async(
+                lambda: window.run_command('anaconda_go_fill_browse'), 0)
 
 
 def _install_go_tools():

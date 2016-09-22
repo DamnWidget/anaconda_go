@@ -58,5 +58,9 @@
 	{
 		"caption": "AnacondaGO: Browse Symbol",
 		"command": "anaconda_go_explore_symbol_under_cursor", "args": {"operation": "browse"}
+	},
+	{
+		"caption": "AnacondaGO: Fill Packages Cache",
+		"command": "anaconda_go_fill_browse"
 	}
 ]

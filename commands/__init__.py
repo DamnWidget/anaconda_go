@@ -10,6 +10,7 @@ from anaconda_go.commands.format import AnacondaGoFormat
 from anaconda_go.commands.enclosing import AnacondaGoEncFunc
 from anaconda_go.commands.prev_func import AnacondaGoPrevFunc
 from anaconda_go.commands.next_func import AnacondaGoNextFunc
+from anaconda_go.commands.fill_browse import AnacondaGoFillBrowse
 from anaconda_go.commands.explore import AnacondaGoExploreFileFuncs
 from anaconda_go.commands.explore import AnacondaGoExploreFileDecls
 from anaconda_go.commands.explore import AnacondaGoExploreFileStructs
@@ -25,5 +26,6 @@ __all__ = [
     'AnacondaGoExploreFileFuncs', 'AnacondaGoExploreFileStructs',
     'AnacondaGoExplorePackageDecls', 'AnacondaGoExplorePackageFuncs',
     'AnacondaGoExplorePackageStructs', 'AnacondaGoFormat',
-    'AnacondaGoExploreSymbolUnderCursor', 'AnacondaGoDoc'
+    'AnacondaGoExploreSymbolUnderCursor', 'AnacondaGoDoc',
+    'AnacondaGoFillBrowse'
 ]
