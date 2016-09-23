@@ -69,7 +69,7 @@ class Goto(Command):
         """
 
         with guru.Guru(
-            None, 'definition', self.code, self.path,
+            None, 'definition', self.path,
             self.settings.get('offset', 0),
                 self.settings.get('modified_buffer'), self.go_env) as defs:
             return defs

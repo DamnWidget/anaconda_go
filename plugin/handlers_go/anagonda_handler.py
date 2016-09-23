@@ -9,11 +9,15 @@ from .commands.doc import Doc
 from .commands.goto import Goto
 from .commands.lint import Lint
 from .commands.impl import Impl
+from .commands.callees import Callees
+from .commands.callers import Callers
 from .commands.gogetdoc import GoGetDoc
+from .commands.pointsto import Pointsto
 from .commands.next_func import NextFunc
 from .commands.prev_func import PrevFunc
 from .commands.goimports import Goimports
 from .commands.autocomplete import Gocode
+from .commands.callstack import Callstack
 from .commands.file_funcs import FileFuncs
 from .commands.file_structs import FileStructs
 from .commands.file_symbols import FileSymbols
@@ -177,7 +181,7 @@ class AnagondaHandler(anaconda_handler.AnacondaHandler):
         else:
             AnalyzeSymbol(
                 self.callback, self.uid, self.vid,
-                scope, code, offset, path, buf, go_env
+                scope, offset, path, buf, go_env
             )
 
     def doc(self, path, expr, private, force, offset, buf, go_env):
@@ -189,3 +193,39 @@ class AnagondaHandler(anaconda_handler.AnacondaHandler):
                 self.callback, self.uid, self.vid, path, offset, buf, go_env)
         else:
             Doc(self.callback, self.uid, self.vid, path, expr, private, go_env)
+
+    def callees(self, scope, path, offset, modified_buffer, go_env):
+        """Get possible callees for a function call
+        """
+
+        Callees(
+            self.callback, self.uid, self.vid,
+            scope, path, offset, modified_buffer, go_env
+        )
+
+    def callers(self, scope, path, offset, modified_buffer, go_env):
+        """Get possible callees for a function call
+        """
+
+        Callers(
+            self.callback, self.uid, self.vid,
+            scope, path, offset, modified_buffer, go_env
+        )
+
+    def callstack(self, scope, path, offset, modified_buffer, go_env):
+        """Get current function call stack (if possible)
+        """
+
+        Callstack(
+            self.callback, self.uid, self.vid,
+            scope, path, offset, modified_buffer, go_env
+        )
+
+    def pointsto(self, scope, path, offset, modified_buffer, go_env):
+        """Get current function call stack (if possible)
+        """
+
+        Pointsto(
+            self.callback, self.uid, self.vid,
+            scope, path, offset, modified_buffer, go_env
+        )

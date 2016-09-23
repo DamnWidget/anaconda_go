@@ -33,7 +33,7 @@ class PackageSymbols(Command):
                 offset = self.code.find('package ') + len('package ') + 1
 
             with guru.Guru(
-                self.scope, 'describe', self.code, self.path,
+                self.scope, 'describe', self.path,
                     offset, self.buf, self.go_env) as desc:
 
                 symbols = []

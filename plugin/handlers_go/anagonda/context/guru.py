@@ -27,12 +27,11 @@ class Guru(AnaGondaContext):
 
     _bin_found = False
 
-    def __init__(self, sc, mode, code, path, offset, modified_buffer, env_ctx):
+    def __init__(self, sc, mode, path, offset, modified_buffer, env_ctx):
         self.scope = sc
         self.mode = mode
         self.path = path
         self.offset = offset
-        self.code = code.encode() if sys.version_info >= (3,) else code
         self.modified_buffer = modified_buffer
         if sys.version_info >= (3,):
             self.modified_buffer = modified_buffer.encode('utf8')
@@ -74,7 +73,8 @@ class Guru(AnaGondaContext):
             out = out.decode('utf8')
 
         data = json.loads(out)
-        data['tool'] = 'guru'
+        if type(data) is dict:
+            data['tool'] = 'guru'
         return data
 
     @property

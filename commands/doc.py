@@ -6,10 +6,9 @@ import traceback
 
 import sublime
 import sublime_plugin
-from Default.exec import ExecCommand
 
-from anaconda_go.lib import go
 from anaconda_go.lib.plugin import typing
+from anaconda_go.lib import go, cache, panels
 from anaconda_go.lib.helpers import get_symbol, get_settings
 from anaconda_go.lib.plugin import Worker, Callback, is_code
 
@@ -30,7 +29,11 @@ class AnacondaGoDoc(sublime_plugin.WindowCommand):
         ver = ver.decode('utf8')
         return tuple(int(v) for v in ver.replace('go', '').split('.'))
 
-    def run(self) -> None:
+    def run(self, package: bool=False, callstack: bool=False) -> None:
+        if package is True:
+            self.run_for_packages()
+            return
+
         try:
             view = self.window.active_view()
             self.view = view
@@ -67,6 +70,16 @@ class AnacondaGoDoc(sublime_plugin.WindowCommand):
             print('anaconda_go: go doc error')
             print(traceback.print_exc())
 
+    def run_for_packages(self) -> None:
+        """Run documentation for packages using go doc always
+        """
+
+        self._packages = []
+        for pkg in cache.lookup():
+            self._packages.append(pkg['ImportPath'])
+
+        self.window.show_quick_panel(self._packages, self._on_select)
+
     def is_enabled(self) -> bool:
         """Determine if this command is enabled or not
         """
@@ -93,13 +106,9 @@ class AnacondaGoDoc(sublime_plugin.WindowCommand):
         """Process the results and show them into the exec panel
         """
 
-        exe = ExecCommand(self.window)
-        exe.run(
-            shell_cmd='echo "{}\n"'.format(data['result']),
-            file_regex=r'(...*?):([0-9]*):([0-9]*)',
-            quiet=True,
-        )
-        exe.hide_phantoms()
+        panel = panels.DocPanel(self.view)
+        panel.show()
+        panel.print(data['result'])
 
     def _on_failure(self, data: typing.Dict) -> None:
         """Fired on failures from the callback
@@ -113,3 +122,44 @@ class AnacondaGoDoc(sublime_plugin.WindowCommand):
         """
 
         print('Golang go doc definition timed out')
+
+    def _on_select(self, index: int) -> None:
+        """Called when a package is selected from the quick panel
+        """
+
+        if index == -1:
+            return
+
+        package = self._packages[index]
+        try:
+            view = self.window.active_view()
+            self.view = view
+            data = {
+                'vid': view.id(),
+                'path': view.file_name(),
+                'expr': package,
+                'private': get_settings(
+                    view, 'anaconda_go_doc_private_symbols', False),
+                'force': True,
+                'offset': 0,
+                'buf': '',
+                'go_env': {
+                    'GOROOT': go.GOROOT,
+                    'GOPATH': go.GOPATH,
+                    'CGO_ENABLED': go.CGO_ENABLED,
+                    'GO_VERSION': self.go_version
+                },
+                'method': 'doc',
+                'handler': 'anaGonda'
+            }
+            Worker().execute(
+                Callback(
+                    on_success=self.on_success,
+                    on_failure=self._on_failure,
+                    on_timeout=self._on_timeout
+                ),
+                **data
+            )
+        except Exception as err:
+            print('anaconda_go: go doc error')
+            print(traceback.print_exc())
