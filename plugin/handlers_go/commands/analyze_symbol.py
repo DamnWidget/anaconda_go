@@ -14,10 +14,9 @@ class AnalyzeSymbol(Command):
     """
 
     def __init__(
-            self, callback, uid, vid, scope, code, offset, path, buf, go_env):
+            self, callback, uid, vid, scope, offset, path, buf, go_env):
         self.vid = vid
         self.scope = scope
-        self.code = code
         self.offset = offset
         self.path = path
         self.buf = buf
@@ -30,7 +29,7 @@ class AnalyzeSymbol(Command):
 
         try:
             with guru.Guru(
-                self.scope, 'describe', self.code, self.path,
+                self.scope, 'describe', self.path,
                     self.offset, self.buf, self.go_env) as desc:
 
                 self.callback({
