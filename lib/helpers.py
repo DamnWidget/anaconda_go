@@ -77,9 +77,25 @@ def get_working_directory(view):
     return os.path.dirname(view.file_name())
 
 
+def get_scope(view, GOPATH):
+    """Try to automatically determine the Guru scope
+    """
+
+    if GOPATH in view.file_name():
+        try:
+            return os.path.dirname(
+                view.file_name().partition(
+                    os.path.join(GOPATH, 'src'))[2])[1:]
+        except:
+            pass
+
+    return ''
+
+
 # reuse anaconda helper functions
 get_view = anaconda_helpers.get_view
 active_view = anaconda_helpers.active_view
+project_name = anaconda_helpers.project_name
 check_linting = anaconda_helpers.check_linting
 get_window_view = anaconda_helpers.get_window_view
 

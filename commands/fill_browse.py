@@ -12,27 +12,43 @@ from subprocess import PIPE, check_output
 import sublime
 import sublime_plugin
 
-from anaconda_go.lib import go
-from anaconda_go.lib.plugin import create_subprocess
+from anaconda_go.lib import go, cache
+from anaconda_go.lib.helpers import get_settings
+from anaconda_go.lib.plugin import create_subprocess, ProgressBar
 
 
 class AnacondaGoFillBrowse(sublime_plugin.WindowCommand):
     """Get Go packages browse data from the system
     """
 
-    def run(self) -> None:
+    def run(self, standalone=False) -> None:
         panel = self.window.create_output_panel('browse')
-        panel.settings().set('wrap_width', 160)
+        panel.settings().set('wrap_width', 120)
         panel.settings().set("scroll_past_end", False)
         panel.assign_syntax('Packages/Text/Plain text.tmLanguage')
         self.output = panel
         self.window.create_output_panel('browse')
-        self.window.run_command('show_panel', {'panel': 'output.browse'})
+        if standalone or get_settings(
+                self.window.active_view(), 'anaconda_go_verbose', True):
+            self.window.run_command('show_panel', {'panel': 'output.browse'})
         sublime.set_timeout_async(lambda: self._run(), 0)
+        messages = {
+            'start': 'Building packages navigation cache...',
+            'end': 'done!',
+            'fail': 'The package navigation cache could not be build!',
+            'timeout': ''
+        }
+        self.pbar = ProgressBar(messages)
+        self.pbar.start()
 
     def _run(self) -> None:
 
         try:
+            if get_settings(
+                self.window.active_view(),
+                    'anaconda_go_packages_cache_persistence', False):
+                cache.load_package_cache()
+
             self.env = os.environ.copy()
             self.env.update({'GOROOT': go.GOROOT, 'GOPATH': go.GOPATH})
             gocmd = os.path.join(go.GOROOT, 'bin', 'go')
@@ -45,6 +61,7 @@ class AnacondaGoFillBrowse(sublime_plugin.WindowCommand):
             out, err = golist.communicate()
             if err is not None and len(err) > 0:
                 self.print_to_panel(err.decode('utf8'))
+                self.pbar.terminate(status=self.pbar.Status.FAILURE)
                 return
 
             self.process(out.decode('utf8'))
@@ -59,6 +76,10 @@ class AnacondaGoFillBrowse(sublime_plugin.WindowCommand):
         json_data = json.loads('[' + data.replace('}\n{', '},\n{') + ']')
         for package in json_data:
             self.print_to_panel('{} -> '.format(package['ImportPath']))
+            if cache.package_in_cache(package):
+                self.print_to_panel('already in cache, nothing to do\n')
+                continue
+
             fname = os.path.join(package['Dir'], package['GoFiles'][0])
             try:
                 args = []
@@ -94,8 +115,14 @@ class AnacondaGoFillBrowse(sublime_plugin.WindowCommand):
 
             self.print_to_panel('Done\n')
             package['Guru'] = json.loads(out.decode('utf8'))
+            cache.append(package)
 
-        go.PACKAGE_BROWSE = json_data
+        self.pbar.terminate()
+        if get_settings(
+                self.window.active_view(),
+                'anaconda_go_packages_cache_persistence', False):
+            cache.persist_package_cache()
+
         self.print_to_panel(
             '\nPackages browse cache loaded, set the option '
             '"anaconda_go_verbose" as "false" in the configuration '

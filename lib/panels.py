@@ -82,7 +82,7 @@ class ExplorerPanel:
 
         exe = ExecCommand(sublime.active_window())
         exe.run(
-            shell_cmd='echo "{}\n\n"'.format('\n'.join(doc)),
+            shell_cmd='echo "{}\n"'.format('\n'.join(doc)),
             file_regex=r'(...*?):([0-9]*):([0-9]*)',
             quiet=True,
         )
@@ -118,14 +118,16 @@ class ExplorerPanel:
         self.point = self.view.sel()[0]
         self.view.window().show_quick_panel(
             quick_panel_options, self._on_select,
-            on_highlight=partial(self._on_select, transient=True)
+            on_highlight=partial(
+                self._on_select, transient=True, highlight=True)
         )
 
-    def _on_select(self, index, transient=False):
+    def _on_select(self, index, transient=False, highlight=False):
         """Called when the user selects an option in the quick panel
         """
 
         if index == -1:
+            print('selection cancelled')
             # restore view
             sublime.active_window().focus_view(self.view)
             self.view.show(self.point)
@@ -137,11 +139,17 @@ class ExplorerPanel:
             return
 
         opt = self._options[index]
-        if opt['keyword'] == 'package':
-            # TODO: This could happen when we explore data from GuRu
-            raise RuntimeError('TODO: Package browsing not implemented yet')
+        if opt['keyword'] == 'package' and not highlight:
+            sublime.set_timeout(
+                sublime.active_window().run_command(
+                    'anaconda_go_explore_packages',
+                    args={'identificator': opt['ident']}
+                ), 0
+            )
+            return
 
-        self._jump(opt['filename'], opt['line'], opt['col'], transient)
+        if opt['keyword'] != 'package' and highlight is True:
+            self._jump(opt['filename'], opt['line'], opt['col'], transient)
 
     def _jump(self, filename: str, line: int =None,
               col: int =None, transient: bool =False) -> None:
@@ -176,3 +184,31 @@ class ExplorerPanel:
                 lambda: self.view.erase_regions(region_name),
                 delta + 300
             )
+
+
+class DocPanel:
+    """General doc panel class
+    """
+
+    def __init__(self, view):
+        self.view = view
+        self.panel = view.window().create_output_panel('anaconda_go_doc')
+        self.panel.settings().set('scroll_past_end', False)
+        self.panel.assign_syntax('Packages/Text/Plain text.tmLanguage')
+        self.view.window().create_output_panel('anaconda_go_doc')
+
+    def show(self):
+        """Show the doc panel
+        """
+
+        self.view.window().run_command(
+            'show_panel', {'panel': 'output.anaconda_go_doc'}
+        )
+
+    def print(self, text: str, se: bool=False):
+        """Print the given text into the panel
+        """
+
+        self.panel.run_command(
+            'append', {'characters': text, 'force': True, 'scroll_to_end': se}
+        )

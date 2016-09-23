@@ -9,7 +9,6 @@ GOROOT = None  # type: str
 GOPATH = None  # type: str
 CGO_ENABLED = False  # type: bool
 ANAGONDA_PRESENT = False  # type: bool
-PACKAGE_BROWSE = {}  # type: Dict
 
 
 _detector = GolangDetector()
