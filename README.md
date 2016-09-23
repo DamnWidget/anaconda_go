@@ -1,4 +1,7 @@
 [![Join the chat at https://gitter.im/DamnWidget/anaconda](https://badges.gitter.im/DamnWidget/anaconda.svg)](https://gitter.im/DamnWidget/anaconda?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![GitHub release](https://img.shields.io/github/release/damnwidget/anaconda_go.svg?maxAge=2592000)](https://github.com/DamnWidget/anaconda_go/releases/latest)
+[![Anaconda Compatible Version >= 2.0.0](https://img.shields.io/badge/anaconda%20compatible-%3E%3D%202.0.0-blue.svg)](https://github.com/DamnWidget/anaconda)
+[![Package Control](https://img.shields.io/packagecontrol/dt/anaconda_go.svg?maxAge=2592000)](https://packagecontrol.io/packages/anaconda_go)
 
                                                   |
       _` |  __ \    _` |   __|   _ \   __ \    _` |   _` |     _` |   _ \
@@ -86,14 +89,15 @@ Some of the features are still under development:
 - [x] Inefficient data structure analysis (linting)
 - [x] File and package symbols navigation (including variables, structures and functions)
 - [x] Symbol under the cursor analysis and navigation
+- [x] Installed Packages and Standard Library packages exploration
 - [x] Helper to implement Interfaces
 - [x] Auto formating/import on file save
 - [x] Show documentation for the symbol under the cursor
-- [ ] Open Package Documentation
+- [x] Explore Packages and Show its Documentation
 - [ ] Tooltip floating functions signatures
-- [ ] Function call and stack analysis
+- [x] Function call and stack analysis
 - [ ] Channels analysis
-- [ ] Pointers analysis
+- [x] Pointers analysis (static dereference)
 - [ ] Integrated Debugger?
 
 ### Autocompletion
@@ -333,13 +337,25 @@ Our suggested key binding for this feature is:
 }
 ```
 
+### Explore Packages
+
+In a similar way, AnacondaGO offers a panel to explore all the packages installed in your `GOPATH` as well as all the packages present in the standard library.
+
+#### Usage
+
+In the *Command Palette* select **AnacondaGO: Explore Packages** and press enter
+
+#### Suggested keybindings
+
+We don't suggest any keybinding for this feature
+
 ### Symbol under the cursor analysis and navigation
 
 AnacondaGO is able to analyze whatever (non ambiguous) symbol under the current cursor position and present a panel with information or a browsing panel.
 
 #### Usage
 
-Just situate the cursor over the symbol that you want to analyze and use the *Command Palette* command **AnacondaGO: Analyze Symbol**. Alternatively you can also click the right mouse button and select the same option in the contextual menu that is shown under the Anaconda menu entry.
+Just situate the cursor over the symbol that you want to analyze and use the *Command Palette* command **AnacondaGO: Analyze Symbol**. Alternatively you can also click the right mouse button and select the same option in the contextual menu that is shown under the AnacondaGO menu entry.
 
 If you want to browse the symbol contents use the *Command Palette* command **AnacondaGO: Browse Symbol**. Alternatively you can also click the right mouse button and select the same option in the contextual menu that is shown under the Anaconda menu entry.
 
@@ -350,14 +366,53 @@ Out suggested key bindings for this feature are:
 { "keys": ["alt+k", "alt+a"], "command": "anaconda_go_analyze_symbol", "context":
     [
         {"key": "selector", "operator": "equal", "operand": "(source.go)", "match_all": false}
-    ]
+    ],
+    "args": { "operation": "analyze" }
 },
 { "keys": ["alt+k", "alt+b"], "command": "anaconda_go_browse_symbol", "context":
     [
         {"key": "selector", "operator": "equal", "operand": "(source.go)", "match_all": false}
+    ],
+    "args": { "operation": "browse" }
+}
+```
+
+### Show Documentation for symbol under cursor
+
+The user can look for the documentation of the current symbol under the cursor using `go_doc` or `gogetdoc` and retrieve the documentation in a bottom panel.
+
+#### Usage
+
+Just situate the cursor over the symbol that you want to retrieve the documentation for and use the *Command Palette& command **AncondaGO: Show Documentation**. Optionally you can also click the right mouse button and select the same options in the contextual menu that is shown under the AnacondaGO menu entry.
+
+#### Suggested keybindings
+
+Our suggested key bindings for this feature are:
+```javascript
+{ "keys": ["alt+k", "alt+d"], "command": "anaconda_go_doc", "context":
+    [
+        {"key": "selector": "operator": "equal", "operand": "(source.go)", "match_all": false}
     ]
 }
 ```
+
+#### Related Configuration
+
+AnacondaGO uses `gogetdoc` and `go doc` to retrieve documentation but `gogetdoc` is used by default (as it is able to find symbols that `go get` is not) if for some reason you prefer to use `go get` you can force it's usage setting the value of the `anaconda_go_force_go_doc_usage` setting to `true`.
+
+You can also retrieve any unexported symbol documentation when using `go doc` by setting `anaconda_go_doc_private_symbols` to `true` (it is already true by default).
+
+#### Show Packages Documentation
+
+AnacondaGO offers a simple to use installed packages documentation explorer that rely always on `go doc`. Using it you don't have the need to open your browser to retrieve documentation about any package in the standard library or any other installed package in your `GOPATH`.
+
+#### Usage
+
+Open the *Command Palette* and use the command **AnacondaGO: Show Packages Documentation**.
+
+#### Suggested keybindings
+
+We don't suggest any keybinding for this feature.
 
 ## License
 This program is distributed under the terms of the GNU GPL v3. See the [LICENSE][license] file for more details.
