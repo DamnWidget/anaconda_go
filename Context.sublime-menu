@@ -1,0 +1,58 @@
+[
+	{
+		"caption": "AnacondaGO",
+		"id": "anaconda_go_context",
+		"children": [
+			{
+				"caption": "Show Documentation",
+				"command": "anaconda_go_doc"
+			},
+			{
+				"caption": "Goto Definition",
+				"command": "anaconda_go_goto"
+			},
+			{
+				"caption": "Analyze Symbol",
+				"command": "anaconda_go_explore_symbol_under_cursor",
+				"args": { "operation": "analyze" }
+			},
+			{
+				"caption": "Browse Symbol",
+				"command": "anaconda_go_explore_symbol_under_cursor",
+				"args": { "operation": "browse" }
+			},
+			{
+				"caption": "Browse Package Symbols",
+				"command": "anaconda_go_explore_package_decls"
+			},
+			{
+				"caption": "Goto Next Function",
+				"command": "anaconda_go_next_func",
+			},
+			{
+				"caption": "Goto Prev Function",
+				"command": "anaconda_go_prev_func",
+			},
+            {
+                "command": "anaconda_get_lines",
+                "caption": "Show error list"
+            },
+            {
+                "command": "anaconda_next_lint_error",
+                "caption": "Next lint error"
+            },
+            {
+                "command": "anaconda_prev_lint_error",
+                "caption": "Previous lint error"
+            },
+			{
+				"caption": "Browse Packages",
+				"command": "anaconda_go_explore_packages",
+			},
+			{
+				"caption": "Auto Format File",
+				"command": "anaconda_go_format"
+			}
+		]
+	}
+]

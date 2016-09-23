@@ -4,12 +4,28 @@
 		"command": "anaconda_go_doc"
 	},
 	{
+		"caption": "AnacondaGO: Show Packages Documentation",
+		"command": "anaconda_go_doc", "args": {"package": true }
+	},
+	{
 		"caption": "AnacondaGO: Implement Interface",
 		"command": "anaconda_go_impl"
 	},
 	{
 		"caption": "AnacondaGO: Goto Definition",
 		"command": "anaconda_go_goto"
+	},
+	{
+		"caption": "AnacondaGO: Get Possible Function Callees",
+		"command": "anaconda_go_callees"
+	},
+	{
+		"caption": "AnacondaGO: Get Call Stack",
+		"command": "anaconda_go_callstack"
+	},
+	{
+		"caption": "AnacondaGO: Dereference Pointer",
+		"command": "anaconda_go_pointsto"
 	},
 	{
 		"caption": "AnacondaGO: Goto Next Function",
@@ -46,6 +62,10 @@
 	{
 		"caption": "AnacondaGO: Browse Package Symbols",
 		"command": "anaconda_go_explore_package_decls"
+	},
+	{
+		"caption": "AnacondaGO: Explore Packages",
+		"command": "anaconda_go_explore_packages"
 	},
 	{
 		"caption": "AnacondaGO: Auto Format File",

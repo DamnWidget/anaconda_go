@@ -1,0 +1,44 @@
+[
+	{
+		"id": "preferences",
+		"children":
+		[
+			{
+				"caption": "Package Settings",
+				"mnemonic": "p",
+				"id": "package-settings",
+				"children":
+				[
+					{
+						"caption": "AnacondaGO",
+						"children":
+						[
+							{
+								"command": "open_file",
+								"args": {"file": "${packages}/anaconda_go/README.md"},
+								"caption": "README"
+							},
+							{
+								"command": "open_file",
+								"args": {"file": "${packages}/anaconda_go/LICENSE"},
+								"caption": "LICENSE"
+
+							},
+							{ "caption": "-"},
+							{
+								"command": "open_file",
+								"args": {"file": "${packages}/anaconda_go/Anaconda_GO.sublime-settings"},
+								"caption": "Settigs - Default"
+							},
+							{
+								"command": "open_file",
+								"args": {"file": "${packages}/anaconda_go/Anaconda_GO.sublime-settings"},
+								"caption": "Settigs - Default"
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+]
