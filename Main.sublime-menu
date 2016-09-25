@@ -5,7 +5,7 @@
 		[
 			{
 				"caption": "Package Settings",
-				"mnemonic": "p",
+				"mnemonic": "P",
 				"id": "package-settings",
 				"children":
 				[
@@ -31,9 +31,8 @@
 								"caption": "Settigs - Default"
 							},
 							{
-								"command": "open_file",
-								"args": {"file": "${packages}/anaconda_go/Anaconda_GO.sublime-settings"},
-								"caption": "Settigs - Default"
+                                "command": "open_file_settings",
+                                "caption": "Settings – Syntax Specific – User"
 							}
 						]
 					}

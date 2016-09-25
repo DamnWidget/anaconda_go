@@ -12,6 +12,10 @@
 				"command": "anaconda_go_goto"
 			},
 			{
+				"caption": "Get Referrers",
+				"command": "anaconda_go_referrers"
+			},
+			{
 				"caption": "Analyze Symbol",
 				"command": "anaconda_go_explore_symbol_under_cursor",
 				"args": { "operation": "analyze" }

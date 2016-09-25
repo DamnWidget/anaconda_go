@@ -16,8 +16,16 @@
 		"command": "anaconda_go_goto"
 	},
 	{
+		"caption": "AnacondaGO: Get Referrers",
+		"command": "anaconda_go_referrers"
+	},
+	{
 		"caption": "AnacondaGO: Get Possible Function Callees",
 		"command": "anaconda_go_callees"
+	},
+	{
+		"caption": "AnacondaGO: Get Function Callers",
+		"command": "anaconda_go_callers"
 	},
 	{
 		"caption": "AnacondaGO: Get Call Stack",
