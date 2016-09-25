@@ -42,8 +42,14 @@ def get_symbol(src, linenum, offset):
     endings = [')', ']', '}']
     start, end = None, None
     line = src.splitlines()[linenum]
-    if len(line) == 0 or line[offset] in symbols:
-        return ""
+    try:
+        if len(line) == 0 or line[offset] in symbols:
+            return ""
+    except IndexError:
+        # let's move the cursor one character backwards
+        offset -= 1
+        if len(line) == 0 or line[offset] in symbols:
+            return ""
 
     line_end = len(line)
     for i in range(line_end):

@@ -127,7 +127,6 @@ class ExplorerPanel:
         """
 
         if index == -1:
-            print('selection cancelled')
             # restore view
             sublime.active_window().focus_view(self.view)
             self.view.show(self.point)
