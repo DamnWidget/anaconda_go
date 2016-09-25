@@ -4,11 +4,11 @@
 
 	// Set this if you want to force your GOPATH only (it is normally
 	// infered using your configured Go binary with go env)
-	"anaconda_go_GOPATH": "/home/damnwidget/.VenGO/borrame",
+	"anaconda_go_GOPATH": "",
 
 	// Set this if you want to force your GOROOT only (it is normally
 	// infered using your configured Go binary with go env)
-	"anaconda_go_GOROOT": "/home/damnwidget/.VenGO/borrame/lib",
+	"anaconda_go_GOROOT": "",
 
 	// Set this to false to completely disable Golang linting
 	"anaconda_go_linting": true,
@@ -92,10 +92,22 @@
 	"anaconda_go_auto_format": true,
 
 	// Set this to true if you want to force go doc to return private methods documentation
-	// Note: go doc is used if the go version is lower than 1.6 only if not forced
+	// Note: go doc is used if the go version is lower than 1.6 only if not forced except
+	// when the Packages Documentation feature is used that go doc is always used
 	"anaconda_go_doc_private_symbols": true,
 
 	// Set this to force anaconda_go to always use go doc to retrieve documentation
-	"anaconda_go_force_go_doc_usage": false
+	"anaconda_go_force_go_doc_usage": false,
+
+	// Set this option to true if you don't want the information panel to get
+	// shown while anaconda_go is updating the packages cache on startup
+	"anaconda_go_verbose": false,
+
+	// Set this option to true if you want to store the packages cache in the
+	// disk
+	//
+	// Note: if this option is disabled, new complete cache objects will be
+	// loaded when Sublime Text 3 is started every time, that is a slow process
+	"anaconda_go_packages_cache_persistence": true
 }
 
