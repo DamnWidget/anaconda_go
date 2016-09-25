@@ -1,6 +1,6 @@
 [![Join the chat at https://gitter.im/DamnWidget/anaconda](https://badges.gitter.im/DamnWidget/anaconda.svg)](https://gitter.im/DamnWidget/anaconda?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![GitHub release](https://img.shields.io/github/release/damnwidget/anaconda_go.svg?maxAge=2592000)](https://github.com/DamnWidget/anaconda_go/releases/latest)
-[![Anaconda Compatible Version >= 2.0.0](https://img.shields.io/badge/anaconda%20compatible-%3E%3D%202.0.0-blue.svg)](https://github.com/DamnWidget/anaconda)
+[![Anaconda Compatible Version >= 2.1.0](https://img.shields.io/badge/anaconda%20compatible-%3E%3D%202.1.0-blue.svg)](https://github.com/DamnWidget/anaconda)
 [![Package Control](https://img.shields.io/packagecontrol/dt/anaconda_go.svg?maxAge=2592000)](https://packagecontrol.io/packages/anaconda_go)
 
                                                   |
@@ -157,7 +157,7 @@ Some of the features are still under development:
 - [x] Auto formating/import on file save
 - [x] Show documentation for the symbol under the cursor
 - [x] Explore Packages and Show its Documentation
-- [ ] Tooltip floating functions signatures
+- [x] Lookup for symbol referrers
 - [x] Function call and stack analysis
 - [ ] Channels analysis
 - [x] Pointers analysis (static dereference)
