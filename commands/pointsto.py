@@ -47,8 +47,8 @@ class AnacondaGoPointsto(sublime_plugin.TextCommand):
                 ),
                 **data
             )
-        except Exception as err:
-            print('anaconda_go: callees error')
+        except:
+            print('anaconda_go: pointsto error')
             print(traceback.print_exc())
 
     def is_enabled(self) -> bool:
@@ -73,14 +73,14 @@ class AnacondaGoPointsto(sublime_plugin.TextCommand):
         """Fired on failures from the callback
         """
 
-        print('anaconda_go: callees error')
+        print('anaconda_go: pointsto error')
         print(data['error'])
 
     def _on_timeout(self, data: typing.Dict) -> None:
         """Fired when the callback times out
         """
 
-        print('Golang callees definition timed out')
+        print('Golang pointsto definition timed out')
 
     def _modified_buffer(self, view: sublime.View, code: str) -> str:
         """Guru needs this to use unsaved buffers instead of files
@@ -98,7 +98,7 @@ class AnacondaGoPointsto(sublime_plugin.TextCommand):
         for result in data['result']:
             for label in result.get('labels', []):
                 path, line, col = label['pos'].split(':')
-                labels.append((path, int(line), int(col)))
+                labels.append((result['type'], path, int(line), int(col)))
 
         return {
             'success': True,

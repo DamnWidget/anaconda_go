@@ -10,7 +10,7 @@ import sublime_plugin
 from anaconda_go.lib import go
 from anaconda_go.lib.plugin import typing
 from anaconda_go.lib.helpers import get_settings, get_scope
-from anaconda_go.lib.plugin import Worker, Callback, JediUsages, is_code
+from anaconda_go.lib.plugin import Worker, Callback, ExplorerPanel, is_code
 
 
 class AnacondaGoCallees(sublime_plugin.TextCommand):
@@ -67,7 +67,20 @@ class AnacondaGoCallees(sublime_plugin.TextCommand):
         """Process result and normalize it for anaconda's goto
         """
 
-        JediUsages(self).process(True, self._normalize(data))
+        if not data['result']:
+            sublime.status_message('Symbol not found...')
+            return
+
+        callees = []
+        for result in data['result'].get('callees', []):
+            f, l, c = result['pos'].split(':')
+            callees.append({
+                'title': result['name'],
+                'location': 'File: {} Line: {} Column: {}'.format(f, l, c),
+                'position': result['pos']
+            })
+
+        ExplorerPanel(self.view, callees).show([])
 
     def _on_failure(self, data: typing.Dict) -> None:
         """Fired on failures from the callback
@@ -89,18 +102,3 @@ class AnacondaGoCallees(sublime_plugin.TextCommand):
         return '\n'.join([
             view.file_name(), str(len(code.encode('utf8'))), code
         ])
-
-    def _normalize(self, data):
-        """Normalize tools output into anaconda's goto format
-        """
-
-        callees = []
-        for result in data['result'].get('callees', []):
-            path, line, col = result['pos'].split(':')
-            callees.append((path, int(line), int(col)))
-
-        return {
-            'success': True,
-            'usages': callees,
-            'vid': data['vid']
-        }

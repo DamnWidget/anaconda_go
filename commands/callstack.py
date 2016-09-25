@@ -10,7 +10,7 @@ import sublime_plugin
 from anaconda_go.lib import go, panels
 from anaconda_go.lib.plugin import typing
 from anaconda_go.lib.helpers import get_settings, get_scope
-from anaconda_go.lib.plugin import Worker, Callback, JediUsages, is_code
+from anaconda_go.lib.plugin import Worker, Callback, ExplorerPanel, is_code
 
 
 class AnacondaGoCallstack(sublime_plugin.TextCommand):
@@ -47,7 +47,7 @@ class AnacondaGoCallstack(sublime_plugin.TextCommand):
                 ),
                 **data
             )
-        except Exception as err:
+        except:
             print('anaconda_go: callers error')
             print(traceback.print_exc())
 
@@ -73,7 +73,16 @@ class AnacondaGoCallstack(sublime_plugin.TextCommand):
             panel.show()
             panel.print(self._pretiffy(data))
 
-        JediUsages(self).process(True, self._normalize(data))
+        callstack = []
+        for result in data['result'].get('callers', []):
+            f, l, c = result['pos'].split(':')
+            callstack.append({
+                'title': result['caller'],
+                'location': 'File: {} Line: {} Column: {}'.format(f, l, c),
+                'position': result['pos']
+            })
+
+        ExplorerPanel(self.view, callstack).show([])
 
     def _on_failure(self, data: typing.Dict) -> None:
         """Fired on failures from the callback
@@ -95,21 +104,6 @@ class AnacondaGoCallstack(sublime_plugin.TextCommand):
         return '\n'.join([
             view.file_name(), str(len(code.encode('utf8'))), code
         ])
-
-    def _normalize(self, data: typing.Dict) -> typing.Dict:
-        """Normalize tools output into anaconda's goto format
-        """
-
-        callstack = []
-        for result in data['result'].get('callers', []):
-            path, line, col = result['pos'].split(':')
-            callstack.append((path, int(line), int(col)))
-
-        return {
-            'success': True,
-            'usages': callstack,
-            'vid': data['vid']
-        }
 
     def _pretiffy(self, data: typing.Dict) -> str:
         """Pretiffy callstack for print into panel
