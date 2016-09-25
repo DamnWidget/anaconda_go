@@ -14,6 +14,7 @@ from anaconda_go.commands.enclosing import AnacondaGoEncFunc
 from anaconda_go.commands.prev_func import AnacondaGoPrevFunc
 from anaconda_go.commands.next_func import AnacondaGoNextFunc
 from anaconda_go.commands.callstack import AnacondaGoCallstack
+from anaconda_go.commands.referrers import AnacondaGoReferrers
 from anaconda_go.commands.fill_browse import AnacondaGoFillBrowse
 from anaconda_go.commands.explore import AnacondaGoExplorePackages
 from anaconda_go.commands.explore import AnacondaGoExploreFileFuncs
@@ -33,5 +34,6 @@ __all__ = [
     'AnacondaGoExplorePackageStructs', 'AnacondaGoFormat',
     'AnacondaGoExploreSymbolUnderCursor', 'AnacondaGoDoc',
     'AnacondaGoFillBrowse', 'AnacondaGoExplorePackages', 'AnacondaGoCallees',
-    'AnacondaGoCallers', 'AnacondaGoCallstack', 'AnacondaGoPointsto'
+    'AnacondaGoCallers', 'AnacondaGoCallstack', 'AnacondaGoPointsto',
+    'AnacondaGoReferrers'
 ]
