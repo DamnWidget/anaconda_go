@@ -60,6 +60,7 @@ class Guru(AnaGondaContext):
             self.mode, self.path, self.offset),
             posix=os.name != 'nt'
         )
+        print(' '.join(args))
         guru = spawn(
             args, stdin=PIPE, stdout=PIPE, stderr=PIPE, env=self.env
         )
@@ -72,7 +73,13 @@ class Guru(AnaGondaContext):
         if sys.version_info >= (3,):
             out = out.decode('utf8')
 
-        data = json.loads(out)
+        try:
+            data = json.loads(out)
+        except:
+            data = json.loads(
+                '[' + out.replace('}\n{', '},\n{').replace('\t', '') + ']'
+            )
+
         if type(data) is dict:
             data['tool'] = 'guru'
         return data
