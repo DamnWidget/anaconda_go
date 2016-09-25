@@ -16,6 +16,7 @@ from .commands.pointsto import Pointsto
 from .commands.next_func import NextFunc
 from .commands.prev_func import PrevFunc
 from .commands.goimports import Goimports
+from .commands.referrers import Referrers
 from .commands.autocomplete import Gocode
 from .commands.callstack import Callstack
 from .commands.file_funcs import FileFuncs
@@ -226,6 +227,15 @@ class AnagondaHandler(anaconda_handler.AnacondaHandler):
         """
 
         Pointsto(
+            self.callback, self.uid, self.vid,
+            scope, path, offset, modified_buffer, go_env
+        )
+
+    def referrers(self, scope, path, offset, modified_buffer, go_env):
+        """Get referrers to the current symbol under cursor
+        """
+
+        Referrers(
             self.callback, self.uid, self.vid,
             scope, path, offset, modified_buffer, go_env
         )
