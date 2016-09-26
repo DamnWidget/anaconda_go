@@ -42,6 +42,12 @@ class GometaLinter(AnaGondaContext):
                 except AnaGondaError:
                     self._bin_found = False
                     raise
+            elif not os.path.exists(self.golint):
+                try:
+                    self._install_linters()
+                except AnaGondaError:
+                    self._bin_found = False
+                    raise
             else:
                 self._bin_found = True
 
@@ -119,6 +125,13 @@ class GometaLinter(AnaGondaContext):
             })
 
         return errors
+
+    @property
+    def golint(self):
+        """Return back the golint binary path
+        """
+
+        return os.path.join(self.env['GOPATH'], 'bin', 'golint')
 
     @property
     def binary(self):

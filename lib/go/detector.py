@@ -163,4 +163,4 @@ class GolangDetector:
 
         if cgo is None:
             return "0"
-        return cgo
+        return str(cgo)
