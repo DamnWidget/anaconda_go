@@ -33,8 +33,8 @@ class Guru(AnaGondaContext):
         self.path = path
         self.offset = offset
         self.modified_buffer = modified_buffer
-        if sys.version_info >= (3,):
-            self.modified_buffer = modified_buffer.encode('utf8')
+        self.modified_buffer = modified_buffer.encode('utf8')
+
         super(Guru, self).__init__(env_ctx, _go_get)
 
     def __enter__(self):
