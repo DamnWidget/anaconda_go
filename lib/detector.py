@@ -16,12 +16,13 @@ class GolangDetector:
     """Detect the local golang installation (if any)
     """
 
-    _detected = False
-    GOROOT = None  # type: str
-    GOPATH = None  # type: str
-    CGO_ENABLED = None  # type: bool
+    def __init__(self):
+        self._detected = False
+        self.GOROOT = None  # type: str
+        self.GOPATH = None  # type: str
+        self.CGO_ENABLED = None  # type: bool
 
-    def __call__(self):
+    def detect(self):
         start = time.time()
         if self._detect_in_configuration():
             self._detected = True

@@ -21,7 +21,10 @@ class GoCompletionEventListener(completion.AnacondaCompletionEventListener):
             return
 
         if not go.ANAGONDA_PRESENT:
-            return
+            if go.AVAILABLE:
+                go.init()
+            else:
+                return
 
         if self.ready_from_defer is True:
             completion_flags = 0
