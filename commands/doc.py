@@ -22,7 +22,7 @@ class AnacondaGoDoc(sublime_plugin.WindowCommand):
         """Return back a tuple containing the go version
         """
 
-        ver = go._detector.go_version
+        ver = go.go_version
         if ver == b'':
             return (0, 0)
 

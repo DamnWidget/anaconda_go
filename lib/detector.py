@@ -52,31 +52,6 @@ class GolangDetector:
 
         return (self.GOROOT, self.GOPATH, self.CGO_ENABLED)
 
-    @property
-    def go_binary(self) -> str:
-        """Return back the go binary location if Go is detected
-        """
-
-        if self._detected:
-            return os.path.join(self.GOROOT, 'bin', 'go')
-
-    @property
-    def go_version(self) -> str:
-        """Return back the version of the go compiler/runtime
-        """
-
-        if self._detected:
-            args = '{} version'.format(self.go_binary).split()
-            go = create_subprocess(args, stdout=PIPE)
-            output, _ = go.communicate()
-
-            try:
-                return output.split()[2]
-            except:
-                pass
-
-        return ""
-
     def _detect_in_configuration(self) -> bool:
         """Detect and validate Go parameters in configuration
         """

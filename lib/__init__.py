@@ -5,10 +5,12 @@
 import os
 import time
 import sublime
+from subprocess import PIPE
 
 from Default.exec import ExecCommand
 from anaconda_go.lib.helpers import project_name
 from anaconda_go.lib.detector import GolangDetector
+from anaconda_go.lib.plugin import create_subprocess
 
 
 class GoWrapper:
@@ -84,6 +86,27 @@ class GoWrapper:
         """
 
         return project_name()
+
+    @property
+    def go_version(self) -> str:
+        """Return back the version of the go compiler/runtime
+        """
+
+        args = '{} version'.format(self.go_binary).split()
+        go = create_subprocess(args, stdout=PIPE)
+        output, _ = go.communicate()
+
+        try:
+            return output.split()[2]
+        except:
+            return ''
+
+    @property
+    def go_binary(self) -> str:
+        """Return back the go binary location if Go is detected
+        """
+
+        return os.path.join(self.GOROOT, 'bin', 'go')
 
     def init(self) -> None:
         """Initialize this project anagonda
