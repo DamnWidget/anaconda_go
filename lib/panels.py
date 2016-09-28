@@ -193,6 +193,8 @@ class DocPanel:
         self.view = view
         self.panel = view.window().create_output_panel('anaconda_go_doc')
         self.panel.settings().set('scroll_past_end', False)
+        self.panel.settings().set('line_numbers', False)
+        self.panel.settings().set('rulers', [])
         self.panel.assign_syntax('Packages/Text/Plain text.tmLanguage')
         self.view.window().create_output_panel('anaconda_go_doc')
 
