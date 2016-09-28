@@ -17,6 +17,9 @@ except ImportError:
         from anaconda.version import version as anaconda_version
     except ImportError:
         anaconda_version = (0, 0, 0)
+    else:
+        from anaconda_go.commands import *
+        from anaconda_go.listeners import *
 else:
     from anaconda_go.commands import *
     from anaconda_go.listeners import *
