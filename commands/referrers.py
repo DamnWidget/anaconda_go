@@ -89,7 +89,7 @@ class AnacondaGoReferrers(sublime_plugin.TextCommand):
                     'options': refs
                 })
 
-        ExplorerPanel(self.view, symbols).show([])
+        ExplorerPanel(self.view, symbols).show([], True)
 
     def _on_failure(self, data: typing.Dict) -> None:
         """Fired on failures from the callback

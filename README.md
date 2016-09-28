@@ -118,13 +118,12 @@ anaconda and the `python_interpreter` take a look at the [anaconda's official do
 
 ## Plugin Installation
 
-If [Anaconda](https://github.com/DamnWidget/anaconda) is not already installed you should install it using the `Command Palette`, if it is already installed, just skip to the next section
+[Anaconda](http://github.com/DamnWidget/anaconda) will be automatically installed by *Package Control* as soon as you try to install AnacondaGO. In case that you are installing anaconda
+directly from the git repository, then you must clone anaconda fisrt, cd to your Sublime Text 3 *Packages* directory and clone anaocnda in there:
 
-### Install Anaconda plugin
-
-1. Show the Command Palette (`cmd+shift+p` on OS X or `ctrl+shift+p` on Linux/Windows)
-2. Type `install`, then select `Package Control: Install package` from the list of options
-3. Type `anaconda` and press enter
+```
+git clone https://github.com/DamnWidget/anaconda.git anaconda
+```
 
 ### Install AnacondaGO plugin
 
