@@ -64,7 +64,7 @@ class AnacondaGoReferrers(sublime_plugin.TextCommand):
         return is_code(self.view, lang='go')
 
     def _on_success(self, data: typing.Dict) -> None:
-        """Process result and normalize it for anaconda's goto
+        """Process result and normalize it for anaconda's ExplorerPanel
         """
 
         if not data['result']:
