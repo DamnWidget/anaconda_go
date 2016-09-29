@@ -11,7 +11,7 @@ import sublime_plugin
 from anaconda_go.lib import go
 from anaconda_go.lib.plugin import typing
 from anaconda_go.lib.helpers import get_symbol, get_settings
-from anaconda_go.lib.plugin import Worker, Callback, JediUsages, is_code
+from anaconda_go.lib.plugin import Worker, Callback, ExplorerPanel, is_code
 
 
 class AnacondaGoGoto(sublime_plugin.WindowCommand):
@@ -48,7 +48,7 @@ class AnacondaGoGoto(sublime_plugin.WindowCommand):
             }
             Worker().execute(
                 Callback(
-                    on_success=partial(JediUsages(self).process, False),
+                    on_success=self._on_success,
                     on_failure=self._on_failure,
                     on_timeout=self._on_timeout
                 ),
@@ -69,6 +69,16 @@ class AnacondaGoGoto(sublime_plugin.WindowCommand):
             return False
 
         return is_code(self.window.active_view(), lang='go')
+
+    def _on_success(self, data):
+        """Called when we have a result from the query
+        """
+
+        if not data['result']:
+            sublime.status_message('Unable to find symbol')
+            return
+
+        ExplorerPanel(self.view, data['result']).show([])
 
     def _on_failure(self, data: typing.Dict) -> None:
         """Fired on failures from the callback
