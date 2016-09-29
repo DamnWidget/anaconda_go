@@ -32,7 +32,7 @@ def plugin_loaded():
             '{}'.format(
                 '.'.join(str(i) for i in anaconda_required_version),
                 '{} is installed'.format(
-                    anaconda_version) if anaconda_version > (0, 0, 0) else  'is not installed'  # noqa
+                    anaconda_version) if anaconda_version > (0, 0, 0) else 'is not installed'  # noqa
                 ), 'Install Now'
         ):
             def on_installed():
