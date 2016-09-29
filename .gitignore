@@ -51,15 +51,10 @@ _testmain.go
 *.sublime-project
 *.sublime-workspace
 
+# vim
+*~
+
 # anaGonda binaries and intermediate files
 *.bin
 *.exe
-anaGonda-*.so
-anaGonda-*.dylib
-anaGonda-*.dll
-plugin/handlers_go/anagonda/lib/ana*onda.h
-plugin/handlers_go/anagonda/src/ana*onda.h
-plugin/handlers_go/anagonda/src/anagonda_config.go
 
-# vim files
-*~
