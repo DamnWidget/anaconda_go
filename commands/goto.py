@@ -3,7 +3,6 @@
 # This program is Free Software see LICENSE file for details
 
 import traceback
-from functools import partial
 
 import sublime
 import sublime_plugin
