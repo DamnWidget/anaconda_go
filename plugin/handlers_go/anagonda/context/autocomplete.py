@@ -69,19 +69,19 @@ class AutoComplete(AnaGondaContext):
             raise AutoCompleteError(error)
 
         comps = []
-        lguide = self._calculate_lguide(completions[1])
         if len(completions) > 0:
+            lguide = self._calculate_lguide(completions[1])
             for elem in completions[1]:
                 comps.append((
                     '{0}{1} {2} {3}'.format(
                         elem['name'], ' ' * (lguide - len(elem['name'])),
                         elem['class'], elem['type']
-                    ), self._snipet(elem)
+                    ), self._snippet(elem)
                 ))
 
         return comps
 
-    def _snipet(self, data):
+    def _snippet(self, data):
         """Compose an snippet for the auto completion
         """
 
@@ -109,26 +109,29 @@ class AutoComplete(AnaGondaContext):
             return data['name']
 
         tmp = []
-        count = 1
-        split_data = data['type'][begin+1:end].split(',')
+        params = []
+        between_parenthesis = False
+        split_data = data['type'][begin + 1:end].split(',')
         for param in split_data:
             param = param.replace('{', '\\{').replace('}', '\\}')
             snippet_param = ''
             if '(' in param:
                 tmp.append(param)
+                between_parenthesis = True
+                continue
             elif ')' in param:
                 tmp.append(param)
                 snippet_param = ','.join(tmp).strip()
+                between_parenthesis = False
             else:
+                if between_parenthesis:
+                    tmp.append(param)
+                    continue
                 snippet_param = param.strip()
 
-            snippet_param = '${{{0}:{1}}}'.format(count, snippet_param)
-            if count < len(split_data):
-                snippet_param = '{0}, '.format(snippet_param)
-            snippet = '{0}{1}'.format(snippet, snippet_param)
-            count += 1
+            params.append('${{{0}:{1}}}'.format(len(params) + 1, snippet_param))  # noqa
 
-        return '{0})'.format(snippet)
+        return '{0}{1})'.format(snippet, ', '.join(params))
 
     def _calculate_lguide(self, comps):
         """Calculate the max string for completions and return it back
