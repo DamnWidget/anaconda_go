@@ -9,6 +9,7 @@ from .commands.doc import Doc
 from .commands.goto import Goto
 from .commands.lint import Lint
 from .commands.impl import Impl
+from .commands.peers import Peers
 from .commands.callees import Callees
 from .commands.callers import Callers
 from .commands.gogetdoc import GoGetDoc
@@ -20,6 +21,7 @@ from .commands.referrers import Referrers
 from .commands.autocomplete import Gocode
 from .commands.callstack import Callstack
 from .commands.file_funcs import FileFuncs
+from .commands.implements import Implements
 from .commands.file_structs import FileStructs
 from .commands.file_symbols import FileSymbols
 from .commands.package_funcs import PackageFuncs
@@ -236,6 +238,24 @@ class AnagondaHandler(anaconda_handler.AnacondaHandler):
         """
 
         Referrers(
+            self.callback, self.uid, self.vid,
+            scope, path, offset, modified_buffer, go_env
+        )
+
+    def implements(self, scope, path, offset, modified_buffer, go_env):
+        """Retrieve information about interface implementations
+        """
+
+        Implements(
+            self.callback, self.uid, self.vid,
+            scope, path, offset, modified_buffer, go_env
+        )
+
+    def peers(self, scope, path, offset, modified_buffer, go_env):
+        """Retrieve information about channels
+        """
+
+        Peers(
             self.callback, self.uid, self.vid,
             scope, path, offset, modified_buffer, go_env
         )

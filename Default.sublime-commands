@@ -20,6 +20,14 @@
 		"command": "anaconda_go_referrers"
 	},
 	{
+		"caption": "AnacondaGO: Implements",
+		"command": "anaconda_go_implements"
+	},
+	{
+		"caption": "AnacondaGO: Retrieve Channel Information (you must be over the <- symbol)",
+		"command": "anaconda_go_peers"
+	},
+	{
 		"caption": "AnacondaGO: Get Possible Function Callees",
 		"command": "anaconda_go_callees"
 	},

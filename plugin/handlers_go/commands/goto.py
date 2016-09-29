@@ -29,7 +29,7 @@ class Goto(Command):
         try:
             self.callback({
                 'success': True,
-                'goto': self.goto(),
+                'result': self.goto(),
                 'uid': self.uid,
                 'vid': self.vid
             })
@@ -89,9 +89,16 @@ class Goto(Command):
 
         if defs['tool'] == 'guru':
             try:
-                path, line, col = defs['objpos'].split(':')
-                return [(path, int(line), int(col))]
+                return [{
+                    'title': defs['objpos'].split(':')[0],
+                    'position': defs['objpos']
+                }]
             except:
                 return []
 
-        return [(defs['filename'], defs['line'], defs['column'])]
+        return [{
+            'title': defs['filename'],
+            'position': '{}:{}:{}'.format(
+                defs['filename'], defs['line'], defs['column']
+            )
+        }]

@@ -6,6 +6,7 @@
 from anaconda_go.commands.doc import AnacondaGoDoc
 from anaconda_go.commands.impl import AnacondaGoImpl
 from anaconda_go.commands.goto import AnacondaGoGoto
+from anaconda_go.commands.peers import AnacondaGoPeers
 from anaconda_go.commands.format import AnacondaGoFormat
 from anaconda_go.commands.callees import AnacondaGoCallees
 from anaconda_go.commands.callers import AnacondaGoCallers
@@ -15,6 +16,7 @@ from anaconda_go.commands.prev_func import AnacondaGoPrevFunc
 from anaconda_go.commands.next_func import AnacondaGoNextFunc
 from anaconda_go.commands.callstack import AnacondaGoCallstack
 from anaconda_go.commands.referrers import AnacondaGoReferrers
+from anaconda_go.commands.implements import AnacondaGoImplements
 from anaconda_go.commands.fill_browse import AnacondaGoFillBrowse
 from anaconda_go.commands.explore import AnacondaGoExplorePackages
 from anaconda_go.commands.explore import AnacondaGoExploreFileFuncs
@@ -35,5 +37,5 @@ __all__ = [
     'AnacondaGoExploreSymbolUnderCursor', 'AnacondaGoDoc',
     'AnacondaGoFillBrowse', 'AnacondaGoExplorePackages', 'AnacondaGoCallees',
     'AnacondaGoCallers', 'AnacondaGoCallstack', 'AnacondaGoPointsto',
-    'AnacondaGoReferrers'
+    'AnacondaGoReferrers', 'AnacondaGoImplements', 'AnacondaGoPeers'
 ]
