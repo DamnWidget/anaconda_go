@@ -88,10 +88,17 @@ def get_scope(view, GOPATH):
     """
 
     if GOPATH in view.file_name():
+        # always add main scope
+        sc = []
+        sc.append(view.window().folders()[0].partition(
+            os.path.join(GOPATH, 'src'))[-1][1:]
+        )
         try:
-            return os.path.dirname(
+            sc.append(os.path.dirname(
                 view.file_name().partition(
                     os.path.join(GOPATH, 'src'))[2])[1:]
+            )
+            return ','.join(sc)
         except:
             pass
 
