@@ -100,7 +100,7 @@ AnacondaGO **is not** a fork of GoSublime and it **does not** pretends to be a G
 AnacondaGO has been developed and tested in GNU/Linux with excellent results. The current status in the different platforms is:
 
    * **GNU/Linux:** Beta
-   * **OS X:** Beta (Not tested enough)
+   * **OS X:** Beta
    * **Windows:** Beta (Not tested enough)
 
 ## Dependencies
@@ -158,7 +158,8 @@ Some of the features are still under development:
 - [x] Explore Packages and Show its Documentation
 - [x] Lookup for symbol referrers
 - [x] Function call and stack analysis
-- [ ] Channels analysis
+- [x] Channels analysis
+- [x] Interface implementation analysis
 - [x] Pointers analysis (static dereference)
 - [ ] Integrated Debugger?
 
