@@ -30,10 +30,11 @@
 								"args": {"file": "${packages}/anaconda_go/Anaconda_GO.sublime-settings"},
 								"caption": "Settigs - Default"
 							},
-							{
-                                "command": "open_file_settings",
-                                "caption": "Settings – Syntax Specific – User"
-							}
+                            {
+                                "command": "open_file",
+                                "args": {"file": "${packages}/User/Anaconda_GO.sublime-settings"},
+                                "caption": "Settings – User"
+                            }
 						]
 					}
 				]
