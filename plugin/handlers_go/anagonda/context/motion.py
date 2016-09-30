@@ -74,7 +74,7 @@ class Motion(AnaGondaContext):
 
         offset = {'-file': self._offset, '-dir': ''}.get(self.scope)
         if offset is not None and offset != '':
-            offset = '-offset {0}'.format(offset+1)
+            offset = '-offset {0}'.format(offset)
         return offset if offset is not None else ''
 
     @property

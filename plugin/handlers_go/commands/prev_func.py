@@ -27,12 +27,22 @@ class PrevFunc(Command):
 
         try:
             with motion.Motion(
-                self.path, None, self.offset, 'prev',
+                self.path, None, self.offset+2, 'prev',
                     None, self.parse_comments, self.go_env) as data:
-                g = data['func']['func']
+                result = []
+                if 'err' not in data:
+                    g = data['func']['func']
+                    result = [
+                        {
+                            'title': g['filename'],
+                            'position': '{}:{}:{}'.format(
+                                g['filename'], g['line'], g['col']
+                            )
+                        }
+                    ]
                 self.callback({
                     'success': True,
-                    'goto': [(g['filename'], g['line'], g['col'])],
+                    'result': result,
                     'uid': self.uid,
                     'vid': self.vid
                 })
