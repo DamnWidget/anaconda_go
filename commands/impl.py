@@ -85,6 +85,7 @@ class AnacondaGoImpl(sublime_plugin.TextCommand):
 
         print('anaconda_go: impl error')
         print(data['error'])
+        sublime.status_message(data['error'])
 
     def on_timeout(self, data):
         """Fired on timeouts from the callback

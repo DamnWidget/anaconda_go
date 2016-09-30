@@ -88,6 +88,7 @@ class AnacondaGoFormat(sublime_plugin.TextCommand):
 
         self.view.set_read_only(False)
         print('anaconda_go format error: {}'.format(data['error']))
+        sublime.status_message(data['error'])
 
     def on_timeout(self):
         """Called when callback times out

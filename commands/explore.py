@@ -67,6 +67,7 @@ class AnacondaGoExploreBase(sublime_plugin.WindowCommand):
 
         print('anaconda_go: {}'.format(self.method.replace('_', ' ')))
         print(data['error'])
+        sublime.status_message(data['error'])
 
     def _on_timeout(self, _):
         """Fired when the callback times out

@@ -88,6 +88,7 @@ class AnacondaGoCallees(sublime_plugin.TextCommand):
 
         print('anaconda_go: callees error')
         print(data['error'])
+        sublime.status_message(data['error'])
 
     def _on_timeout(self, data: typing.Dict) -> None:
         """Fired when the callback times out

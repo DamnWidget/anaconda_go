@@ -109,6 +109,7 @@ class AnacondaGoPeers(sublime_plugin.WindowCommand):
 
         print('anaconda_go: peers error')
         print(data['error'])
+        sublime.status_message(data['error'])
 
     def _on_timeout(self, data: typing.Dict) -> None:
         """Fired when the callback times out
