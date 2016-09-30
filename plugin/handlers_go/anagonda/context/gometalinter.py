@@ -96,6 +96,7 @@ class GometaLinter(AnaGondaContext):
         """
 
         errors = []
+        error_lines = {}
         for error in metaerrors:
             last_path = os.path.join(
                 os.path.basename(os.path.dirname(self.filepath)),
@@ -109,9 +110,11 @@ class GometaLinter(AnaGondaContext):
                 continue
             if error_type not in ['E', 'W']:
                 error_type = 'V'
-            errors.append({
+
+            error_line = error.get('line', 0)
+            error_object = {
                 'underline_range': True,
-                'lineno': error.get('line', 0),
+                'lineno': error_line,
                 'offset': error.get('col', 0),
                 'raw_message': error.get('message', ''),
                 'code': 0,
@@ -122,7 +125,18 @@ class GometaLinter(AnaGondaContext):
                     error.get('severity', 'none'),
                     error.get('message')
                 )
-            })
+            }
+
+            # lots of linters will report the same error so let's clean up
+            if error_line in error_lines:
+                err = error_lines[error_line]
+                if err['level'] == 'W' and error_type == 'E':
+                    errors.remove(err)
+                    errors.append(error_object)
+                    error_lines[error_line] = error
+            else:
+                errors.append(error_object)
+                error_lines[error_line] = error_object
 
         return errors
 
