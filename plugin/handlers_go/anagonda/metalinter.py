@@ -85,7 +85,7 @@ class MetaLinter(object):
 
         exclude = options.get('exclude_regexps', [])
         if len(exclude) > 0:
-            opts.append('--exclude={0}'.format('|'.join(exclude)))
+            opts.append('--exclude="{0}"'.format('|'.join(exclude)))
 
         opts.append(options.get('path', ''))
 
