@@ -1,0 +1,52 @@
+                                              |
+  _` |  __ \    _` |   __|   _ \   __ \    _` |   _` |     _` |   _ \
+ (   |  |   |  (   |  (     (   |  |   |  (   |  (   |    (   |  (   |
+\__,_| _|  _| \__,_| \___| \___/  _|  _| \__,_| \__,_|   \__, | \___/
+                                                         |___/
+                                            The Sublime Text 3 Go ID
+
+# AnacondGO 0.1.0
+
+First public anaconda release. This first release had been tested exhaustively
+in GNU/Linux and in less grade in OS X El Capitan, tests on Windows had been
+minimal so we expect some bugs.
+
+## What is AnacondaGO?
+
+AnacondaGO adds autocompletion, linting and IDE features for Golang to your Sublime Text 3 using anaconda's asynchronous engine so it shouldn't freeze your Sublime Text ever.
+
+## Features
+
+AncondaGO implements many features using different Go tools internally. Some features require of scopes, by default, AnacondaGO will try to infer your project
+scope comparing the directory where you are editing your code on with the active `GOPATH` but the user can define whatever scope that she wish adding a list of
+comma-separated set of packages in the `anconda_go_guru_scope` settings option.
+
+### Implementation Status
+
+Some of the features are still under development:
+
+- [x] Context sensitive autocompletion
+- [x] Invalid Syntax Checking (linting)
+- [x] Code Style Linting
+- [x] Suspicious or smelly code blocks analysis (linting)
+- [x] Redundant code blocks analysis (linting)
+- [x] Function complexity analysis (linting)
+- [x] Dead code analysis (linting)
+- [x] Inefficient data structure analysis (linting)
+- [x] File and package symbols navigation (including variables, structures and functions)
+- [x] Symbol under the cursor analysis and navigation
+- [x] Installed Packages and Standard Library packages exploration
+- [x] Helper to implement Interfaces
+- [x] Auto formating/import on file save
+- [x] Show documentation for the symbol under the cursor
+- [x] Explore Packages and Show its Documentation
+- [x] Lookup for symbol referrers
+- [x] Function call and stack analysis
+- [x] Channels analysis
+- [x] Interface implementation analysis
+- [x] Pointers analysis (static dereference)
+- [ ] Integrated Debugger?
+
+**Note**: Not all the AnacondaGO fatures are listed below, for a full list just open the *Command Palette* and write **AnacondaGO**, you will get the full list of available operations (make sure you don't do that while your cursor is over a comment or a string as many AnacondaGO commands get automatically disabled on them).
+
+Enjoy!
