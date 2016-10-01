@@ -18,66 +18,80 @@ AnacondaGO adds autocompletion, linting and IDE features for Golang to your Subl
 
 ## Table of Contents
 
-
-- [NOTICE!](#notice)
-- [Supported Platforms](#supported-platforms)
-- [Dependencies](#dependencies)
-- [Dependencies Installation](#dependencies-installation)
-- [Plugin Installation](#plugin-installation)
-  - [Install Anaconda plugin](#install-anaconda-plugin)
-  - [Install AnacondaGO plugin](#install-anacondago-plugin)
-- [Features](#features)
-  - [Implementation Status](#implementation-status)
-  - [Autocompletion](#autocompletion)
-  - [Code linting](#code-linting)
-    - [Related configuration](#related-configuration)
-    - [Specific linter configuration](#specific-linter-configuration)
-      - [Execute juts fast linters](#execute-juts-fast-linters)
-      - [Set max line length for lll](#set-max-line-length-for-lll)
-      - [Set the cyclomatic threshold](#set-the-cyclomatic-threshold)
-      - [Set golint min confidence](#set-golint-min-confidence)
-      - [Set goconst min occurrences](#set-goconst-min-occurrences)
-      - [Set goconst min length](#set-goconst-min-length)
-      - [Duplication threshold](#duplication-threshold)
-      - [Enable linting of tests](#enable-linting-of-tests)
-      - [Ignore gas warnings](#ignore-gas-warnings)
-      - [Ignore arbitrary reports](#ignore-arbitrary-reports)
-  - [Jump to definition (goto)](#jump-to-definition-goto)
-    - [Usage](#usage)
-    - [Suggested Keybinding](#suggested-keybinding)
-    - [Related configuration](#related-configuration-1)
-  - [Browse file functions](#browse-file-functions)
-    - [Usage](#usage-1)
-    - [Suggested Keybinding](#suggested-keybinding-1)
-  - [Browse file structures](#browse-file-structures)
-    - [Usage](#usage-2)
-    - [Suggested keybinding](#suggested-keybinding-2)
-  - [Browse file declarations](#browse-file-declarations)
-    - [Usage](#usage-3)
-    - [Suggested keybinding](#suggested-keybinding-3)
-  - [Browse package functions](#browse-package-functions)
-    - [Usage](#usage-4)
-    - [Suggested Keybinding](#suggested-keybinding-4)
-  - [Browse package structures](#browse-package-structures)
-    - [Usage](#usage-5)
-    - [Suggested keybinding](#suggested-keybinding-5)
-  - [Browse package declarations](#browse-package-declarations)
-    - [Usage](#usage-6)
-    - [Suggested keybinding](#suggested-keybinding-6)
-  - [Explore Packages](#explore-packages)
-    - [Usage](#usage-7)
-    - [Suggested keybindings](#suggested-keybindings)
-  - [Symbol under the cursor analysis and navigation](#symbol-under-the-cursor-analysis-and-navigation)
-    - [Usage](#usage-8)
-    - [Suggested keybindings](#suggested-keybindings-1)
-  - [Show Documentation for symbol under cursor](#show-documentation-for-symbol-under-cursor)
-    - [Usage](#usage-9)
-    - [Suggested keybindings](#suggested-keybindings-2)
-    - [Related Configuration](#related-configuration-2)
-    - [Show Packages Documentation](#show-packages-documentation)
-    - [Usage](#usage-10)
-    - [Suggested keybindings](#suggested-keybindings-3)
-- [License](#license)
+* [Table of Contents](#table-of-contents)
+* [NOTICE!](#notice)
+* [Supported Platforms](#supported-platforms)
+* [Dependencies](#dependencies)
+* [Dependencies Installation](#dependencies-installation)
+* [Plugin Installation](#plugin-installation)
+  * [Install AnacondaGO plugin](#install-anacondago-plugin)
+* [Features](#features)
+  * [Implementation Status](#implementation-status)
+  * [Autocompletion](#autocompletion)
+  * [Code linting](#code-linting)
+    * [Related configuration](#related-configuration)
+    * [Specific linter configuration](#specific-linter-configuration)
+      * [Execute juts fast linters](#execute-juts-fast-linters)
+      * [Set max line length for lll](#set-max-line-length-for-lll)
+      * [Set the cyclomatic threshold](#set-the-cyclomatic-threshold)
+      * [Set golint min confidence](#set-golint-min-confidence)
+      * [Set goconst min occurrences](#set-goconst-min-occurrences)
+      * [Set goconst min length](#set-goconst-min-length)
+      * [Duplication threshold](#duplication-threshold)
+      * [Enable linting of tests](#enable-linting-of-tests)
+      * [Ignore gas warnings](#ignore-gas-warnings)
+      * [Ignore arbitrary reports](#ignore-arbitrary-reports)
+  * [Jump to definition (goto)](#jump-to-definition-goto)
+    * [Usage](#usage)
+    * [Suggested Keybinding](#suggested-keybinding)
+    * [Related configuration](#related-configuration-1)
+  * [Lookup For Function Callees](#lookup-for-function-callees)
+    * [Usage](#usage-1)
+    * [Suggested Keybinding](#suggested-keybinding-1)
+  * [Lookup For Function Callers](#lookup-for-function-callers)
+    * [Usage](#usage-2)
+    * [Suggested Keybinding](#suggested-keybinding-2)
+  * [Get Function Callstack (aproximation)](#get-function-callstack-aproximation)
+    * [Usage](#usage-3)
+  * [Dereference Pointer](#dereference-pointer)
+    * [Usage](#usage-4)
+    * [Suggested Keybinding](#suggested-keybinding-3)
+  * [Get Referrers](#get-referrers)
+    * [Usage](#usage-5)
+    * [Suggested Keybinding](#suggested-keybinding-4)
+  * [Implements](#implements)
+    * [Usage](#usage-6)
+    * [Suggested Keybinding](#suggested-keybinding-5)
+  * [Browse file functions](#browse-file-functions)
+    * [Usage](#usage-7)
+    * [Suggested Keybinding](#suggested-keybinding-6)
+  * [Browse file structures](#browse-file-structures)
+    * [Usage](#usage-8)
+    * [Suggested keybinding](#suggested-keybinding-7)
+  * [Browse file declarations](#browse-file-declarations)
+    * [Usage](#usage-9)
+    * [Suggested keybinding](#suggested-keybinding-8)
+  * [Browse package functions](#browse-package-functions)
+    * [Usage](#usage-10)
+    * [Suggested Keybinding](#suggested-keybinding-9)
+  * [Browse package structures](#browse-package-structures)
+    * [Usage](#usage-11)
+    * [Suggested keybinding](#suggested-keybinding-10)
+  * [Browse package declarations](#browse-package-declarations)
+    * [Usage](#usage-12)
+    * [Suggested keybinding](#suggested-keybinding-11)
+  * [Explore Packages](#explore-packages)
+    * [Usage](#usage-13)
+  * [Symbol under the cursor analysis and navigation](#symbol-under-the-cursor-analysis-and-navigation)
+    * [Usage](#usage-14)
+    * [Suggested keybindings](#suggested-keybindings)
+  * [Show Documentation for symbol under cursor](#show-documentation-for-symbol-under-cursor)
+    * [Usage](#usage-15)
+    * [Suggested keybindings](#suggested-keybindings-1)
+    * [Related Configuration](#related-configuration-2)
+    * [Show Packages Documentation](#show-packages-documentation)
+    * [Usage](#usage-16)
+* [License](#license)
 
 ## NOTICE!
 
@@ -163,6 +177,8 @@ Some of the features are still under development:
 - [x] Pointers analysis (static dereference)
 - [ ] Integrated Debugger?
 
+**Note**: Not all the AnacondaGO fatures are listed below, for a full list just open the *Command Palette* and write **AnacondaGO**, you will get the full list of available operations (make sure you don't do that while your cursor is over a comment or a string as many AnacondaGO commands get automatically disabled on them).
+
 ### Autocompletion
 
 Autocompletion is always active and there is no configuration or keybindings related with it, to use just write code in your ST3
@@ -200,7 +216,9 @@ The default linters configuration can be check below
 | testify | Show location of failed testify assertions | Disabled |
 | unused | Find unused variables (quite redundant) | Disabled |
 
-Note that several of these linters can and will report the same error in the same lines in some circumstances.
+Note that several of these linters can and will report the same error in the same lines in some circumstances because that,
+AnacondaGO prioritizes error codes over warnings and cleans up the report lines to do not show more than one error per
+line in any time, if there are two different errors in a line, when one had been fixed the other will appear.
 
 #### Specific linter configuration
 
@@ -250,7 +268,7 @@ If the user want to lint tests with those linters that supports it just set the 
 
 If the user want to ignore a security report from gas if is totally certain that is fine, she can do it by adding a comment at the end of the reported line with this contents
 ```go
-// # nosec
+// nosec
 ```
 
 ##### Ignore arbitrary reports
@@ -286,6 +304,106 @@ By default AnacondaGO will try to use `guru` in order to find the definitions bu
 | fallback | Use Godef by default and switch to Guru in case that Godef could not retrieve any result | No |
 | never | Use Godef no matter what | No |
 
+### Lookup For Function Callees
+
+Look in the code for possible methods that could be call targets of the function call under the cursor. This query uses pointer analysis so it requires of a scope.
+
+#### Usage
+
+Put the cursor over a function call expression and then open the *Command Palette* and select **AnacondaGO: Get Possible Function Callees**, you can also use the same entry in the Contextual menu using the right mouse click.
+
+#### Suggested Keybinding
+
+```javascript
+{ "keys": ["alt+k", "alt+c"], "command": "anaconda_go_callees" , "context":
+    [
+        {"key": "selector", "operator": "equal", "operand": "(source.go)", "match_all": false}
+    ]
+}
+```
+
+### Lookup For Function Callers
+
+Look up for possible caller of the function under the cursor. This query uses pointer analysis so it requires a scope.
+
+#### Usage
+
+Put the cursor over a function call expression and then open the *Command Palette* and select **AnacondaGO: Get Function Callers**, you can also use the same entry in the Contextual menu using the right mouse click.
+
+#### Suggested Keybinding
+
+```javascript
+{ "keys": ["alt+Shift+k", "alt+Shift+c"], "command": "anaconda_go_callers" , "context":
+    [
+        {"key": "selector", "operator": "equal", "operand": "(source.go)", "match_all": false}
+    ]
+}
+```
+
+### Get Function Callstack (aproximation)
+
+This command returns a path from the root of the call graph to the function under the cursor. This query uses pointer analysis so it requires a scope.
+
+#### Usage
+
+Put the cursor over a function call expression and then open the *Command Palette* and select **AnacondaGO: Get Call Stack**.
+
+### Dereference Pointer
+
+This function shows a list of possible objects to which a pointer may point, it also works with other reference
+types like slices, functions, maps and channels. This query uses pointer analysis so it requires a scope.
+
+#### Usage
+
+Put the cursor over a a reference and then open the *Command Palette* and select **AnacondaGO: Dereference Pointter**. You can alternatively use the same context menu option using the right mouse click.
+
+#### Suggested Keybinding
+
+```javascript
+{ "keys": ["alt+k", "alt+p"], "command": "anaconda_go_pointsto" , "context":
+    [
+        {"key": "selector", "operator": "equal", "operand": "(source.go)", "match_all": false}
+    ]
+}
+```
+
+### Get Referrers
+
+This function lookup for references to the symbol under the cursor scanning all necessary packages withing the $GOPATH and $GOROOT.
+
+#### Usage
+
+Put the cursor over a a reference and then open the *Command Palette* and select **AnacondaGO: Get Referrer**. You can alternatively use the same context menu option using the right mouse click.
+
+#### Suggested Keybinding
+
+```javascript
+{ "keys": ["alt+k", "alt+r"], "command": "anaconda_go_referrers", "context":
+    [
+        {"key": "selector", "operator": "equal", "operand": "(source.go)", "match_all": false}
+    ]
+}
+```
+
+### Implements
+
+Lookup for interfaces that are implemented by the symbol under the cursor, if teh symbol is itself an interface,
+it also returns the set of concrete types that implements it.
+
+#### Usage
+
+Put the cursor over a a reference and then open the *Command Palette* and select **AnacondaGO: Implements**. You can alternatively use the same context menu option using the right mouse click.
+
+#### Suggested Keybinding
+
+```javascript
+{ "keys": ["alt+k", "alt+i"], "command": "anaconda_go_referrers", "context":
+    [
+        {"key": "selector", "operator": "equal", "operand": "(source.go)", "match_all": false}
+    ]
+}
+```
+
 ### Browse file functions
 
 The user can browse all the current being edited file function definitions at any time
@@ -296,7 +414,6 @@ In the *Command Palette* select **AnacondaGO: Browse File Functions** and press 
 
 #### Suggested Keybinding
 
-Our suggested key binding for this feature is:
 ```javascript
 { "keys": ["alt+k", "alt+f"], "command": "anaconda_go_explore_file_funcs", "context":
     [
@@ -408,10 +525,6 @@ In a similar way, AnacondaGO offers a panel to explore all the packages installe
 
 In the *Command Palette* select **AnacondaGO: Explore Packages** and press enter
 
-#### Suggested keybindings
-
-We don't suggest any keybinding for this feature
-
 ### Symbol under the cursor analysis and navigation
 
 AnacondaGO is able to analyze whatever (non ambiguous) symbol under the current cursor position and present a panel with information or a browsing panel.
@@ -472,10 +585,6 @@ AnacondaGO offers a simple to use installed packages documentation explorer that
 #### Usage
 
 Open the *Command Palette* and use the command **AnacondaGO: Show Packages Documentation**.
-
-#### Suggested keybindings
-
-We don't suggest any keybinding for this feature.
 
 ## License
 This program is distributed under the terms of the GNU GPL v3. See the [LICENSE][license] file for more details.
