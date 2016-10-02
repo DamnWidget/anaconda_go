@@ -578,7 +578,7 @@ AnacondaGO uses `gogetdoc` and `go doc` to retrieve documentation but `gogetdoc`
 
 You can also retrieve any unexported symbol documentation when using `go doc` by setting `anaconda_go_doc_private_symbols` to `true` (it is already true by default).
 
-#### Show Packages Documentation
+#### Show Packages Documentation (Linux and OSX only)
 
 AnacondaGO offers a simple to use installed packages documentation explorer that rely always on `go doc`. Using it you don't have the need to open your browser to retrieve documentation about any package in the standard library or any other installed package in your `GOPATH`.
 
