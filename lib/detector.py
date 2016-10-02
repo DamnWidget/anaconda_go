@@ -61,7 +61,8 @@ class GolangDetector:
         goroot = get_settings(view, 'anaconda_go_GOROOT', '')
         gopath = get_settings(view, 'anaconda_go_GOPATH', '')
         if goroot and gopath:
-            if os.path.exists(os.path.join(goroot, 'bin', 'go')):
+            gobin = 'go' if os.name != 'nt' else 'go.exe'
+            if os.path.exists(os.path.join(goroot, 'bin', gobin)):
                 self.GOROOT = goroot
                 self.GOPATH = gopath
                 self.CGO_ENABLED = "1"

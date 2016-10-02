@@ -46,6 +46,7 @@ class GoWrapper:
         """
 
         if self._project_name not in self._projects:
+            self._projects[self._project_name] = {}
             self._detect()
 
         return self._projects[self._project_name]['path']
@@ -56,6 +57,7 @@ class GoWrapper:
         """
 
         if self._project_name not in self._projects:
+            self._projects[self._project_name] = {}
             self._detect()
 
         return self._projects[self._project_name]['cgo']
@@ -128,10 +130,11 @@ class GoWrapper:
                     )
                 else:
                     self._projects[self._project_name]['anagonda'] = True
-                sublime.set_timeout_async(
-                    lambda: sublime.active_window().run_command(
-                        'anaconda_go_fill_browse'), 0
-                )
+                if os.name != 'nt':
+                    sublime.set_timeout_async(
+                        lambda: sublime.active_window().run_command(
+                            'anaconda_go_fill_browse'), 0
+                    )
 
             sublime.set_timeout_async(lambda: monitor(), 0)
 
@@ -167,6 +170,18 @@ class GoWrapper:
             'path': path,
             'cgo': cgo,
             'available': True,
+            'anagonda': False
+        }
+
+    def _skeleton(self) -> None:
+        """Create a skeleton of data, this prevents weird crahses on Windows
+        """
+
+        self._projects[self._project_name] = {
+            'root': "",
+            'path': "",
+            'cgo': "1",
+            'available': False,
             'anagonda': False
         }
 
