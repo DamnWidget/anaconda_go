@@ -68,6 +68,12 @@ class AnacondaGoFillBrowse(sublime_plugin.WindowCommand):
         except:
             print(traceback.print_exc())
 
+    def is_enabled(self):
+        """This is disabled for Windows for now
+        """
+
+        return os.name != 'nt'
+
     def process(self, data: str) -> None:
         """Process the output from go list (that is not valid JSON btw)
         """
@@ -97,12 +103,19 @@ class AnacondaGoFillBrowse(sublime_plugin.WindowCommand):
                             package['Name'], fname
                         ), posix=False
                     )
-                grep = check_output(args, **kwargs)
+
+                grep = check_output(args, shell=True, **kwargs)
             except Exception as error:
                 self.print_to_panel(str(error))
                 continue
 
-            offset = int(grep.decode().split(':')[0]) + len('package ') + 1
+            try:
+                offset = int(grep.decode().split(':')[0]) + len('package ') + 1
+            except Exception as e:
+                print('while parsing grep/findstr output for {}: {}\t{}'.format(  # noqa
+                    ' '.join(args), e, grep.decode())
+                )
+                continue
             args = shlex.split('{} -json -scope {} describe {}:#{}'.format(
                 gurucmd, package['ImportPath'], fname, offset)
             )

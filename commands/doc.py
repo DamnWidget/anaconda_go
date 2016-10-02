@@ -74,6 +74,10 @@ class AnacondaGoDoc(sublime_plugin.WindowCommand):
         """Run documentation for packages using go doc always
         """
 
+        is os.name == 'nt':
+            sublime.status_message('Sorry, this does not work on Windows')
+            return
+
         self._packages = []
         for pkg in cache.lookup():
             self._packages.append(pkg['ImportPath'])
