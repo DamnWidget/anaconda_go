@@ -2,6 +2,7 @@
 # Copyright (C) 2016 - Oscar Campos <oscar.campos@member.fsf.org>
 # This program is Free Software see LICENSE file for details
 
+import os
 import traceback
 
 import sublime
@@ -74,7 +75,7 @@ class AnacondaGoDoc(sublime_plugin.WindowCommand):
         """Run documentation for packages using go doc always
         """
 
-        is os.name == 'nt':
+        if os.name == 'nt':
             sublime.status_message('Sorry, this does not work on Windows')
             return
 
