@@ -19,7 +19,7 @@ class AnacondaGoAutoFormatEventListener(sublime_plugin.EventListener):
         """Called just before the file is going to be saved
         """
 
-        if time.time() - self._last_save < 1:
+        if time.time() - self._last_save < 2:
             return
 
         auto_format = get_settings(view, 'anaconda_go_auto_format', False)
