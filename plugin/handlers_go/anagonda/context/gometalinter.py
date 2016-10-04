@@ -6,6 +6,7 @@ import os
 import sys
 import json
 import shlex
+import logging
 from subprocess import PIPE
 
 from process import spawn
@@ -73,7 +74,15 @@ class GometaLinter(AnaGondaContext):
         if err is not None and len(err) > 0:
             if sys.version_info >= (3,):
                 err = err.decode('utf8')
-            raise GometaLinterError(err)
+
+            if 'deadline' not in err:
+                raise GometaLinterError(err)
+            else:
+                logging.info(
+                    'Some linters are running out of time with deadline '
+                    'errros, please, consider to run just fast linters as '
+                    'your system seems to be a bit slow'
+                )
 
         if sys.version_info >= (3,):
             out = out.decode('utf8')
