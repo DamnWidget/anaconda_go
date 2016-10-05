@@ -1,0 +1,15 @@
+                                              |
+  _` |  __ \    _` |   __|   _ \   __ \    _` |   _` |     _` |   _ \
+ (   |  |   |  (   |  (     (   |  |   |  (   |  (   |    (   |  (   |
+\__,_| _|  _| \__,_| \___| \___/  _|  _| \__,_| \__,_|   \__, | \___/
+                                                         |___/
+                                            The Sublime Text 3 Go IDE
+
+# AnacondGO 0.1.2
+
+Minor fixes release
+
+## Fixes
+
+	* Now gometalinter does not fails when deadlines occurs
+	* Added 2 seconds of threshold to autoformat inhibitor
