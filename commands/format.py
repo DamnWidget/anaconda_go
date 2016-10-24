@@ -72,8 +72,9 @@ class AnacondaGoFormat(sublime_plugin.TextCommand):
         """Update and reload the buffer
         """
 
+        results = self.data.get('result')
         view = get_window_view(self.data['vid'])
-        if self.code != self.data.get('result'):
+        if results is not None and results != '' and self.code != results:
             region = sublime.Region(0, view.size())
             view.replace(edit, region, self.data.get('result'))
             if get_settings(view, 'anaconda_go_auto_format'):
