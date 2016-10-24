@@ -47,8 +47,8 @@ class AutoComplete(AnaGondaContext):
         """Autocomplete the word under cursor using the given data
         """
 
-        args = shlex.split('{0} -f json autocomplete {1} c{2}'.format(
-            self.binary, self.path, self.offset), posix=os.name != 'nt'
+        args = shlex.split('\'{0}\' -f json autocomplete \'{1}\' c{2}'.format(
+            self.binary, self.path, self.offset)
         )
         print(' '.join(args))
         gocode = spawn(

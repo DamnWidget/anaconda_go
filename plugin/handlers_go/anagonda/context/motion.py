@@ -96,11 +96,11 @@ class Motion(AnaGondaContext):
         """Run the motion command and return back json object with the results
         """
 
-        args = shlex.split('{0} {1} {2} {3} -mode {4} {5}{6}{7}'.format(
+        args = shlex.split('"{0}" {1} \'{2}\' {3} -mode {4} {5}{6}{7}'.format(
             self.binary, self.scope, self.path,
             self.offset, self.mode, self.include, self.parse_comments,
             ' -shift 1' if self.mode == 'prev' else ''
-        ), posix=os.name != 'nt')
+        ))
         motion = spawn(args, stdout=PIPE, stderr=PIPE, env=self.env)
         out, err = motion.communicate()
         if err is not None and len(err) > 0:

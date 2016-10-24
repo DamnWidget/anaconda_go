@@ -43,9 +43,8 @@ class Impl(AnaGondaContext):
         """Run the impl command and return back a string with the code
         """
 
-        args = shlex.split('{0} \'{1}\' {2}'.format(
-            self.binary, self.receiver, self.iface),
-            posix=os.name != 'nt'
+        args = shlex.split('\'{0}\' \'{1}\' {2}'.format(
+            self.binary, self.receiver, self.iface)
         )
         impl = spawn(args, stdout=PIPE, stderr=PIPE, env=self.env)
         out, err = impl.communicate()

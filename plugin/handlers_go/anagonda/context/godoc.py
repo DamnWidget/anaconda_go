@@ -44,9 +44,9 @@ class Doc(AnaGondaContext):
         """Run the doc command and return back the results as a string
         """
 
-        args = shlex.split('{0} doc {1}{2}'.format(
+        args = shlex.split('\'{0}\' doc {1}{2}'.format(
             self.binary, '-u ' if self.private else '', self.expr
-        ), posix=os.name != 'nt')
+        ))
         print(' '.join(args))
         godoc = spawn(
             args, stdout=PIPE, stderr=PIPE, env=self.env,
