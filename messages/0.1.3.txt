@@ -1,0 +1,17 @@
+
+                                              |
+  _` |  __ \    _` |   __|   _ \   __ \    _` |   _` |     _` |   _ \
+ (   |  |   |  (   |  (     (   |  |   |  (   |  (   |    (   |  (   |
+\__,_| _|  _| \__,_| \___| \___/  _|  _| \__,_| \__,_|   \__, | \___/
+                                                         |___/
+                                            The Sublime Text 3 Go IDE
+
+# AnacondGO 0.1.3
+
+Minor fixes release
+
+## Fixes
+
+	* Fixed path contexts on windows
+	* If result coming from goimports is None or empty string, discard it
+    * Hopefully fixed loop saves after use autoformat
