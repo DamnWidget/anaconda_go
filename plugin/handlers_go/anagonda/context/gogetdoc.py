@@ -48,9 +48,9 @@ class GoGetDoc(AnaGondaContext):
         """Run the doc command and return back the results as a string
         """
 
-        args = shlex.split('{0} -modified -pos {1}:#{2}'.format(
+        args = shlex.split('\'{0}\' -modified -pos \'{1}:#{2}\''.format(
             self.binary, self.path, self.offset
-        ), posix=os.name != 'nt')
+        ))
         print(' '.join(args))
         doc = spawn(args, stdin=PIPE, stdout=PIPE, stderr=PIPE, env=self.env)
         out, err = doc.communicate(self.buf)

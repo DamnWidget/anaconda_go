@@ -55,10 +55,9 @@ class Guru(AnaGondaContext):
         if self.scope is not None and self.scope != '':
             scope = ' -scope {0}'.format(self.scope)
 
-        args = shlex.split('{0}{1} -json -modified {2} {3}:#{4}'.format(
+        args = shlex.split('"{0}"{1} -json -modified {2} "{3}:#{4}"'.format(
             self.binary, scope,
-            self.mode, self.path, self.offset),
-            posix=os.name != 'nt'
+            self.mode, self.path, self.offset)
         )
         print(' '.join(args))
         guru = spawn(

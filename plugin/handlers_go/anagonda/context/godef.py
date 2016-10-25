@@ -48,9 +48,8 @@ class GoDef(AnaGondaContext):
         """Use godef to look for the definition of the word under the cursor
         """
 
-        args = shlex.split('{0} -json -i -p {1} {2}{3}'.format(
-            self.binary, self.path, '-A' if self.extended else '', self.expr),
-            posix=os.name != 'nt'
+        args = shlex.split('\'{0}\' -json -i -p \'{1}\' {2}{3}'.format(
+            self.binary, self.path, '-A' if self.extended else '', self.expr)
         )
         godef = spawn(
             args, stdin=PIPE, stdout=PIPE, stderr=PIPE, env=self.env

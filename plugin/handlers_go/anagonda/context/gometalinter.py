@@ -66,7 +66,7 @@ class GometaLinter(AnaGondaContext):
         """
 
         args = shlex.split(
-            '{0} {1}'.format(self.binary, self.options), posix=os.name != 'nt'
+            '\'{0}\' {1}'.format(self.binary, self.options)
         )
         print(' '.join(args))
         gometalinter = spawn(args, stdout=PIPE, stderr=PIPE, env=self.env)
