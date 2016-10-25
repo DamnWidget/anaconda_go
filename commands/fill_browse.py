@@ -86,8 +86,8 @@ class AnacondaGoFillBrowse(sublime_plugin.WindowCommand):
                 self.print_to_panel('already in cache, nothing to do\n')
                 continue
 
-            fname = os.path.join(package['Dir'], package['GoFiles'][0])
             try:
+                fname = os.path.join(package['Dir'], package['GoFiles'][0])
                 args = []
                 kwargs = {}
                 if os.name == 'posix':
