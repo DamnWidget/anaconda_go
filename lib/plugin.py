@@ -31,12 +31,12 @@ except ImportError:
         from Anaconda.anaconda_lib.helpers import get_window_view
         from Anaconda.anaconda_lib.progress_bar import ProgressBar
         from Anaconda.anaconda_lib.enum import Enum, IntEnum, unique
-        from anaconda.anaconda_lib.explore_panel import ExplorerPanel
+        from Anaconda.anaconda_lib.explore_panel import ExplorerPanel
         from Anaconda.anaconda_lib import helpers as anaconda_helpers
         from Anaconda.anaconda_lib.helpers import is_code, create_subprocess
         from Anaconda.anaconda_lib.linting import sublime as anaconda_sublime
         from Anaconda.anaconda_lib.helpers import get_settings as aget_settings  # noqa
-        from anaconda.anaconda_lib import typing
+        from Anaconda.anaconda_lib import typing
     except ImportError as error:
         print(str(error))
         raise RuntimeError('Anaconda plugin is not installed!')
