@@ -29,7 +29,6 @@ except ImportError:
         from Anaconda.version import version as anaconda_version
         from Anaconda.anaconda_lib.helpers import get_window_view
         from Anaconda.anaconda_lib.progress_bar import ProgressBar
-        from Anaconda.anaconda_lib.enum import Enum, IntEnum, unique
         from Anaconda.anaconda_lib.explore_panel import ExplorerPanel
         from Anaconda.anaconda_lib import helpers as anaconda_helpers
         from Anaconda.anaconda_lib.helpers import is_code, create_subprocess
@@ -43,19 +42,20 @@ except ImportError:
         ANACONDA_PLUGIN_AVAILABLE = True
 else:
     ANACONDA_PLUGIN_AVAILABLE = True
+
+try:
+    # try to import anaconda < 2.1.11 enum module
+    from anaconda.anaconda_lib.enum import Enum, IntEnum, unique
+except ImportError:
     try:
-        # try to import anaconda < 2.1.11 enum module
-        from anaconda.anaconda_lib.enum import Enum, IntEnum, unique
+        # import anaconda >= 2.1.11 aenum module
+        from anaconda.anaconda_lib.aenum import Enum, IntEnum, unique
     except ImportError:
         try:
-            # import anaconda >= 2.1.11 aenum module
-            from anaconda.anaconda_lib.aenum import Enum, IntEnum, unique
+            # do the same for package control installed copies
+            from Anaconda.anaconda_lib.enum import Enum, IntEnum, unique
         except ImportError:
-            try:
-                # do the same for package control installed copies
-                from Anaconda.anaconda_lib.enum import Enum, IntEnum, unique
-            except ImportError:
-                from Anaconda.anaconda_lib.aenum import Enum, IntEnum, unique
+            from Anaconda.anaconda_lib.aenum import Enum, IntEnum, unique
 
 
 __all__ = ['ANACONDA_PLUGIN_AVAILABLE']
