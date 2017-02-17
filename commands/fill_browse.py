@@ -91,9 +91,9 @@ class AnacondaGoFillBrowse(sublime_plugin.WindowCommand):
                 args = []
                 kwargs = {}
                 if os.name == 'posix':
-                    args = shlex.split('grep -b "package {}" {}'.format(
+                    args = 'grep -b "package {}" {}'.format(
                         package['Name'], fname
-                    ), posix=True)
+                    )
                 else:
                     startupinfo = subprocess.STARTUPINFO()
                     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
