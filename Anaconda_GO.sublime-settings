@@ -10,6 +10,10 @@
 	// infered using your configured Go binary with go env)
 	"anaconda_go_GOROOT": "",
 
+	// Set this if you want to force GOBIN only (it is normally
+	// infered using your configured Go binary with go env)
+	"anaconda_go_GOBIN": "",
+
 	// Set this to false to completely disable Golang linting
 	"anaconda_go_linting": true,
 
