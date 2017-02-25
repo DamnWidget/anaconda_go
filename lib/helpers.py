@@ -87,20 +87,21 @@ def get_scope(view, GOPATH):
     """Try to automatically determine the Guru scope
     """
 
-    if GOPATH in view.file_name():
-        # always add main scope
-        sc = []
-        sc.append(view.window().folders()[0].partition(
-            os.path.join(GOPATH, 'src'))[-1][1:]
-        )
-        try:
-            sc.append(os.path.dirname(
-                view.file_name().partition(
-                    os.path.join(GOPATH, 'src'))[2])[1:]
+    for path in GOPATH.split(':'):
+        if path in view.file_name():
+            # always add main scope
+            sc = []
+            sc.append(view.window().folders()[0].partition(
+                os.path.join(path, 'src'))[-1][1:]
             )
-            return ','.join(sc)
-        except:
-            pass
+            try:
+                sc.append(os.path.dirname(
+                    view.file_name().partition(
+                        os.path.join(path, 'src'))[2])[1:]
+                )
+                return ','.join(sc)
+            except:
+                pass
 
     return ''
 

@@ -162,4 +162,4 @@ class GometaLinter(AnaGondaContext):
         """Return back the binary path
         """
 
-        return os.path.join(self.env['GOPATH'], 'bin', 'gometalinter.v1')
+        return self.get_binary('gometalinter.v1')

@@ -19,7 +19,8 @@ class GolangDetector:
     def __init__(self):
         self._detected = False
         self.GOROOT = None  # type: str
-        self.GOPATH = None  # type: str
+        self.GOPATH = None  # type: Union[str, List[str]]
+        self.GOBIN = None  # type: str
         self.CGO_ENABLED = None  # type: bool
 
     def detect(self):
@@ -40,14 +41,15 @@ class GolangDetector:
             sublime.error_message(
                 'anaconda_go has been unable to determine the following '
                 'required environment variables:\n'
-                '\tGOROOT {}\n\tGOPATH {}\n\tCGO_ENABLED {}\n\n'
+                '\tGOROOT {}\n\tGOPATH {}\n\tCGO_ENABLED {}\n\tGOBIN {}\n\n'
                 'anaconda_go can\'t work without those variables, that means '
                 'that the plugin is not going to work out of the box and you '
                 'will provide the correct values for these variables in any '
                 'configuration level (project settings or anaconda_go settings'
                 ')\n\n(set the option `go_detector_silent` as `true` if you '
                 'do not want to see this warning again)'
-                ''.format(self.GOROOT, self.GOPATH, self.CGO_ENABLED)
+                ''.format(
+                    self.GOROOT, self.GOPATH, self.GOBIN, self.CGO_ENABLED)
             )
 
         return (self.GOROOT, self.GOPATH, self.CGO_ENABLED)
@@ -60,11 +62,13 @@ class GolangDetector:
 
         goroot = get_settings(view, 'anaconda_go_GOROOT', '')
         gopath = get_settings(view, 'anaconda_go_GOPATH', '')
+        gobin = get_settings(view, 'anaconda_go_GOBIN', '')
         if goroot and gopath:
             gobin = 'go' if os.name != 'nt' else 'go.exe'
             if os.path.exists(os.path.join(goroot, 'bin', gobin)):
                 self.GOROOT = goroot
                 self.GOPATH = gopath
+                self.GOBIN = gobin
                 self.CGO_ENABLED = "1"
                 return True
 
@@ -77,6 +81,7 @@ class GolangDetector:
         environ = os.environ
         self.GOROOT = environ.get('GOROOT')
         self.GOPATH = environ.get('GOPATH')
+        self.GOBIN = environ.get('GOBIN')
         self.CGO_ENABLED = self._normalize_cgo(environ.get('CGO_ENABLED'))
 
         if self.GOROOT is None or self.GOPATH is None:
@@ -119,7 +124,7 @@ class GolangDetector:
         """Spawn a shell process and ask for go environment variables
         """
 
-        for var in ['GOROOT', 'GOPATH', 'CGO_ENABLED']:
+        for var in ['GOROOT', 'GOPATH', 'GOBIN', 'CGO_ENABLED']:
             targs = args + ['go env {}'.format(var)]
             try:
                 proc = create_subprocess(targs, stdout=PIPE, stderr=PIPE)

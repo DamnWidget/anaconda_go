@@ -2,7 +2,6 @@
 # Copyright (C) 2013 - 2016 - Oscar Campos <oscar.campos@member.fsf.org>
 # This program is Free Software see LICENSE file for details
 
-import os
 import sys
 import shlex
 from subprocess import PIPE
@@ -63,4 +62,4 @@ class Impl(AnaGondaContext):
         """Return back the binary path
         """
 
-        return os.path.join(self.env['GOPATH'], 'bin', 'impl')
+        return self.get_binary('impl')

@@ -2,7 +2,6 @@
 # Copyright (C) 2013 - 2016 - Oscar Campos <oscar.campos@member.fsf.org>
 # This program is Free Software see LICENSE file for details
 
-import os
 import sys
 import json
 import shlex
@@ -118,4 +117,4 @@ class Motion(AnaGondaContext):
         """Return back the binary path
         """
 
-        return os.path.join(self.env['GOPATH'], 'bin', 'motion')
+        return self.get_binary('motion')

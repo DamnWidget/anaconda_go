@@ -77,3 +77,19 @@ class AnaGondaContext(object):
                 err = err.decode('utf8')
             raise GoGetError(err)
         self._bin_found = True
+
+    def get_binary(self, binary):
+        """Get a binary from the GOBIN/GOPATH
+        """
+
+        if self.env.get('GOBIN') is not None:
+            binary_path = os.path.join(self.env['GOBIN'], binary)
+            if os.path.exists(binary_path):
+                return binary_path
+
+        for path in self.env['GOPATH'].split(':'):
+            binary_path = os.path.join(path, 'bin', binary)
+            if os.path.exists(binary_path):
+                return binary_path
+
+        return '/not/found'

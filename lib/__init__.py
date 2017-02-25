@@ -63,6 +63,17 @@ class GoWrapper:
         return self._projects[self._project_name]['cgo']
 
     @property
+    def GOBIN(self) -> str:
+        """Return a valid GOBIN for the current project
+        """
+
+        if self._project_name not in self._projects:
+            self._projects[self._project_name] = {}
+            self._detect()
+
+        return self._projects[self._project_name]['bin']
+
+    @property
     def AVAILABLE(self) -> bool:
         """Return if a Go instalation is avaiable for the current project
         """
@@ -169,6 +180,7 @@ class GoWrapper:
             'root': root,
             'path': path,
             'cgo': cgo,
+            'bin': bin,
             'available': True,
             'anagonda': False
         }
@@ -193,5 +205,6 @@ class GoWrapper:
             [os.path.exists(os.path.join(self.GOPATH, 'src', p))
                 for p in self._go_dependencies]
         )
+
 
 go = GoWrapper()
