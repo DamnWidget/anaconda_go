@@ -45,6 +45,7 @@ AnacondaGO adds autocompletion, linting and IDE features for Golang to your Subl
   * [Explore Packages](#explore-packages)
   * [Symbol under the cursor analysis and navigation](#symbol-under-the-cursor-analysis-and-navigation)
   * [Show Documentation for symbol under cursor](#show-documentation-for-symbol-under-cursor)
+* [Known Issues](#known-issues)
 * [License](#license)
 
 ## NOTICE!
