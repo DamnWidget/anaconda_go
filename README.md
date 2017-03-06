@@ -540,6 +540,28 @@ AnacondaGO offers a simple to use installed packages documentation explorer that
 
 Open the *Command Palette* and use the command **AnacondaGO: Show Packages Documentation**.
 
+## Known Issues
+
+### [Issue #9](https://github.com/DamnWidget/anaconda_go/issues/9): Problems with saving file when linting and gofmt on save are both enabled
+
+Because of an issue with the async nature of the anaconda_go commands, you may see an issue when saving your changes to a Go source file. Both the linting and gofmt commands try to run and end up leaving the file dirty or reverting changes you had just made. A workaround is to enable an included pre-save listener, which will invoke the goimports command in a sychronous way.
+
+#### Usage
+
+First make sure to install the GoImports SublimeText3 package: https://packagecontrol.io/packages/GoImports
+
+In your Anaconda_GO settings, disable the auto format option:
+
+```json
+    "anaconda_go_auto_format": false
+```
+
+In either your general preferences or your project settings, enable the goimports save hook:
+
+```json
+    "goimports_on_save": true
+```
+
 ## License
 This program is distributed under the terms of the GNU GPL v3. See the [LICENSE][license] file for more details.
 
