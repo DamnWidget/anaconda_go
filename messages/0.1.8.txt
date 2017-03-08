@@ -1,0 +1,15 @@
+
+                                              |
+  _` |  __ \    _` |   __|   _ \   __ \    _` |   _` |     _` |   _ \
+ (   |  |   |  (   |  (     (   |  |   |  (   |  (   |    (   |  (   |
+\__,_| _|  _| \__,_| \___| \___/  _|  _| \__,_| \__,_|   \__, | \___/
+                                                         |___/
+                                            The Sublime Text 3 Go IDE
+
+# AnacondaGO 0.1.8
+
+Added workaround for async goimports save problem were the buffer gets rollback after save
+
+## Additions
+
+    - New synchronous listener to run goimports outside `anagonda` context wrapper
