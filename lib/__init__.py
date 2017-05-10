@@ -175,12 +175,12 @@ class GoWrapper:
         """Detect the Go env for this project
         """
 
-        root, path, cgo = GolangDetector().detect()
+        root, path, cgo, gobin = GolangDetector().detect()
         self._projects[self._project_name] = {
             'root': root,
             'path': path,
             'cgo': cgo,
-            'bin': bin,
+            'bin': gobin,
             'available': True,
             'anagonda': False
         }

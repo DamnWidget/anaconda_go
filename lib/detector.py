@@ -52,7 +52,7 @@ class GolangDetector:
                     self.GOROOT, self.GOPATH, self.GOBIN, self.CGO_ENABLED)
             )
 
-        return (self.GOROOT, self.GOPATH, self.CGO_ENABLED)
+        return (self.GOROOT, self.GOPATH, self.CGO_ENABLED, self.GOBIN)
 
     def _detect_in_configuration(self) -> bool:
         """Detect and validate Go parameters in configuration
