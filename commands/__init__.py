@@ -7,10 +7,10 @@ from anaconda_go.commands.doc import AnacondaGoDoc
 from anaconda_go.commands.impl import AnacondaGoImpl
 from anaconda_go.commands.goto import AnacondaGoGoto
 from anaconda_go.commands.peers import AnacondaGoPeers
-from anaconda_go.commands.format import AnacondaGoFormat
 from anaconda_go.commands.callees import AnacondaGoCallees
 from anaconda_go.commands.callers import AnacondaGoCallers
 from anaconda_go.commands.pointsto import AnacondaGoPointsto
+from anaconda_go.commands.format import AnacondaGoFormatSync
 from anaconda_go.commands.enclosing import AnacondaGoEncFunc
 from anaconda_go.commands.prev_func import AnacondaGoPrevFunc
 from anaconda_go.commands.next_func import AnacondaGoNextFunc
@@ -33,7 +33,7 @@ __all__ = [
     'AnacondaGoNextFunc', 'AnacondaGoPrevFunc', 'AnacondaGoExploreFileDecls',
     'AnacondaGoExploreFileFuncs', 'AnacondaGoExploreFileStructs',
     'AnacondaGoExplorePackageDecls', 'AnacondaGoExplorePackageFuncs',
-    'AnacondaGoExplorePackageStructs', 'AnacondaGoFormat',
+    'AnacondaGoExplorePackageStructs', 'AnacondaGoFormatSync',
     'AnacondaGoExploreSymbolUnderCursor', 'AnacondaGoDoc',
     'AnacondaGoFillBrowse', 'AnacondaGoExplorePackages', 'AnacondaGoCallees',
     'AnacondaGoCallers', 'AnacondaGoCallstack', 'AnacondaGoPointsto',

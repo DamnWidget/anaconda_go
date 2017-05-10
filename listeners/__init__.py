@@ -6,10 +6,8 @@
 from anaconda_go.listeners.linting import BackgroundLinter
 from anaconda_go.listeners.autocompletion import GoCompletionEventListener
 from anaconda_go.listeners.autoformat import AnacondaGoAutoFormatEventListener
-from anaconda_go.listeners.goimports_and_save import GoImportsOnSave
 
 __all__ = [
     'BackgroundLinter', 'GoCompletionEventListener',
-    'AnacondaGoAutoFormatEventListener',
-    'GoImportsOnSave',
+    'AnacondaGoAutoFormatEventListener'
 ]

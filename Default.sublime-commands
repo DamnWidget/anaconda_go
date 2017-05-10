@@ -85,7 +85,7 @@
 	},
 	{
 		"caption": "AnacondaGO: Auto Format File",
-		"command": "anaconda_go_format"
+		"command": "anaconda_go_format_sync"
 	},
 	{
 		"caption": "AnacondaGO: Analyze Symbol",

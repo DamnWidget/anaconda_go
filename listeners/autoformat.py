@@ -15,7 +15,7 @@ class AnacondaGoAutoFormatEventListener(sublime_plugin.EventListener):
 
     _last_save = time.time()
 
-    def on_pre_save(self, view: sublime_plugin.sublime.View) -> None:
+    def on_pre_save_async(self, view: sublime_plugin.sublime.View) -> None:
         """Called just before the file is going to be saved
         """
 
@@ -24,6 +24,6 @@ class AnacondaGoAutoFormatEventListener(sublime_plugin.EventListener):
 
         auto_format = get_settings(view, 'anaconda_go_auto_format', False)
         if auto_format and is_code(view, lang='go'):
-            view.run_command('anaconda_go_format')
+            view.run_command('anaconda_go_format_sync')
 
         self._last_save = time.time()
