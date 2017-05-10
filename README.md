@@ -522,7 +522,7 @@ Our suggested key bindings for this feature are:
 ```javascript
 { "keys": ["alt+k", "alt+d"], "command": "anaconda_go_doc", "context":
     [
-        {"key": "selector": "operator": "equal", "operand": "(source.go)", "match_all": false}
+        {"key": "selector", "operator": "equal", "operand": "(source.go)", "match_all": false}
     ]
 }
 ```
