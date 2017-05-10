@@ -9,7 +9,6 @@ from collections import defaultdict
 
 from anaconda_go.lib import go
 from anaconda_go.lib.plugin import typing
-from anaconda_go.lib.helpers import project_name
 
 cachepath = {
     'linux': os.path.join('~', '.local', 'share', 'anaconda', 'cache'),
@@ -77,8 +76,8 @@ def persist_package_cache() -> None:
     """Write the contents of the package cache for this GOROOT into the disk
     """
 
-    cachefile = os.path.join(
-        cache_directory, project_name(), 'packages.cache')
+    gopath = go.GOPATH.replace(os.path.sep, '_')
+    cachefile = os.path.join(cache_directory, gopath, 'packages.cache')
     if not os.path.exists(os.path.dirname(cachefile)):
         os.makedirs(os.path.dirname(cachefile))
 
@@ -91,8 +90,8 @@ def load_package_cache() -> typing.List:
     """
 
     global PACKAGES_CACHE
-    cachefile = os.path.join(
-        cache_directory, project_name(), 'packages.cache')
+    gopath = go.GOPATH.replace(os.path.sep, '_')
+    cachefile = os.path.join(cache_directory, gopath, 'packages.cache')
     try:
         with open(cachefile, 'r') as fd:
             PACKAGES_CACHE[go.GOROOT] = json.load(fd)
