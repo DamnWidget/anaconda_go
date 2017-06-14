@@ -140,7 +140,7 @@ class GometaLinter(AnaGondaContext):
             # lots of linters will report the same error so let's clean up
             if error_line in error_lines:
                 err = error_lines[error_line]
-                if err['level'] == 'W' and error_type == 'E':
+                if err.get('level') == 'W' and error_type == 'E':
                     errors.remove(err)
                     errors.append(error_object)
                     error_lines[error_line] = error
