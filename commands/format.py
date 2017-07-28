@@ -3,8 +3,6 @@
 # This program is Free Software see LICENSE file for details
 
 import os
-import logging
-import traceback
 from subprocess import PIPE
 
 import sublime
@@ -12,9 +10,7 @@ import sublime_plugin
 
 from anaconda_go.lib import go
 from anaconda_go.lib.plugin import is_code
-from anaconda_go.lib.plugin import Worker, Callback
 from anaconda_go.lib.plugin import create_subprocess
-from anaconda_go.lib.helpers import get_settings, get_window_view
 
 
 class AnacondaGoFormatSync(sublime_plugin.TextCommand):
@@ -57,9 +53,10 @@ class AnacondaGoFormatSync(sublime_plugin.TextCommand):
 
         return env
 
-    def run(self, edit):
+    def run(self, edit, path=None):
 
-        path = self.view.file_name()
+        if path is None:
+            path = self.view.file_name()
         code = self.view.substr(sublime.Region(0, self.view.size()))
         try:
             self.view.set_read_only(True)
