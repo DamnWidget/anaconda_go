@@ -1,6 +1,6 @@
 [![Join the chat at https://gitter.im/DamnWidget/anaconda](https://badges.gitter.im/DamnWidget/anaconda.svg)](https://gitter.im/DamnWidget/anaconda?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![GitHub release](https://img.shields.io/github/release/damnwidget/anaconda_go.svg?maxAge=3000)](https://github.com/DamnWidget/anaconda_go/releases/latest)
-[![Anaconda Compatible Version >= 2.1.0](https://img.shields.io/badge/anaconda%20compatible-%3E%3D%202.1.0-blue.svg)](https://github.com/DamnWidget/anaconda)
+[![Anaconda Compatible Version >= 2.1.20](https://img.shields.io/badge/anaconda%20compatible-%3E%3D%202.1.0-blue.svg)](https://github.com/DamnWidget/anaconda)
 [![Package Control](https://img.shields.io/packagecontrol/dt/anaconda_go.svg)](https://packagecontrol.io/packages/anaconda_go)
 
                                                   |

@@ -1,0 +1,13 @@
+
+                                              |
+  _` |  __ \    _` |   __|   _ \   __ \    _` |   _` |     _` |   _ \
+ (   |  |   |  (   |  (     (   |  |   |  (   |  (   |    (   |  (   |
+\__,_| _|  _| \__,_| \___| \___/  _|  _| \__,_| \__,_|   \__, | \___/
+                                                         |___/
+                                            The Sublime Text 3 Go IDE
+
+# AnacondaGO 0.2.3
+
+## Updates
+
+    - Updating to make it compatible with anaconda v2.1.20
