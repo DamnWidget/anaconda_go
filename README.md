@@ -541,6 +541,25 @@ AnacondaGO offers a simple to use installed packages documentation explorer that
 
 Open the *Command Palette* and use the command **AnacondaGO: Show Packages Documentation**.
 
+## Known Issues
+
+### Go runtime update
+
+If you update the Golang runtime you may need to update several packages for code linting/autocomplete.
+```
+go get -u golang.org/x/tools/cmd/godoc
+go get -u golang.org/x/tools/cmd/vet
+go get -u golang.org/x/tools/cmd/goimports
+go get -u golang.org/x/tools/cmd/gorename
+go get -u golang.org/x/tools/cmd/gotype
+go get -u golang.org/x/tools/cmd/guru
+go get -u github.com/golang/lint/golint
+go get -u github.com/nsf/gocode
+```
+
+The run `gocode close` from any terminal and restart sublime. 
+
+
 ## License
 This program is distributed under the terms of the GNU GPL v3. See the [LICENSE][license] file for more details.
 
