@@ -95,6 +95,18 @@
 	// Auto format file on save
 	"anaconda_go_auto_format": true,
 
+	// Use goimports to format files
+	"anaconda_go_format_with_goimports": true,
+
+	// Arguments for the goimports command
+	"anaconda_go_goimports_args": [],
+
+	// Use gofmt to format files
+	"anaconda_go_format_with_gofmt": false,
+
+	// Arguments for the gofmt command
+	"anaconda_go_gofmt_args": ["-s"],
+
 	// Set this to true if you want to force go doc to return private methods documentation
 	// Note: go doc is used if the go version is lower than 1.6 only if not forced except
 	// when the Packages Documentation feature is used that go doc is always used

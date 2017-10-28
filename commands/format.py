@@ -9,30 +9,27 @@ import sublime
 import sublime_plugin
 
 from anaconda_go.lib import go
-from anaconda_go.lib.plugin import is_code
-from anaconda_go.lib.plugin import create_subprocess
+from anaconda_go.lib.plugin import is_code, create_subprocess
+from anaconda_go.lib.helpers import get_settings
 
 
 class AnacondaGoFormatSync(sublime_plugin.TextCommand):
-    """Execute goimports command in a buffer
+    """Execute goimports/gofmt command in a buffer
     """
 
-    @property
-    def binary(self):
-        """Get the goimports binary
+    def get_binary(self, name):
+        """Get absolute path of a go binary
         """
 
         if go.GOBIN:
-            binary_path = os.path.join(go.GOBIN, 'goimports')
+            binary_path = os.path.join(go.GOBIN, name)
             if os.path.exists(binary_path):
                 return binary_path
 
         for path in go.GOPATH.split(':'):
-            binary_path = os.path.join(path, 'bin', 'goimports')
+            binary_path = os.path.join(path, 'bin', name)
             if os.path.exists(binary_path):
                 return binary_path
-
-        return '/not/found'
 
     @property
     def env(self):
@@ -53,6 +50,16 @@ class AnacondaGoFormatSync(sublime_plugin.TextCommand):
 
         return env
 
+    def get_formatter_cmd(self, name, path):
+        formatter = self.get_binary(name)
+        if not formatter:
+            raise RuntimeError('{} not found...'.format(name))
+
+        args = get_settings(self.view, 'anaconda_go_{}_args'.format(name), [])
+        args = [formatter] + args + [path]
+
+        return args
+
     def run(self, edit, path=None):
 
         if path is None:
@@ -60,23 +67,27 @@ class AnacondaGoFormatSync(sublime_plugin.TextCommand):
         code = self.view.substr(sublime.Region(0, self.view.size()))
         try:
             self.view.set_read_only(True)
-            self.goimports(code, path, edit)
+            use_goimports = get_settings(self.view, 'anaconda_go_format_with_goimports', True)
+            if use_goimports:
+                self.format('goimports', code, path, edit)
+
+            self.view.set_read_only(True)
+            use_gofmt = get_settings(self.view, 'anaconda_go_format_with_gofmt', False)
+            if use_gofmt:
+                self.format('gofmt', code, path, edit)
         except Exception:
             self.view.set_read_only(False)
             raise
         finally:
             self.view.set_read_only(False)
 
-    def goimports(self, code, path, edit):
-        """Run goimports and modify the buffer if needed
+    def format(self, formatter, code, path, edit):
+        """Run formatter and modify the buffer if needed
         """
 
-        goimports = self.binary
-        if goimports == '/not/found':
-            raise RuntimeError('goimports not found...')
+        formatter_cmd = self.get_formatter_cmd(formatter, path)
+        proc = create_subprocess(formatter_cmd, stdout=PIPE, stderr=PIPE, env=self.env)
 
-        args = [goimports, path]
-        proc = create_subprocess(args, stdout=PIPE, stderr=PIPE, env=self.env)
         out, err = proc.communicate()
         if err is not None and len(err) > 0:
             raise RuntimeError(err.decode('utf8'))
@@ -96,4 +107,3 @@ class AnacondaGoFormatSync(sublime_plugin.TextCommand):
             return False
 
         return is_code(self.view, lang='go')
-
