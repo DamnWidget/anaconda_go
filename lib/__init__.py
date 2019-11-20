@@ -22,7 +22,7 @@ class GoWrapper:
         'golang.org/x/tools/cmd/guru',
         'github.com/fatih/motion',
         'github.com/josharian/impl',
-        'github.com/nsf/gocode',
+        'github.com/stamblerre/gocode',
         'github.com/zmb3/gogetdoc',
         'gopkg.in/alecthomas/gometalinter.v1'
     ]

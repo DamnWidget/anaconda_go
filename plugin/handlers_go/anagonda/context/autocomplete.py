@@ -12,7 +12,7 @@ from process import spawn
 from .error import AnaGondaError
 from .base import AnaGondaContext
 
-_go_get = 'github.com/nsf/gocode'
+_go_get = 'github.com/stamblerre/gocode'
 
 
 class AutoCompleteError(AnaGondaError):
