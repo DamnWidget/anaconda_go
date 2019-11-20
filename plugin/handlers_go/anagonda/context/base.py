@@ -81,6 +81,12 @@ class AnaGondaContext(object):
     def get_binary(self, binary):
         """Get a binary from the GOBIN/GOPATH
         """
+        
+        # Add .exe to file name if os is Windows NT
+        if os.name == 'nt':
+            _, file_ext = os.path.splitext(binary)
+            if file_ext != ".exe":
+                binary = binary + ".exe"
 
         if self.env.get('GOBIN') is not None:
             binary_path = os.path.join(self.env['GOBIN'], binary)
