@@ -20,6 +20,12 @@ class AnacondaGoFormatSync(sublime_plugin.TextCommand):
     def get_binary(self, name):
         """Get absolute path of a go binary
         """
+        
+        # Add .exe to file name if os is Windows NT
+        if os.name == 'nt':
+            _, file_ext = os.path.splitext(name)
+            if file_ext != ".exe":
+                name = name + ".exe"
 
         if go.GOBIN:
             binary_path = os.path.join(go.GOBIN, name)
